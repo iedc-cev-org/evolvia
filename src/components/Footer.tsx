@@ -13,7 +13,7 @@ export default function Footer() {
                 <div className='flex justify-between text-sm gap-6'>
                     <div className='flex flex-col space-y-1'>
                         <p className='text-gray-500'>CONTACT US</p>
-                        <p>+91 8075595509</p>
+                        <p>+91 7559907591</p>
                         <p>EMAIL</p>
                         <Link href='https://www.iedc@cev.ac.in'>iedc@cev.ac.in</Link>
                     </div>
