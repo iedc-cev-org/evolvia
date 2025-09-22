@@ -1,3 +1,26 @@
+export const preEvents=[
+  {
+    name:"Event name",
+    image:'/globe.svg',
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
+    link:"https://www.google.com"
+  },
+  {
+    name:"Event name",
+    image:'/window.svg',
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
+    link:"https://www.google.com"
+  },
+  {
+    name:"Event name",
+    image:'/file.svg',
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
+    link:"https://www.google.com"
+  }
+]
+
+
+
 export const Events = [
   {
     name: "School Student Buzzer QUIZ",
