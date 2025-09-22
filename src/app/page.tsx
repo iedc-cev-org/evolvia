@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Footer from '@/components/Footer'
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -75,14 +76,14 @@ export default function Home() {
       </div>
 
       {/* Hero Section with Video Background */}
-      <section className={`h-screen w-screen relative transition-all duration-1000 ease-in-out ${isScrolled ? '-translate-y-full' : ''}`}>
+      <section className={`h-screen w-screen relative transition-all duration-1000 ease-in-out  ${isScrolled ? '-translate-y-full' : ''}`}>
         {/* Background Video */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover bg"
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>
@@ -120,6 +121,7 @@ export default function Home() {
           {/* Placeholder for future content */}
         </section>
       </div>
+      <Footer/>
     </main>
   );
 }
