@@ -47,7 +47,7 @@ export default function Home() {
       {/* IEDC Logo - Fixed position, transitions independently */}
       <div className={`fixed z-25 transition-all duration-1000 ease-in-out ${
         isScrolled 
-          ? 'top-6 left-6' 
+          ? 'top-12 left-12' 
           : 'top-6 left-6'
       }`}>
         <Image
@@ -62,7 +62,7 @@ export default function Home() {
       {/* Evolvia Logo - Fixed position, transitions independently */}
       <div className={`fixed z-25 transition-all duration-1000 ease-in-out ${
         isScrolled 
-          ? 'top-6 left-1/2 -translate-x-1/2 scale-40' 
+          ? 'top-4 left-1/2 -translate-x-1/2 scale-40' 
           : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100'
       }`}>
         <Image
