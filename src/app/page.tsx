@@ -14,7 +14,7 @@ export default function Home() {
         />
       </div>
 
-      {/*
+      {
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex space-x-4">
           <Link href="/buzzerQuiz">
             <button className="px-4 py-2 bg-red-600 text-white rounded">
@@ -32,7 +32,7 @@ export default function Home() {
             </button>
           </Link>
         </div>
-        */}
+        }
     </main>
   );
 }
