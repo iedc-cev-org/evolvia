@@ -5,7 +5,7 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <div className='absolute bottom-8 w-full p-4'>
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 max-w-5xl mx-auto p-6 rounded-xl shadow-lg ">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 max-w-4xl mx-auto p-6 rounded-xl shadow-lg ">
             <div className='flex justify-between mb-4 gap-4'>
                 <div className='mr-4'>
                     <Image src='/iedclogo.webp' alt='iedc logo' width={100} height={100}/>
