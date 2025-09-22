@@ -120,29 +120,6 @@ export default function Home() {
           {/* Placeholder for future content */}
         </section>
       </div>
-
-      {/* Footer Section */}
-      <footer className={`bg-black border-t border-white/10 py-8 transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex justify-center space-x-6">
-            <Link href="/buzzerQuiz">
-              <button className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200 font-medium">
-                Buzzer Quiz
-              </button>
-            </Link>
-            <Link href="/vibeCoding">
-              <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium">
-                Vibe Coding
-              </button>
-            </Link>
-            <Link href="/workShop">
-              <button className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 font-medium">
-                Workshop
-              </button>
-            </Link>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
