@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import Footer from '@/components/Footer'
+import { preEvents } from '@/components/eventLists'
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,7 +14,7 @@ export default function Home() {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = scrollTop / docHeight;
+      const scrollPercent = (scrollTop / docHeight);
       
       setScrollProgress(scrollPercent);
       
@@ -35,8 +35,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-screen bg-black relative overflow-x-hidden">
-      {/* Custom Glassmorphism Scrollbar */}
-      <div className="fixed top-0 right-4 h-full w-4 z-30 flex items-center">
+      {/* Custom Glassmorphism Scrollbar - Hidden on mobile */}
+      <div className="fixed top-0 right-4 h-full w-4 z-30 items-center hidden md:flex">
         <div className="relative h-3/4 w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
           <div 
             className="absolute top-0 left-0 w-full bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-sm rounded-full transition-all duration-150 ease-out"
@@ -45,10 +45,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* IEDC Logo - Fixed position, transitions independently */}
+      {/* IEDC Logo - Fixed position, transitions independently, hidden on mobile after scroll */}
       <div className={`fixed z-25 transition-all duration-1000 ease-in-out ${
         isScrolled 
-          ? 'top-12 left-12' 
+          ? 'top-12 left-12 hidden md:block' 
           : 'top-6 left-6'
       }`}>
         <Image
@@ -115,10 +115,49 @@ export default function Home() {
       </nav>
 
       {/* Main Content - Appears after video */}
-      <div className={`transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
-        {/* Content sections can be added here later */}
-        <section className="min-h-screen pt-20 bg-black">
-          {/* Placeholder for future content */}
+      <div className={`transition-all duration-1000 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        {/* Pre Events Section */}
+        <section className="bg-black relative py-16">
+          <div className="max-w-6xl mx-auto px-6 relative z-10">
+            {/* Section Title - Left Aligned */}
+            <div className={`mb-16 transition-all duration-1000 delay-300 ${showContent ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+              <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight ">
+                Pre &nbsp;Events.
+              </h2>
+              <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
+            </div>
+
+            {/* Events Container */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 pb-16">
+              {preEvents.map((event, index) => (
+                <div
+                  key={index}
+                  className={`group cursor-pointer hover:scale-105 transition-all duration-300 ${
+                    showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ 
+                    transitionDelay: showContent ? `${600 + index * 150}ms` : '0ms' 
+                  }}
+                >
+                  {/* Event Image */}
+                  <div className="mb-4 overflow-hidden">
+                    <Image
+                      src={event.image}
+                      alt={event.name}
+                      width={400}
+                      height={250}
+                      className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Event Name */}
+                  <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
+                    {event.name}
+                  </h3>
+                </div>
+              ))}
+            </div>
+            </div>
         </section>
       </div>
       <Footer/>
