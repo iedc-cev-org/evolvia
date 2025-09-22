@@ -1,13 +1,19 @@
 export const preEvents=[
   {
-    name:"Event name",
-    image:'/globe.svg',
+    name:"How to build a Startup",
+    image:'/F.webp',
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
     link:"https://www.google.com"
   },
   {
-    name:"Event name",
-    image:'/window.svg',
+    name:"What's Vibe Coding",
+    image:'/VIBE.webp',
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
+    link:"https://www.google.com"
+  },
+  {
+    name:"What's Supabase",
+    image:'/SP.webp',
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
     link:"https://www.google.com"
   }

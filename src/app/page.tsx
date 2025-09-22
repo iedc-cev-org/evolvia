@@ -115,7 +115,7 @@ export default function Home() {
       </nav>
 
       {/* Main Content - Appears after video */}
-      <div className={`transition-all duration-1000 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+      <div className={`transition-all duration-500 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
         {/* Pre Events Section */}
         <section className="bg-black relative py-16">
           <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -128,7 +128,7 @@ export default function Home() {
             </div>
 
             {/* Events Container */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 pb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-18 pb-16">
               {preEvents.map((event, index) => (
                 <div
                   key={index}
@@ -136,7 +136,7 @@ export default function Home() {
                     showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                   }`}
                   style={{ 
-                    transitionDelay: showContent ? `${600 + index * 150}ms` : '0ms' 
+                    transitionDelay: showContent ? `${600 + index * 50}ms` : '0ms' 
                   }}
                 >
                   {/* Event Image */}
@@ -145,8 +145,8 @@ export default function Home() {
                       src={event.image}
                       alt={event.name}
                       width={400}
-                      height={250}
-                      className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                      height={300}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                     />
                   </div>
 
