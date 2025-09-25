@@ -20,6 +20,7 @@ const FullScreenSection: React.FC = () => {
     let mounted = true;
     const frameImages: HTMLImageElement[] = [];
     let localLoaded = 0;
+
     const onLoad = () => {
       localLoaded += 1;
       if (mounted) setLoadedCount(localLoaded);
@@ -38,8 +39,8 @@ const FullScreenSection: React.FC = () => {
     return () => {
       mounted = false;
       frameImages.forEach((img) => {
-        img.onload = null as any;
-        img.onerror = null as any;
+        img.onload = null;
+        img.onerror = null;
       });
     };
   }, []);
@@ -48,6 +49,7 @@ const FullScreenSection: React.FC = () => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -60,7 +62,6 @@ const FullScreenSection: React.FC = () => {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
-      // redraw current frame after resize
       drawFrame(latestFrameIndexRef.current);
     };
 
@@ -68,23 +69,20 @@ const FullScreenSection: React.FC = () => {
 
     const drawFrame = (frameIndex: number) => {
       const img = imagesRef.current[frameIndex];
-      if (!img) return;
-      if (!img.complete) return;
+      if (!img || !img.complete) return;
       const w = window.innerWidth;
       const h = window.innerHeight;
       try {
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(img, 0, 0, w, h);
-      } catch (e) {
-        // ignore
+      } catch {
+        // ignore drawing errors
       }
       lastDrawFrameRef.current = frameIndex;
     };
 
-    // requestAnimationFrame-based render that reads the latest progress/frame index
     const renderLoop = () => {
       const rect = container.getBoundingClientRect();
-      // total scrollable distance inside the container is container.height - viewportHeight
       const totalScrollable = Math.max(rect.height - window.innerHeight, 1);
       const progress = clamp((-rect.top) / totalScrollable, 0, 1);
       const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
@@ -96,26 +94,27 @@ const FullScreenSection: React.FC = () => {
     };
 
     const setContainerHeight = () => {
-      const scrollLength = TOTAL_FRAMES * PIXELS_PER_FRAME; // px of scroll that maps to frames
-      const totalHeight = window.innerHeight + scrollLength; // container must be viewport + scroll length
+      const scrollLength = TOTAL_FRAMES * PIXELS_PER_FRAME;
+      const totalHeight = window.innerHeight + scrollLength;
       container.style.height = `${totalHeight}px`;
     };
 
     setContainerHeight();
     setCanvasSize();
-    window.addEventListener("resize", () => {
+
+    const handleResize = () => {
       setContainerHeight();
       setCanvasSize();
-    });
+    };
 
-    // start RAF
+    window.addEventListener("resize", handleResize);
+
     rafRef.current = requestAnimationFrame(renderLoop);
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("resize", setCanvasSize);
+      window.removeEventListener("resize", handleResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedCount]);
 
   return (
