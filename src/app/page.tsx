@@ -3,19 +3,13 @@
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import Footer from '@/components/Footer'
-<<<<<<< HEAD
-import { preEvents,Events } from '@/components/eventLists'
-import FullScreenSection from '@/components/FullScreenSection'
-
-=======
 import { preEvents, Events } from '@/components/eventLists'
->>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const totalSections = 4; // Hero, Pre-Events, Main Events, Footer
+  const totalSections = 3;//4; // Hero, Pre-Events, Main Events, Footer
 
   const handleScroll = useCallback((e: WheelEvent) => {
     if (isTransitioning) return;
@@ -101,15 +95,14 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen bg-black relative overflow-hidden">
-      {/* Cursor Following Circle with Invert Effect */}
+      {/* Simple Buttery Smooth Cursor */}
       <div
-        className="fixed pointer-events-none z-50 w-10 h-10 rounded-full bg-white transition-all duration-300 ease-out"
+        className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full transition-all duration-300 ease-out"
         style={{
-          left: mousePosition.x - 40,
-          top: mousePosition.y - 40,
+          left: mousePosition.x - 16,
+          top: mousePosition.y - 16,
           mixBlendMode: 'exclusion',
           willChange: 'transform',
-          transform: 'translate3d(0, 0, 0)', // Force hardware acceleration
         }}
       />
 
@@ -188,32 +181,6 @@ export default function Home() {
           </div>
         </section>
 
-<<<<<<< HEAD
-      {/* Transparent Navigation Bar - Just provides spacing */}
-      <nav className={`fixed top-0 left-0 right-0 z-15 transition-opacity duration-500 ${showContent ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Spacer for IEDC logo (logo transitions here from hero) */}
-          <div className="w-[40px] h-[40px]"></div>
-          
-          {/* Spacer for Evolvia logo (logo transitions here from hero) */}
-          <div className="w-[120px] h-[120px]"></div>
-          
-          <div className="w-10"></div> {/* Right spacer for balance */}
-        </div>
-      </nav>
-
-      {/* Main Content - Appears after video */}
-      <div className={`transition-all duration-500 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-        {/* Pre Events Section */}
-        <section className="bg-black relative py-16">
-          <FullScreenSection/>
-          <div className="max-w-6xl mx-auto px-6 relative z-10">
-            {/* Section Title - Left Aligned */}
-
-            <div className="mb-16">
-              <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight ">
-                Pre &nbsp;Events.
-=======
         {/* Section 1: Pre Events */}
         <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
@@ -221,19 +188,10 @@ export default function Home() {
             <div className="mb-12">
               <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight">
                 Pre Events.
->>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
             </div>
 
-<<<<<<< HEAD
-            {/*pre Events Container */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-18 pb-16">
-              {preEvents.map((event, index) => (
-                <div key={index} className="group cursor-pointer">
-                  {/* Event Image */}
-                  <div className="mb-4 overflow-hidden">
-=======
             {/* Events Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {preEvents.map((event, index) => (
@@ -242,39 +200,20 @@ export default function Home() {
                   className="group cursor-pointer hover:scale-105 transition-all duration-300"
                 >
                   <div className="mb-4 overflow-hidden rounded-lg">
->>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
                     <Image
                       src={event.image}
                       alt={event.name}
                       width={400}
                       height={300}
-<<<<<<< HEAD
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Event Name */}
-                  <h3 className="text-xl font-semibold text-white">
-=======
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                   <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
->>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
                     {event.name}
                   </h3>
                 </div>
               ))}
             </div>
-<<<<<<< HEAD
-
-            <div className="mb-16">
-              <h2 className="text-3xl text-center lg:text-5xl font-semibold text-white tracking-tight ">
-                Docking Soon
-              </h2>
-              {/* <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div> */}
-            </div>
-=======
           </div>
         </section>
         
@@ -286,7 +225,6 @@ export default function Home() {
                 Main Events.
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
->>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
             </div>
 
             <div className="space-y-8">
