@@ -173,7 +173,7 @@ export default function Home() {
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover bg"
+            className="absolute inset-0 w-full h-full object-cover"
             style={{ willChange: 'auto' }}
           >
             <source src="/hero.mp4" type="video/mp4" />

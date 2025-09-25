@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-// ffmpeg command: ffmpeg -i input.mp4 -start_number 1 -vsync 0 -q:v 1 public/frames/frame_%04d.jpg
 import React, { useRef, useEffect, useState } from "react";
 
 const TOTAL_FRAMES = 238;
-const PIXELS_PER_FRAME = 8; // number of vertical pixels of scroll per frame (tune to change scrub speed)
+const PIXELS_PER_FRAME = 8;
 
 const FullScreenSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -15,7 +14,7 @@ const FullScreenSection: React.FC = () => {
   const latestFrameIndexRef = useRef<number>(0);
   const [loadedCount, setLoadedCount] = useState(0);
 
-  // preload images
+  // Preload images
   useEffect(() => {
     let mounted = true;
     const frameImages: HTMLImageElement[] = [];
@@ -30,7 +29,7 @@ const FullScreenSection: React.FC = () => {
       const img = new Image();
       img.src = `/frames/frame_${String(i).padStart(4, "0")}.jpg`;
       img.onload = onLoad;
-      img.onerror = onLoad; // count errors as loaded to avoid blocking
+      img.onerror = onLoad;
       frameImages.push(img);
     }
 
@@ -62,6 +61,7 @@ const FullScreenSection: React.FC = () => {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
+
       drawFrame(latestFrameIndexRef.current);
     };
 
@@ -70,14 +70,32 @@ const FullScreenSection: React.FC = () => {
     const drawFrame = (frameIndex: number) => {
       const img = imagesRef.current[frameIndex];
       if (!img || !img.complete) return;
+
       const w = window.innerWidth;
       const h = window.innerHeight;
-      try {
-        ctx.clearRect(0, 0, w, h);
-        ctx.drawImage(img, 0, 0, w, h);
-      } catch {
-        // ignore drawing errors
+
+      ctx.clearRect(0, 0, w, h);
+
+      const imgAspect = img.width / img.height;
+      const canvasAspect = w / h;
+
+      let drawWidth = w;
+      let drawHeight = h;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      // COVER mode: Fill screen, crop excess
+      if (canvasAspect > imgAspect) {
+        drawWidth = w;
+        drawHeight = w / imgAspect;
+        offsetY = (h - drawHeight) / 2;
+      } else {
+        drawHeight = h;
+        drawWidth = h * imgAspect;
+        offsetX = (w - drawWidth) / 2;
       }
+
+      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
       lastDrawFrameRef.current = frameIndex;
     };
 
@@ -85,7 +103,10 @@ const FullScreenSection: React.FC = () => {
       const rect = container.getBoundingClientRect();
       const totalScrollable = Math.max(rect.height - window.innerHeight, 1);
       const progress = clamp((-rect.top) / totalScrollable, 0, 1);
-      const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
+      const frameIndex = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.floor(progress * (TOTAL_FRAMES - 1))
+      );
       if (frameIndex !== lastDrawFrameRef.current) {
         latestFrameIndexRef.current = frameIndex;
         drawFrame(frameIndex);
@@ -95,8 +116,7 @@ const FullScreenSection: React.FC = () => {
 
     const setContainerHeight = () => {
       const scrollLength = TOTAL_FRAMES * PIXELS_PER_FRAME;
-      const totalHeight = window.innerHeight + scrollLength;
-      container.style.height = `${totalHeight}px`;
+      container.style.height = `${window.innerHeight + scrollLength}px`;
     };
 
     setContainerHeight();
