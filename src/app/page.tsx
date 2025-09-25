@@ -3,29 +3,28 @@
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import Footer from '@/components/Footer'
-import { preEvents, Events } from '@/components/eventLists'
+import { preEvents } from '@/components/eventLists'
 import FullScreenSection from '@/components/FullScreenSection'
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Track real mouse and smooth cursor separately
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const totalSections = 3;//4; // Hero, Pre-Events, Main Events, Footer
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+
+  const totalSections = 3;
 
   const handleScroll = useCallback((e: WheelEvent) => {
     if (isTransitioning) return;
-    
     e.preventDefault();
     setIsTransitioning(true);
-    
     const direction = e.deltaY > 0 ? 1 : -1;
     const newSection = Math.max(0, Math.min(totalSections - 1, currentSection + direction));
-    
     if (newSection !== currentSection) {
       setCurrentSection(newSection);
     }
-    
-    // Reset transition lock after animation completes (increased for smoother transitions)
     setTimeout(() => {
       setIsTransitioning(false);
     }, 1500);
@@ -33,11 +32,9 @@ export default function Home() {
 
   useEffect(() => {
     let touchStartY = 0;
-    let touchEndY = 0;
-    
+
     const handleKeyPress = (e: KeyboardEvent) => {
       if (isTransitioning) return;
-      
       if (e.key === 'ArrowDown' && currentSection < totalSections - 1) {
         setIsTransitioning(true);
         setCurrentSection(prev => prev + 1);
@@ -55,22 +52,16 @@ export default function Home() {
 
     const handleTouchEnd = (e: TouchEvent) => {
       if (isTransitioning) return;
-      
-      touchEndY = e.changedTouches[0].clientY;
+      const touchEndY = e.changedTouches[0].clientY;
       const deltaY = touchStartY - touchEndY;
-      const threshold = 50; // Minimum swipe distance
-      
+      const threshold = 50;
       if (Math.abs(deltaY) > threshold) {
         setIsTransitioning(true);
-        
         if (deltaY > 0 && currentSection < totalSections - 1) {
-          // Swipe up - go to next section
           setCurrentSection(prev => prev + 1);
         } else if (deltaY < 0 && currentSection > 0) {
-          // Swipe down - go to previous section
           setCurrentSection(prev => prev - 1);
         }
-        
         setTimeout(() => setIsTransitioning(false), 1500);
       }
     };
@@ -84,7 +75,7 @@ export default function Home() {
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    
+
     return () => {
       window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('keydown', handleKeyPress);
@@ -94,18 +85,39 @@ export default function Home() {
     };
   }, [handleScroll, currentSection, isTransitioning, totalSections]);
 
+  // Smooth cursor animation
+  useEffect(() => {
+    let animationFrame: number;
+
+    const animate = () => {
+      setCursorPosition(prev => {
+        const dx = mousePosition.x - prev.x;
+        const dy = mousePosition.y - prev.y;
+        return {
+          x: prev.x + dx * 0.1, // 0.1 = smoothness factor (lower = smoother/slower)
+          y: prev.y + dy * 0.1,
+        };
+      });
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animate();
+    return () => cancelAnimationFrame(animationFrame);
+  }, [mousePosition]);
+
   return (
-    <main className="h-screen w-screen bg-black relative overflow-hidden">
-      {/* Simple Buttery Smooth Cursor */}
+    <main className="h-screen w-screen bg-black relative overflow-hidden cursor-none">
+      {/* Custom Smooth Cursor */}
       <div
-        className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full transition-all duration-300 ease-out"
+        className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full"
         style={{
-          left: mousePosition.x - 16,
-          top: mousePosition.y - 16,
+          left: cursorPosition.x - 16,
+          top: cursorPosition.y - 16,
           mixBlendMode: 'exclusion',
-          willChange: 'transform',
+          transition: "transform 0.05s linear",
         }}
       />
+      
 
       {/* Custom Glassmorphism Scrollbar - Shows progress through sections */}
       <div className="fixed top-0 right-4 h-full w-4 z-30 items-center hidden md:flex">
@@ -212,7 +224,7 @@ export default function Home() {
                       alt={event.name}
                       width={400}
                       height={300}
-                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                   <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
