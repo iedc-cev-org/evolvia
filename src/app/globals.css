@@ -48,5 +48,5 @@ body, html {
 }
 
 .bg{
-  filter: blur(10);
+  filter: blur(8);
 }

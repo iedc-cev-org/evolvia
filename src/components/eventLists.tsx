@@ -25,6 +25,7 @@ export const Events = [
   {
     name: "School Student Buzzer QUIZ",
     time: "10:30AM - 12:30PM",
+    image:'/F.webp',
     venue: "MCA Seminar Hall",
     type: "buzzerQuiz",
     description:"small detail",
@@ -33,6 +34,7 @@ export const Events = [
   {
     name: "Vibe Coding Challenge",
     time: "1:00PM - 3:00PM",
+    image:'/F.webp',
     venue: "Lab 2",
     type: "vibeCoding",
     description:"small detail.",
@@ -40,12 +42,10 @@ export const Events = [
   {
     name: "Robotics Workshop",
     time: "3:30PM - 5:00PM",
+    image:'/F.webp',
     venue: "Auditorium",
     type: "workShop",
     description:"small detai.",
   },
 ];
 
-export function getEventsByType(type: string) {
-  return Events.filter(event => event.type === type);
-}

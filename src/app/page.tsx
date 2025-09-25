@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Footer from '@/components/Footer'
-import { preEvents } from '@/components/eventLists'
+import { preEvents,Events } from '@/components/eventLists'
+import FullScreenSection from '@/components/FullScreenSection'
+
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -118,27 +120,21 @@ export default function Home() {
       <div className={`transition-all duration-500 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
         {/* Pre Events Section */}
         <section className="bg-black relative py-16">
+          <FullScreenSection/>
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             {/* Section Title - Left Aligned */}
-            <div className={`mb-16 transition-all duration-1000 delay-300 ${showContent ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+
+            <div className="mb-16">
               <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight ">
                 Pre &nbsp;Events.
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
             </div>
 
-            {/* Events Container */}
+            {/*pre Events Container */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-18 pb-16">
               {preEvents.map((event, index) => (
-                <div
-                  key={index}
-                  className={`group cursor-pointer hover:scale-105 transition-all duration-300 ${
-                    showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
-                  style={{ 
-                    transitionDelay: showContent ? `${600 + index * 50}ms` : '0ms' 
-                  }}
-                >
+                <div key={index} className="group cursor-pointer">
                   {/* Event Image */}
                   <div className="mb-4 overflow-hidden">
                     <Image
@@ -146,16 +142,23 @@ export default function Home() {
                       alt={event.name}
                       width={400}
                       height={300}
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-cover"
                     />
                   </div>
 
                   {/* Event Name */}
-                  <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
+                  <h3 className="text-xl font-semibold text-white">
                     {event.name}
                   </h3>
                 </div>
               ))}
+            </div>
+
+            <div className="mb-16">
+              <h2 className="text-3xl text-center lg:text-5xl font-semibold text-white tracking-tight ">
+                Docking Soon
+              </h2>
+              {/* <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div> */}
             </div>
             </div>
         </section>
