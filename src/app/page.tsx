@@ -1,58 +1,134 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Footer from '@/components/Footer'
+<<<<<<< HEAD
 import { preEvents,Events } from '@/components/eventLists'
 import FullScreenSection from '@/components/FullScreenSection'
 
+=======
+import { preEvents, Events } from '@/components/eventLists'
+>>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
 
 export default function Home() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const totalSections = 4; // Hero, Pre-Events, Main Events, Footer
+
+  const handleScroll = useCallback((e: WheelEvent) => {
+    if (isTransitioning) return;
+    
+    e.preventDefault();
+    setIsTransitioning(true);
+    
+    const direction = e.deltaY > 0 ? 1 : -1;
+    const newSection = Math.max(0, Math.min(totalSections - 1, currentSection + direction));
+    
+    if (newSection !== currentSection) {
+      setCurrentSection(newSection);
+    }
+    
+    // Reset transition lock after animation completes (increased for smoother transitions)
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 1500);
+  }, [currentSection, isTransitioning, totalSections]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = (scrollTop / docHeight);
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (isTransitioning) return;
       
-      setScrollProgress(scrollPercent);
-      
-      if (scrollTop > 50) {
-        setIsScrolled(true);
-        setTimeout(() => {
-          setShowContent(true);
-        }, 500); // Small delay for smooth transition
-      } else {
-        setIsScrolled(false);
-        setShowContent(false);
+      if (e.key === 'ArrowDown' && currentSection < totalSections - 1) {
+        setIsTransitioning(true);
+        setCurrentSection(prev => prev + 1);
+        setTimeout(() => setIsTransitioning(false), 1500);
+      } else if (e.key === 'ArrowUp' && currentSection > 0) {
+        setIsTransitioning(true);
+        setCurrentSection(prev => prev - 1);
+        setTimeout(() => setIsTransitioning(false), 1500);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (isTransitioning) return;
+      
+      touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+      const threshold = 50; // Minimum swipe distance
+      
+      if (Math.abs(deltaY) > threshold) {
+        setIsTransitioning(true);
+        
+        if (deltaY > 0 && currentSection < totalSections - 1) {
+          // Swipe up - go to next section
+          setCurrentSection(prev => prev + 1);
+        } else if (deltaY < 0 && currentSection > 0) {
+          // Swipe down - go to previous section
+          setCurrentSection(prev => prev - 1);
+        }
+        
+        setTimeout(() => setIsTransitioning(false), 1500);
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('wheel', handleScroll, { passive: false });
+    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [handleScroll, currentSection, isTransitioning, totalSections]);
 
   return (
-    <main className="min-h-screen w-screen bg-black relative overflow-x-hidden">
-      {/* Custom Glassmorphism Scrollbar - Hidden on mobile */}
+    <main className="h-screen w-screen bg-black relative overflow-hidden">
+      {/* Cursor Following Circle with Invert Effect */}
+      <div
+        className="fixed pointer-events-none z-50 w-10 h-10 rounded-full bg-white transition-all duration-300 ease-out"
+        style={{
+          left: mousePosition.x - 40,
+          top: mousePosition.y - 40,
+          mixBlendMode: 'exclusion',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0)', // Force hardware acceleration
+        }}
+      />
+
+      {/* Custom Glassmorphism Scrollbar - Shows progress through sections */}
       <div className="fixed top-0 right-4 h-full w-4 z-30 items-center hidden md:flex">
         <div className="relative h-3/4 w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
           <div 
-            className="absolute top-0 left-0 w-full bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-sm rounded-full transition-all duration-150 ease-out"
-            style={{ height: `${Math.max(scrollProgress * 100, 5)}%` }}
+            className="absolute top-0 left-0 w-full bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-sm rounded-full transition-all duration-1500 ease-out"
+            style={{ height: `${Math.max(((currentSection + 1) / totalSections) * 100, 8)}%` }}
           ></div>
         </div>
       </div>
 
-      {/* IEDC Logo - Fixed position, transitions independently, hidden on mobile after scroll */}
-      <div className={`fixed z-25 transition-all duration-1000 ease-in-out ${
-        isScrolled 
-          ? 'top-12 left-12 hidden md:block' 
-          : 'top-6 left-6'
-      }`}>
+      {/* IEDC Logo - Fixed position, transitions based on current section */}
+      <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
+        currentSection === 0 
+          ? 'top-6 left-6' 
+          : 'top-12 left-12 hidden md:block'
+      }`} style={{ willChange: 'transform, opacity' }}>
         <Image
           src="/iedclogo.webp"
           alt="IEDC Logo"
@@ -62,47 +138,57 @@ export default function Home() {
         />
       </div>
 
-      {/* Evolvia Logo - Fixed position, transitions independently */}
-      <div className={`fixed z-25 transition-all duration-1000 ease-in-out ${
-        isScrolled 
-          ? 'top-4 left-1/2 -translate-x-1/2 scale-40' 
-          : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100'
-      }`}>
+      {/* Evolvia Logo - Transitions from hero center to navbar */}
+      <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
+        currentSection === 0 
+          ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100' 
+          : 'top-4 left-1/2 -translate-x-1/2 scale-40'
+      }`} style={{ willChange: 'transform' }}>
         <Image
           src="/logo.webp"
           alt="Evolvia"
-          width={300}
-          height={300}
+          width={400}
+          height={400}
           className="opacity-95"
         />
       </div>
 
-      {/* Hero Section with Video Background */}
-      <section className={`h-screen w-screen relative transition-all duration-1000 ease-in-out  ${isScrolled ? '-translate-y-full' : ''}`}>
-        {/* Background Video */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover bg"
-        >
-          <source src="/hero.mp4" type="video/mp4" />
-        </video>
+      {/* Sections Container */}
+      <div 
+        className="h-full transition-transform duration-1500 ease-in-out"
+        style={{ 
+          transform: `translateY(-${currentSection * 100}vh)`,
+          willChange: 'transform'
+        }}
+      >
+        {/* Section 0: Hero */}
+        <section className="h-screen w-screen relative flex items-center justify-center" style={{ willChange: 'transform' }}>
+          {/* Background Video */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ willChange: 'auto' }}
+          >
+            <source src="/hero.mp4" type="video/mp4" />
+          </video>
 
-        {/* Dark overlay for better visibility */}
-        <div className="absolute inset-0 bg-black/30"></div>
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/30"></div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-          <div className="flex flex-col items-center text-white/70">
-            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse"></div>
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+            <div className="flex flex-col items-center text-white/70">
+              <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+                <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse"></div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
+<<<<<<< HEAD
       {/* Transparent Navigation Bar - Just provides spacing */}
       <nav className={`fixed top-0 left-0 right-0 z-15 transition-opacity duration-500 ${showContent ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -127,32 +213,60 @@ export default function Home() {
             <div className="mb-16">
               <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight ">
                 Pre &nbsp;Events.
+=======
+        {/* Section 1: Pre Events */}
+        <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
+          <div className="max-w-6xl mx-auto px-6 w-full">
+            {/* Section Title */}
+            <div className="mb-12">
+              <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight">
+                Pre Events.
+>>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
             </div>
 
+<<<<<<< HEAD
             {/*pre Events Container */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-18 pb-16">
               {preEvents.map((event, index) => (
                 <div key={index} className="group cursor-pointer">
                   {/* Event Image */}
                   <div className="mb-4 overflow-hidden">
+=======
+            {/* Events Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {preEvents.map((event, index) => (
+                <div
+                  key={index}
+                  className="group cursor-pointer hover:scale-105 transition-all duration-300"
+                >
+                  <div className="mb-4 overflow-hidden rounded-lg">
+>>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
                     <Image
                       src={event.image}
                       alt={event.name}
                       width={400}
                       height={300}
+<<<<<<< HEAD
                       className="w-full h-full object-cover"
                     />
                   </div>
 
                   {/* Event Name */}
                   <h3 className="text-xl font-semibold text-white">
+=======
+                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
+>>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
                     {event.name}
                   </h3>
                 </div>
               ))}
             </div>
+<<<<<<< HEAD
 
             <div className="mb-16">
               <h2 className="text-3xl text-center lg:text-5xl font-semibold text-white tracking-tight ">
@@ -160,10 +274,66 @@ export default function Home() {
               </h2>
               {/* <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div> */}
             </div>
+=======
+          </div>
+        </section>
+        
+        {/* Section 2: Main Events 
+        <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
+          <div className="max-w-6xl mx-auto px-6 w-full">
+            <div className="mb-12">
+              <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight">
+                Main Events.
+              </h2>
+              <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
+>>>>>>> baa12267ac95b495f03f0b2bb5cb52145b3bca8c
             </div>
+
+            <div className="space-y-8">
+              {Events.map((event, index) => (
+                <div
+                  key={index}
+                  className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6 hover:bg-white/20 transition-all duration-300"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-semibold text-white mb-2">
+                        {event.name}
+                      </h3>
+                      <p className="text-white/70 mb-2">{event.description}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-white/60">
+                        <span>⏰ {event.time}</span>
+                        <span>📍 {event.venue}</span>
+                        {event.payStatus !== undefined && (
+                          <span className={`px-2 py-1 rounded ${
+                            event.payStatus ? 'bg-red-600/20 text-red-400' : 'bg-green-600/20 text-green-400'
+                          }`}>
+                            {event.payStatus ? 'Paid' : 'Free'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-4 md:mt-0 md:ml-6">
+                      <button className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                        event.type === 'buzzerQuiz' ? 'bg-red-600 hover:bg-red-700' :
+                        event.type === 'vibeCoding' ? 'bg-blue-600 hover:bg-blue-700' :
+                        'bg-green-600 hover:bg-green-700'
+                      } text-white`}>
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        */}
+        {/* Section 3: Footer */}
+        <section className="h-screen w-screen bg-black relative flex items-center justify-center" style={{ willChange: 'transform' }}>
+          <Footer />
         </section>
       </div>
-      <Footer/>
     </main>
   );
 }
