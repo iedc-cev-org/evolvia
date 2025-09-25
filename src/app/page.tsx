@@ -4,10 +4,7 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import Footer from '@/components/Footer'
 import { preEvents, Events } from '@/components/eventLists'
-<<<<<<< HEAD
 import FullScreenSection from '@/components/FullScreenSection'
-=======
->>>>>>> 31148d60a86351396277fc6bc634fc3145f1929c
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -185,15 +182,12 @@ export default function Home() {
           </div>
         </section>
 
-<<<<<<< HEAD
          <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
             <FullScreenSection/>
           </div>
         </section>
         
-=======
->>>>>>> 31148d60a86351396277fc6bc634fc3145f1929c
         {/* Section 1: Pre Events */}
         <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
