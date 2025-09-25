@@ -4,13 +4,16 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import Footer from '@/components/Footer'
 import { preEvents, Events } from '@/components/eventLists'
+<<<<<<< HEAD
 import FullScreenSection from '@/components/FullScreenSection'
+=======
+>>>>>>> 31148d60a86351396277fc6bc634fc3145f1929c
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const totalSections = 4; // Hero, Pre-Events, Main Events, Footer
+  const totalSections = 3;//4; // Hero, Pre-Events, Main Events, Footer
 
   const handleScroll = useCallback((e: WheelEvent) => {
     if (isTransitioning) return;
@@ -96,15 +99,14 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen bg-black relative overflow-hidden">
-      {/* Cursor Following Circle with Invert Effect */}
+      {/* Simple Buttery Smooth Cursor */}
       <div
-        className="fixed pointer-events-none z-50 w-10 h-10 rounded-full bg-white transition-all duration-300 ease-out"
+        className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full transition-all duration-300 ease-out"
         style={{
-          left: mousePosition.x - 40,
-          top: mousePosition.y - 40,
+          left: mousePosition.x - 16,
+          top: mousePosition.y - 16,
           mixBlendMode: 'exclusion',
           willChange: 'transform',
-          transform: 'translate3d(0, 0, 0)', // Force hardware acceleration
         }}
       />
 
@@ -183,12 +185,15 @@ export default function Home() {
           </div>
         </section>
 
+<<<<<<< HEAD
          <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
             <FullScreenSection/>
           </div>
         </section>
         
+=======
+>>>>>>> 31148d60a86351396277fc6bc634fc3145f1929c
         {/* Section 1: Pre Events */}
         <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
