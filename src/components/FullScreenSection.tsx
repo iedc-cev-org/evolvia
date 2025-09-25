@@ -131,13 +131,6 @@ const FullScreenSection: React.FC = () => {
           zIndex: 1,
         }}
       />
-
-      {/* small loader indicator */}
-      <div style={{ position: "absolute", left: 16, bottom: 16, zIndex: 10 }}>
-        <div className="bg-white/10 text-white px-4 py-2 rounded-md backdrop-blur-md border border-white/20">
-          Loaded: {loadedCount}/{TOTAL_FRAMES}
-        </div>
-      </div>
     </div>
   );
 };

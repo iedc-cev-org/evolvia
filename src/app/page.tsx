@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
-import Footer from '@/components/Footer'
-import { preEvents } from '@/components/eventLists'
-import FullScreenSection from '@/components/FullScreenSection'
+import Footer from '@/components/Footer';
+import { preEvents, Events } from '@/components/eventLists'; // Make sure to import 'Events' for the main events section
+import FullScreenSection from '@/components/FullScreenSection';
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -14,7 +14,7 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
-  const totalSections = 4;
+  const totalSections = 4; // Hero, FullScreen, Pre, Main, Footer
 
   const handleScroll = useCallback((e: WheelEvent) => {
     if (isTransitioning) return;
@@ -94,7 +94,7 @@ export default function Home() {
         const dx = mousePosition.x - prev.x;
         const dy = mousePosition.y - prev.y;
         return {
-          x: prev.x + dx * 0.1, // 0.1 = smoothness factor (lower = smoother/slower)
+          x: prev.x + dx * 0.1,
           y: prev.y + dy * 0.1,
         };
       });
@@ -117,9 +117,8 @@ export default function Home() {
           transition: "transform 0.05s linear",
         }}
       />
-      
 
-      {/* Custom Glassmorphism Scrollbar - Shows progress through sections */}
+      {/* Custom Glassmorphism Scrollbar */}
       <div className="fixed top-0 right-4 h-full w-4 z-30 items-center hidden md:flex">
         <div className="relative h-3/4 w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
           <div 
@@ -129,7 +128,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* IEDC Logo - Fixed position, transitions based on current section */}
+      {/* IEDC Logo */}
       <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
         currentSection === 0 
           ? 'top-6 left-6' 
@@ -144,7 +143,7 @@ export default function Home() {
         />
       </div>
 
-      {/* Evolvia Logo - Transitions from hero center to navbar */}
+      {/* Evolvia Logo */}
       <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
         currentSection === 0 
           ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100' 
@@ -169,7 +168,6 @@ export default function Home() {
       >
         {/* Section 0: Hero */}
         <section className="h-screen w-screen relative flex items-center justify-center" style={{ willChange: 'transform' }}>
-          {/* Background Video */}
           <video
             autoPlay
             muted
@@ -180,11 +178,7 @@ export default function Home() {
           >
             <source src="/hero.mp4" type="video/mp4" />
           </video>
-
-          {/* Dark overlay */}
           <div className="absolute inset-0 bg-black/30"></div>
-
-          {/* Scroll Indicator */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
             <div className="flex flex-col items-center text-white/70">
               <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
@@ -194,25 +188,23 @@ export default function Home() {
           </div>
         </section>
 
-         <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
+        {/* Section 1: FullScreenSection Component */}
+        <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
             <FullScreenSection/>
           </div>
         </section>
         
-        {/* Section 1: Pre Events */}
-        <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
+        {/* Section 2: Pre Events */}
+        <section className="h-screen w-screen bg-black relative flex items-center py-10" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
-            {/* Section Title */}
             <div className="mb-12">
               <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight">
                 Pre Events.
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
             </div>
-
-            {/* Events Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {preEvents.map((event, index) => (
                 <div
                   key={index}
@@ -224,7 +216,7 @@ export default function Home() {
                       alt={event.name}
                       width={400}
                       height={300}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-70 md:h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                   <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
@@ -235,59 +227,11 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
-        {/* Section 2: Main Events 
-        <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
-          <div className="max-w-6xl mx-auto px-6 w-full">
-            <div className="mb-12">
-              <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight">
-                Main Events.
-              </h2>
-              <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
-            </div>
-
-            <div className="space-y-8">
-              {Events.map((event, index) => (
-                <div
-                  key={index}
-                  className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6 hover:bg-white/20 transition-all duration-300"
-                >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-semibold text-white mb-2">
-                        {event.name}
-                      </h3>
-                      <p className="text-white/70 mb-2">{event.description}</p>
-                      <div className="flex flex-wrap gap-4 text-sm text-white/60">
-                        <span>⏰ {event.time}</span>
-                        <span>📍 {event.venue}</span>
-                        {event.payStatus !== undefined && (
-                          <span className={`px-2 py-1 rounded ${
-                            event.payStatus ? 'bg-red-600/20 text-red-400' : 'bg-green-600/20 text-green-400'
-                          }`}>
-                            {event.payStatus ? 'Paid' : 'Free'}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="mt-4 md:mt-0 md:ml-6">
-                      <button className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                        event.type === 'buzzerQuiz' ? 'bg-red-600 hover:bg-red-700' :
-                        event.type === 'vibeCoding' ? 'bg-blue-600 hover:bg-blue-700' :
-                        'bg-green-600 hover:bg-green-700'
-                      } text-white`}>
-                        Register
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        */}
-        {/* Section 3: Footer */}
-        <section className="h-screen w-screen bg-black relative flex items-center justify-center" style={{ willChange: 'transform' }}>
+        {/* Section 4: Footer - THE FIX */}
+        <section className="h-screen w-screen bg-black flex flex-col items-center justify-end">
+          <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight mb-24">
+                Coming Soon...
+          </h2>
           <Footer />
         </section>
       </div>

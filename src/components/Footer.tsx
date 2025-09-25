@@ -4,8 +4,8 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <div className='relative w-full p-4 z-20'>
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 max-w-3xl mx-auto p-4 rounded-xl shadow-lg flex flex-col gap-4">
+    <footer className='relative w-full p-4 z-20'>
+        <div className=" bg-white/10 backdrop-blur-md border border-white/20 max-w-3xl mx-auto p-4 rounded-xl shadow-lg flex flex-col justify-center gap-4 h-[50vh]">
             <div className='flex justify-between mb-4 gap-4'>
                 <div className='mr-4'>
                     <Image src='/iedclogo.webp' alt='iedc logo' width={100} height={100}/>
@@ -32,6 +32,6 @@ export default function Footer() {
             />
             </div>
         </div>
-    </div>
+    </footer>
   )
 }
