@@ -14,7 +14,7 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
-  const totalSections = 3;
+  const totalSections = 4;
 
   const handleScroll = useCallback((e: WheelEvent) => {
     if (isTransitioning) return;
