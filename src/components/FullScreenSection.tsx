@@ -1,74 +1,125 @@
+'use client';
 
 // ffmpeg command: ffmpeg -i input.mp4 -start_number 1 -vsync 0 -q:v 1 public/frames/frame_%04d.jpg
 import React, { useRef, useEffect, useState } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 238;
+const PIXELS_PER_FRAME = 8; // number of vertical pixels of scroll per frame (tune to change scrub speed)
 
-const App = () => {
+const FullScreenSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const rafRef = useRef<number | null>(null);
+  const lastDrawFrameRef = useRef<number | null>(null);
+  const latestFrameIndexRef = useRef<number>(0);
+  const [loadedCount, setLoadedCount] = useState(0);
 
+  // preload images
   useEffect(() => {
+    let mounted = true;
     const frameImages: HTMLImageElement[] = [];
+    let localLoaded = 0;
+    const onLoad = () => {
+      localLoaded += 1;
+      if (mounted) setLoadedCount(localLoaded);
+    };
+
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = `/frames/frame_${String(i).padStart(4, "0")}.jpg`;
+      img.onload = onLoad;
+      img.onerror = onLoad; // count errors as loaded to avoid blocking
       frameImages.push(img);
     }
-    setImages(frameImages);
+
+    imagesRef.current = frameImages;
+
+    return () => {
+      mounted = false;
+      frameImages.forEach((img) => {
+        img.onload = null as any;
+        img.onerror = null as any;
+      });
+    };
   }, []);
 
   useEffect(() => {
-    if (images.length === 0) return;
-
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const context = canvas.getContext("2d");
-    if (!context) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    const scale = window.devicePixelRatio || 1;
-    canvas.width = 1920 * scale;
-    canvas.height = 1080 * scale;
-    context.scale(scale, scale);
-
-    const frameState = { frame: 0 };
-
-    const render = () => {
-      const currentFrame = Math.round(frameState.frame);
-      const img = images[currentFrame];
-      if (img?.complete) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img, 0, 0, 1920, 1080);
-      }
+    const setCanvasSize = () => {
+      const scale = window.devicePixelRatio || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      // redraw current frame after resize
+      drawFrame(latestFrameIndexRef.current);
     };
 
-    images[0].onload = render;
-    if (images[0].complete) render();
+    const clamp = (v: number, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 
-    const st = gsap.to(frameState, {
-      frame: TOTAL_FRAMES - 1,
-      snap: "frame",
-      ease: "none",
-      scrollTrigger: {
-        scrub: true,
-        start: "top top",
-        end: "+=5000",
-      },
-      onUpdate: render,
+    const drawFrame = (frameIndex: number) => {
+      const img = imagesRef.current[frameIndex];
+      if (!img) return;
+      if (!img.complete) return;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      try {
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+      } catch (e) {
+        // ignore
+      }
+      lastDrawFrameRef.current = frameIndex;
+    };
+
+    // requestAnimationFrame-based render that reads the latest progress/frame index
+    const renderLoop = () => {
+      const rect = container.getBoundingClientRect();
+      // total scrollable distance inside the container is container.height - viewportHeight
+      const totalScrollable = Math.max(rect.height - window.innerHeight, 1);
+      const progress = clamp((-rect.top) / totalScrollable, 0, 1);
+      const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
+      if (frameIndex !== lastDrawFrameRef.current) {
+        latestFrameIndexRef.current = frameIndex;
+        drawFrame(frameIndex);
+      }
+      rafRef.current = requestAnimationFrame(renderLoop);
+    };
+
+    const setContainerHeight = () => {
+      const scrollLength = TOTAL_FRAMES * PIXELS_PER_FRAME; // px of scroll that maps to frames
+      const totalHeight = window.innerHeight + scrollLength; // container must be viewport + scroll length
+      container.style.height = `${totalHeight}px`;
+    };
+
+    setContainerHeight();
+    setCanvasSize();
+    window.addEventListener("resize", () => {
+      setContainerHeight();
+      setCanvasSize();
     });
 
+    // start RAF
+    rafRef.current = requestAnimationFrame(renderLoop);
+
     return () => {
-      st.scrollTrigger?.kill();
-      st.kill();
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("resize", setCanvasSize);
     };
-  }, [images]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedCount]);
 
   return (
-    <div style={{ height: "5000px" }}>
+    <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
       <canvas
         ref={canvasRef}
         style={{
@@ -80,8 +131,15 @@ const App = () => {
           zIndex: 1,
         }}
       />
+
+      {/* small loader indicator */}
+      <div style={{ position: "absolute", left: 16, bottom: 16, zIndex: 10 }}>
+        <div className="bg-white/10 text-white px-4 py-2 rounded-md backdrop-blur-md border border-white/20">
+          Loaded: {loadedCount}/{TOTAL_FRAMES}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default App;
+export default FullScreenSection;
