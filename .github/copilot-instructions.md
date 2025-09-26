@@ -95,4 +95,6 @@ export function getEventsByType(type: string) {
 - Card layouts use glassmorphism with consistent padding and border radius
 - Responsive image containers with proper aspect ratios
 
-When working on this project, prioritize maintaining the established design system, ensure TypeScript type safety, and follow the Next.js App Router patterns for any new features or routes.
+When working on this project, prioritize maintaining the established design system, ensure TypeScript type safety, and follow the Next.js App Router patterns for any new features or routes. Do not run the dev server autonomously, it might be already run by the user.
+
+Important: Do not generate inline or block comments in any produced source files. Keep generated files free of explanatory comments unless the user explicitly requests them.
