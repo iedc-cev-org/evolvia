@@ -5,7 +5,7 @@ import React, { useRef, useEffect, useState } from "react";
 const TOTAL_FRAMES = 238;
 const PIXELS_PER_FRAME = 8;
 
-const FullScreenSection: React.FC = () => {
+const FullScreenSection: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
@@ -13,6 +13,11 @@ const FullScreenSection: React.FC = () => {
   const lastDrawFrameRef = useRef<number | null>(null);
   const latestFrameIndexRef = useRef<number>(0);
   const [loadedCount, setLoadedCount] = useState(0);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Preload images
   useEffect(() => {
@@ -67,16 +72,22 @@ const FullScreenSection: React.FC = () => {
 
     const clamp = (v: number, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 
-    const drawFrame = (frameIndex: number) => {
-      const img = imagesRef.current[frameIndex];
-      if (!img || !img.complete) return;
+    const drawFrame = (exactFrameIndex: number) => {
+      const currentFrameIndex = Math.floor(exactFrameIndex);
+      const nextFrameIndex = Math.min(currentFrameIndex + 1, TOTAL_FRAMES - 1);
+      const progress = exactFrameIndex - currentFrameIndex;
+
+      const currentImg = imagesRef.current[currentFrameIndex];
+      const nextImg = imagesRef.current[nextFrameIndex];
+      
+      if (!currentImg || !currentImg.complete) return;
 
       const w = window.innerWidth;
       const h = window.innerHeight;
 
       ctx.clearRect(0, 0, w, h);
 
-      const imgAspect = img.width / img.height;
+      const imgAspect = currentImg.width / currentImg.height;
       const canvasAspect = w / h;
 
       let drawWidth = w;
@@ -95,8 +106,20 @@ const FullScreenSection: React.FC = () => {
         offsetX = (w - drawWidth) / 2;
       }
 
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-      lastDrawFrameRef.current = frameIndex;
+      // Draw current frame
+      ctx.globalAlpha = 1 - progress;
+      ctx.drawImage(currentImg, offsetX, offsetY, drawWidth, drawHeight);
+
+      // Draw next frame with interpolation if it exists and progress > 0
+      if (nextImg && nextImg.complete && progress > 0 && currentFrameIndex !== nextFrameIndex) {
+        ctx.globalAlpha = progress;
+        ctx.drawImage(nextImg, offsetX, offsetY, drawWidth, drawHeight);
+      }
+
+      // Reset global alpha
+      ctx.globalAlpha = 1;
+      
+      lastDrawFrameRef.current = exactFrameIndex;
     };
 
     const renderLoop = () => {
@@ -135,7 +158,7 @@ const FullScreenSection: React.FC = () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", handleResize);
     };
-  }, [loadedCount]);
+  }, [loadedCount, isClient]);
 
   return (
     <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
@@ -150,6 +173,21 @@ const FullScreenSection: React.FC = () => {
           zIndex: 1,
         }}
       />
+      {children && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 10,
+            mixBlendMode: 'difference',
+          }}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 };

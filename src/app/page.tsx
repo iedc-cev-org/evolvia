@@ -1,19 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import Footer from '@/components/Footer';
 import { preEvents } from '@/components/eventLists';
 import FullScreenSection from '@/components/FullScreenSection';
 
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrambleTextPlugin);
+
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   // Track real mouse and smooth cursor separately
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  
+  // Ref for the pre events title
+  const preEventsTitleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    setIsClient(true);
+    setWindowHeight(window.innerHeight);
+
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
@@ -22,12 +37,18 @@ export default function Home() {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -51,8 +72,46 @@ export default function Home() {
     return () => cancelAnimationFrame(animationFrame);
   }, [mousePosition]);
 
+  // ScrollSmoother initialization
+  useEffect(() => {
+    const scrollSmoother = ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1,
+      effects: true,
+      smoothTouch: 0.1,
+    });
+
+    // Text scramble effect for Pre Events title
+    if (preEventsTitleRef.current) {
+      ScrollTrigger.create({
+        trigger: preEventsTitleRef.current,
+        start: "top 80%",
+        onEnter: () => {
+          // First make the element visible and set initial scrambled text
+          gsap.set(preEventsTitleRef.current, { opacity: 1 });
+          gsap.to(preEventsTitleRef.current, {
+            duration: 2,
+            scrambleText: {
+              text: "Pre Events.",
+              chars: "upperAndLowerCase",
+              revealDelay: 0.5,
+              speed: 0.3
+            }
+          });
+        },
+        once: true
+      });
+    }
+
+    return () => {
+      scrollSmoother?.kill();
+      ScrollTrigger.killAll();
+    };
+  }, []);
+
   return (
-    <main className="min-h-screen w-screen bg-black relative cursor-none">
+    <div id="smooth-wrapper" className="fixed top-0 left-0 w-full h-full overflow-hidden">
       {/* Custom Smooth Cursor */}
       <div
         className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full"
@@ -84,7 +143,10 @@ export default function Home() {
         scrollY < 100 
           ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100' 
           : 'top-4 left-1/2 -translate-x-1/2 scale-40'
-      }`} style={{ willChange: 'transform' }}>
+      }`} style={{ 
+        willChange: 'transform',
+        mixBlendMode: scrollY >= 100 ? 'exclusion' : 'normal'
+      }}>
         <Image
           src="/logo.webp"
           alt="Evolvia"
@@ -93,6 +155,9 @@ export default function Home() {
           className="opacity-95"
         />
       </div>
+
+      <div id="smooth-content">
+        <main className="min-h-screen w-screen bg-black relative cursor-none">
 
       {/* Sections Container */}
       <div className="w-full"
@@ -121,51 +186,120 @@ export default function Home() {
 
         {/* Section 1: FullScreenSection Component */}
         <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
-          <div className="max-w-6xl mx-auto px-6 w-full">
-            <FullScreenSection/>
-          </div>
+          <FullScreenSection>
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-start z-20">
+              <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
+                <div 
+                  className="text-left"
+                  style={{
+                    transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.3)}px)` : 'none',
+                    opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
+                  }}
+                >
+                  <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
+                    TECHNO-<br />
+                    ENTREPRENEURSHIP<br />
+                    <span className="text-5xl md:text-7xl lg:text-8xl">FEST</span>
+                  </h1>
+                  <div 
+                    className="mt-8 text-xl md:text-2xl lg:text-3xl text-white/90 max-w-2xl"
+                    style={{
+                      transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.2)}px)` : 'none',
+                      opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.6) * 0.003)) : 1
+                    }}
+                  >
+                    Join the ultimate celebration of entrepreneurship and technology at IEDC&apos;s flagship event
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FullScreenSection>
         </section>
         
         {/* Section 2: Pre Events */}
         <section className="h-screen w-screen bg-black relative flex items-center py-10" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
             <div className="mb-12">
-              <h2 className="text-6xl lg:text-8xl font-bold text-white tracking-tight">
+              <h2 ref={preEventsTitleRef} className="text-6xl lg:text-8xl font-semibold text-white tracking-tight opacity-0">
                 Pre Events.
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {preEvents.map((event, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="group cursor-pointer hover:scale-105 transition-all duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.1,
+                    ease: [0.25, 0.25, 0, 1]
+                  }}
+                  className="group cursor-pointer"
                 >
-                  <div className="mb-4 overflow-hidden rounded-lg">
-                    <Image
-                      src={event.image}
-                      alt={event.name}
-                      width={400}
-                      height={300}
-                      className="w-full h-70 md:h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors">
+                  <motion.div 
+                    className="mb-4 overflow-hidden rounded-lg"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 1.02 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Image
+                        src={event.image}
+                        alt={event.name}
+                        width={400}
+                        height={300}
+                        className="w-full h-70 md:h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-out"
+                        style={{
+                          filter: 'grayscale(100%)',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'grayscale(0%)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'grayscale(100%)';
+                        }}
+                        onTouchStart={(e) => {
+                          if (e.currentTarget) {
+                            e.currentTarget.style.filter = 'grayscale(0%)';
+                          }
+                        }}
+                        onTouchEnd={(e) => {
+                          const target = e.currentTarget;
+                          if (target) {
+                            setTimeout(() => {
+                              if (target && target.style) {
+                                target.style.filter = 'grayscale(100%)';
+                              }
+                            }, 1500);
+                          }
+                        }}
+                      />
+                    </motion.div>
+                  </motion.div>
+                  <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">
                     {event.name}
                   </h3>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
-        {/* Section 4: Footer - THE FIX */}
-        <section className="h-screen w-screen bg-black flex flex-col items-center justify-end">
-          <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight mb-24">
-                Coming Soon...
-          </h2>
+        {/* Section 4: Footer */}
+        <section className="w-screen bg-black">
           <Footer />
         </section>
       </div>
-    </main>
+        </main>
+      </div>
+    </div>
   );
 }
