@@ -114,7 +114,7 @@ export default function Home() {
     <div id="smooth-wrapper" className="fixed top-0 left-0 w-full h-full overflow-hidden">
       {/* Custom Smooth Cursor */}
       <div
-        className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full"
+        className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full hidden md:block"
         style={{
           left: cursorPosition.x - 16,
           top: cursorPosition.y - 16,
@@ -188,7 +188,7 @@ export default function Home() {
         <section className="h-screen w-screen bg-black relative flex items-center" style={{ willChange: 'transform' }}>
           <FullScreenSection>
             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-start z-20">
-              <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
+              <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 w-full">
                 <div 
                   className="text-left"
                   style={{
@@ -196,10 +196,10 @@ export default function Home() {
                     opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
                   }}
                 >
-                  <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
-                    TECHNO-<br />
+                  <h1 className="text-[2.8em] md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
+                    TECHNO<br />
                     ENTREPRENEURSHIP<br />
-                    <span className="text-5xl md:text-7xl lg:text-8xl">FEST</span>
+                    <span className="text-[2.8em] md:text-7xl lg:text-8xl">FEST/</span>
                   </h1>
                   <div 
                     className="mt-8 text-xl md:text-2xl lg:text-3xl text-white/90 max-w-2xl"
