@@ -25,7 +25,7 @@ export const Events = [
   {
     id:1,
     name: "IEDC Alumini Interaction Meet",
-    image:"/image.png",
+    image:"/alumini.webp",
     spec:"Exclusively for Aluminis",
     // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
     link:""
