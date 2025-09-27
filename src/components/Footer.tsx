@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className='relative w-full min-h-screen flex flex-col justify-end z-20'>
+    <footer className='relative w-full flex flex-col justify-end z-20 py-10'>
         <div className="absolute inset-0 z-0 overflow-hidden">
             <div className="w-full h-full transform translate-y-[-10%] md:translate-y-[20%]">
                 <Image
@@ -22,11 +22,11 @@ export default function Footer() {
             </h2>
         </div>
     <div className="relative z-20 bg-white/10 backdrop-blur-md border border-white/20 max-w-5xl w-8/9 md:w-3/4 mx-auto p-6 m-4 rounded-xl shadow-lg flex flex-col justify-between gap-6">
-            <div className='flex justify-between items-start gap-4'>
+            <div className='flex justify-around items-start gap-4'>
                 <div className='flex-shrink-0'>
                     <Image src='/iedclogo.webp' alt='iedc logo' width={80} height={80}/>
                 </div>
-                <div className='flex justify-between flex-1 text-sm gap-8'>
+                <div className='flex justify-end flex-1 text-sm gap-8'>
                     <div className='flex flex-col space-y-2 items-start'>
                         <p className='text-gray-400 font-semibold text-xs uppercase tracking-wide'>CONTACT US</p>
                         <p className='text-white'>+91 7559907591</p>
