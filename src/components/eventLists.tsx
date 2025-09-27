@@ -25,23 +25,9 @@ export const Events = [
   {
     id:1,
     name: "IEDC Alumini Interaction Meet",
-    image:"/SP.webp",
+    image:"/image.png",
     spec:"Exclusively for Aluminis",
-    link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j"
-  },
-  {
-    id:2,
-    name: "IEDC Alumini Interaction Meet",
-    image:"/F.webp",
-    spec:"Exclusively for Aluminis",
-    link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j"
-  },
-  {
-    id:3,
-    name: "IEDC Alumini Interaction Meet",
-    image:"/F.webp",
-    spec:"Exclusively for Aluminis",
-    link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j"
+    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j"
   },
 ];
 

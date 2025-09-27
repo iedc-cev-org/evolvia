@@ -15,6 +15,7 @@ import FullScreenSection from '@/components/FullScreenSection';
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrambleTextPlugin);
 
 export default function Home() {
+
   const [scrollY, setScrollY] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   const [isClient, setIsClient] = useState(false);
@@ -148,7 +149,6 @@ export default function Home() {
       ScrollTrigger.killAll();
     };
   }, []);
-
   return (
     <div id="smooth-wrapper" className="fixed top-0 left-0 w-full h-full overflow-hidden">
       {/* Custom Smooth Cursor */}
@@ -161,7 +161,6 @@ export default function Home() {
           transition: "transform 0.05s linear",
         }}
       />
-
       {/* IEDC Logo */}
       <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
         scrollY < 100 
@@ -285,11 +284,11 @@ export default function Home() {
                   }}
                   className="group cursor-pointer flex justify-between items-center space-x-4"
                 >
-                  <div className="text-[5em] md:hidden font-serif font-medium bg-gradient-to-b from-black via-white to-black bg-clip-text text-transparent">
+                  {/* <div className="text-[5em] md:hidden font-serif font-medium bg-gradient-to-b from-black via-white to-black bg-clip-text text-transparent">
                     {event.id}
-                  </div>
+                  </div> */}
                     
-                  <div className="w-1 h-[30%] md:hidden bg-gradient-to-b from-black via-white to-black"></div>
+                  {/* <div className="w-1 h-[30%] md:hidden bg-gradient-to-b from-black via-white to-black"></div> */}
 
                   <motion.div 
                     className="mb-4 overflow-hidden rounded-sm flex-col w-[100%]"
@@ -341,12 +340,16 @@ export default function Home() {
                       {
                         event.spec && <p className="text-gray-500">({event.spec})</p>
                       }
-                      <Link 
+                      {event?.link?(
+                        <Link 
                         href={event.link}
-                        className="text-center max-w-5/6 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300"
-                      >
+                        className="text-center max-w-3/4 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300"
+                        >
                         Register
                       </Link>
+                      ):<p className="text-center max-w-3/4 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300">
+                        Registration not Opened
+                        </p>}
                     </div>
                   </motion.div>
                 </motion.div>
