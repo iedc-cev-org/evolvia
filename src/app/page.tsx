@@ -244,7 +244,7 @@ export default function Home() {
                   className="group cursor-pointer"
                 >
                   <motion.div 
-                    className="mb-4 overflow-hidden rounded-lg"
+                    className="mb-4 overflow-hidden rounded-sm"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.3 }}
@@ -259,7 +259,7 @@ export default function Home() {
                         alt={event.name}
                         width={400}
                         height={300}
-                        className="w-full h-70 md:h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-out"
+                        className="w-full h-full md:h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-out"
                         style={{
                           filter: 'grayscale(100%)',
                         }}
@@ -296,7 +296,7 @@ export default function Home() {
           </div>
         </section>
         {/* Section 4: Footer */}
-        <section className="w-screen bg-black mt-10">
+        <section className="w-screen bg-black my-16">
           <Footer />
         </section>
       </div>
