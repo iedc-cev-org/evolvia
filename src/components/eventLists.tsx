@@ -23,29 +23,10 @@ export const preEvents=[
 
 export const Events = [
   {
-    name: "School Student Buzzer QUIZ",
-    time: "10:30AM - 12:30PM",
-    image:'/F.webp',
-    venue: "MCA Seminar Hall",
-    type: "buzzerQuiz",
-    description:"small detail",
-    payStatus:false
-  },
-  {
-    name: "Vibe Coding Challenge",
-    time: "1:00PM - 3:00PM",
-    image:'/F.webp',
-    venue: "Lab 2",
-    type: "vibeCoding",
-    description:"small detail.",
-  },
-  {
-    name: "Robotics Workshop",
-    time: "3:30PM - 5:00PM",
-    image:'/F.webp',
-    venue: "Auditorium",
-    type: "workShop",
-    description:"small detai.",
+    name: "IEDC Alumini Interaction Meet",
+    image:"/SP.webp",
+    spec:"Exclusively for Aluminis",
+    link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j"
   },
 ];
 
