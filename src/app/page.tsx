@@ -191,10 +191,10 @@ export default function Home() {
               <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 w-full">
                 <div 
                   className="text-left"
-                  // style={{
-                  //   transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.3)}px)` : 'none',
-                  //   opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
-                  // }}
+                  style={{
+                    transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.3)}px)` : 'none',
+                    opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
+                  }}
                 >
                   <h1 className="text-[2.2em] md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
                     TECHNO<br />
@@ -217,7 +217,7 @@ export default function Home() {
         </section>
         
         {/* Section 2: Pre Events */}
-        <section className="w-screen bg-black relative flex items-center py-10" style={{ willChange: 'transform' }}>
+        <section className="w-screen bg-black relative flex items-center py-10 mb-10" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
             <div className="mb-12">
               <h2 
@@ -296,7 +296,7 @@ export default function Home() {
           </div>
         </section>
         {/* Section 4: Footer */}
-        <section className="w-screen bg-black">
+        <section className="w-screen bg-black mt-10">
           <Footer />
         </section>
       </div>
