@@ -283,16 +283,22 @@ export default function Home() {
                     delay: index * 0.1,
                     ease: [0.25, 0.25, 0, 1]
                   }}
-                  className="group cursor-pointer"
+                  className="group cursor-pointer flex justify-between items-center space-x-4"
                 >
+                  <div className="text-[5em] md:hidden font-serif font-medium bg-gradient-to-b from-black via-white to-black bg-clip-text text-transparent">
+                    {event.id}
+                  </div>
+                    
+                  <div className="w-1 h-[30%] md:hidden bg-gradient-to-b from-black via-white to-black"></div>
+
                   <motion.div 
-                    className="mb-4 overflow-hidden rounded-sm"
+                    className="mb-4 overflow-hidden rounded-sm flex-col w-[100%]"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.3 }}
                   >
                     <motion.div
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 1.02 }}
                       transition={{ duration: 0.5 }}
                     >
@@ -301,7 +307,7 @@ export default function Home() {
                         alt={event.name}
                         width={400}
                         height={300}
-                        className="w-full h-full md:h-full object-cover transition-all duration-500 ease-out"
+                        className="w-full h-full object-cover transition-all duration-500 ease-out mb-2"
                         // style={{
                         //   filter: 'grayscale(100%)',
                         // }}
@@ -328,21 +334,21 @@ export default function Home() {
                         // }}
                       />
                     </motion.div>
+                    <div className="flex flex-col gap-2 mt-auto">
+                      <h3 className="text-2xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">
+                        {event.name}
+                      </h3>
+                      {
+                        event.spec && <p className="text-gray-500">({event.spec})</p>
+                      }
+                      <Link 
+                        href={event.link}
+                        className="text-center max-w-5/6 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300"
+                      >
+                        Register
+                      </Link>
+                    </div>
                   </motion.div>
-                  <div className="flex flex-col gap-4 mt-auto">
-                  <h3 className="text-2xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">
-                    {event.name}
-                  </h3>
-                  {
-                    event.spec && <p className="text-gray-500">({event.spec})</p>
-                  }
-                  <Link 
-                    href={event.link}
-                    className="text-center max-w-1/2 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300"
-                  >
-                    Register
-                  </Link>
-                </div>
                 </motion.div>
               ))}
             </div>
