@@ -169,7 +169,7 @@ export default function Home() {
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover bg"
             style={{ willChange: 'auto' }}
           >
             <source src="/hero.mp4" type="video/mp4" />
@@ -191,22 +191,22 @@ export default function Home() {
               <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 w-full">
                 <div 
                   className="text-left"
-                  style={{
-                    transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.3)}px)` : 'none',
-                    opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
-                  }}
+                  // style={{
+                  //   transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.3)}px)` : 'none',
+                  //   opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
+                  // }}
                 >
-                  <h1 className="text-[2.8em] md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
+                  <h1 className="text-[2.2em] md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
                     TECHNO<br />
                     ENTREPRENEURSHIP<br />
                     <span className="text-[2.8em] md:text-7xl lg:text-8xl">FEST/</span>
                   </h1>
                   <div 
                     className="mt-8 text-xl md:text-2xl lg:text-3xl text-white/90 max-w-2xl"
-                    style={{
-                      transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.2)}px)` : 'none',
-                      opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.6) * 0.003)) : 1
-                    }}
+                    // style={{
+                    //   transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.2)}px)` : 'none',
+                    //   opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.6) * 0.003)) : 1
+                    // }}
                   >
                     Join the ultimate celebration of entrepreneurship and technology at IEDC&apos;s flagship event
                   </div>
@@ -217,10 +217,12 @@ export default function Home() {
         </section>
         
         {/* Section 2: Pre Events */}
-        <section className="h-screen w-screen bg-black relative flex items-center py-10" style={{ willChange: 'transform' }}>
+        <section className="w-screen bg-black relative flex items-center py-10" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full">
             <div className="mb-12">
-              <h2 ref={preEventsTitleRef} className="text-6xl lg:text-8xl font-semibold text-white tracking-tight opacity-0">
+              <h2 
+                ref={preEventsTitleRef} 
+              className="text-6xl lg:text-8xl font-semibold text-white tracking-tight opacity-0">
                 Pre Events.
               </h2>
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
