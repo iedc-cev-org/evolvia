@@ -27,7 +27,8 @@ export const Events = [
     name: "IEDC Alumini Interaction Meet",
     image:"/image.png",
     spec:"Exclusively for Aluminis",
-    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j"
+    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
+    link:""
   },
 ];
 
