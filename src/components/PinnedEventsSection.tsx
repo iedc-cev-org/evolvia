@@ -51,6 +51,14 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     const cta = el.querySelector('.ev-cta') as HTMLElement | null;
     const shimmer = el.querySelector('.ev-shimmer') as HTMLElement | null;
 
+    const removeInitialHideClasses = () => {
+      el.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
+      if (image) image.classList.remove('opacity-0', 'translate-y-6');
+      if (title) title.classList.remove('opacity-0', 'translate-y-6');
+      if (spec) spec.classList.remove('opacity-0', 'translate-y-6');
+      if (cta) cta.classList.remove('opacity-0', 'translate-y-6');
+    };
+
     if (title && !(title as HTMLElement).dataset.split) {
       const text = title.textContent || '';
       title.textContent = '';
@@ -87,6 +95,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         if (chars && chars.length) gsap.set(chars, { opacity: 1, clearProps: 'y' });
         const shimmerEl = el.querySelector('.ev-shimmer') as HTMLElement | null;
         if (shimmerEl) gsap.set(shimmerEl, { opacity: 0, clearProps: 'xPercent' });
+        removeInitialHideClasses();
         return;
       }
 
@@ -153,7 +162,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       tl.eventCallback('onComplete', () => {
         revealedSetRef.current.add(idx);
         // Remove initial hide classes so it stays visible
-        el.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
+        removeInitialHideClasses();
       });
 
       revealTlRef.current = tl;
