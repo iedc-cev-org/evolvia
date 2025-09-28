@@ -23,7 +23,7 @@ export const preEvents=[
 
 export const Events = [
   {
-    id:1,
+    id:"e1",
     name: "IEDC CEV Alumini Meet",
     image:"/alumini.webp",
     spec:"Exclusively for Aluminis",

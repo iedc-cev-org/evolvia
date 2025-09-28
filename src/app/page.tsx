@@ -272,6 +272,7 @@ export default function Home() {
               {Events.map((event, index) => (
                 <motion.div
                   key={index}
+                  id={event.id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   whileHover={{ scale: 1.02 }}
