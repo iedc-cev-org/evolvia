@@ -36,9 +36,16 @@ export const Events = [
     spec:"Open for all students",
     // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
     link:""
-  },/*
+  },
   {
     id:3,
+    name: "Bitburst",
+    image:"/events/bitburst.webp",
+    spec:"Hackathon Event",
+    link:""
+  },/*
+  {
+    id:4,
     name: "Tech Innovation Workshop",
     image:"https://picsum.photos/300/400",
     spec:"Limited seats available",
