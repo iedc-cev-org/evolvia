@@ -52,3 +52,39 @@ body, html {
 .bg{
   filter: blur(8);
 }
+
+.shimmer{
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shimmer::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 70%);
+  animation: shimmer-move 1.4s infinite;
+}
+
+@keyframes shimmer-move{
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+.loader-logo{
+  filter: brightness(0.35) contrast(1.1) saturate(0.85);
+}
+
+.shimmer-mask-logo{
+  -webkit-mask-image: url('/logo.webp');
+  mask-image: url('/logo.webp');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}

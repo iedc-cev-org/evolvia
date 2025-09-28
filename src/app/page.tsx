@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,6 +19,8 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   const [isClient, setIsClient] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   // Track real mouse and smooth cursor separately
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -29,7 +31,6 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true);
     setWindowHeight(window.innerHeight);
-
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
@@ -73,8 +74,9 @@ export default function Home() {
     return () => cancelAnimationFrame(animationFrame);
   }, [mousePosition]);
 
-  // ScrollSmoother initialization
+  // ScrollSmoother initialization after video ready
   useEffect(() => {
+    if (!videoReady) return;
     const scrollSmoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
@@ -82,17 +84,30 @@ export default function Home() {
       effects: true,
       smoothTouch: 0.1,
     });
-
-    // No-op: title handled by AnimatedTitle
-
     return () => {
       scrollSmoother?.kill();
       ScrollTrigger.killAll();
     };
+  }, [videoReady]);
+
+  useEffect(() => {
+    const v = heroVideoRef.current;
+    if (!v) return;
+    const onReady = () => setVideoReady(true);
+    if (v.readyState >= 3) setVideoReady(true);
+    v.addEventListener('canplaythrough', onReady, { once: true });
+    v.addEventListener('loadeddata', onReady, { once: true });
+    return () => {
+      v.removeEventListener('canplaythrough', onReady);
+      v.removeEventListener('loadeddata', onReady);
+    };
   }, []);
+
+  
   
   return (
-    <div id="smooth-wrapper" className="fixed top-0 left-0 w-full h-full overflow-hidden">
+  <div id="smooth-wrapper" className={`fixed top-0 left-0 w-full h-full overflow-hidden ${!videoReady ? 'pointer-events-none select-none' : ''}`}>
+      
       {/* Custom Smooth Cursor */}
       <div
         className="fixed pointer-events-none z-50 w-10 h-10 bg-white rounded-full hidden md:block"
@@ -103,7 +118,7 @@ export default function Home() {
           transition: "transform 0.05s linear",
         }}
       />
-      {/* IEDC Logo */}
+  {/* IEDC Logo */}
       <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
         scrollY < 100 
           ? 'top-6 left-6' 
@@ -118,24 +133,34 @@ export default function Home() {
         />
       </div>
 
-      {/* Evolvia Logo */}
+  {/* Evolvia Logo */}
       <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
         scrollY < 100 
           ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100' 
-          : 'top-4 left-1/2 -translate-x-1/2 scale-40'
+          : 'top-2 left-1/2 -translate-x-1/2 -translate-y-1/3 scale-40'
       }`} style={{ 
         willChange: 'transform',
         mixBlendMode: scrollY >= 100 ? 'exclusion' : 'normal'
       }}>
-        <Image
-          src="/logo.webp"
-          alt="Evolvia"
-          width={400}
-          height={400}
-          className="opacity-95"
-        />
+        <div className="relative w-[200px] h-[200px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px]">
+          <Image
+            src="/logo.webp"
+            alt="Evolvia"
+            fill
+            sizes="(max-width: 768px) 260px, (max-width: 1024px) 360px, 400px"
+            className={`object-contain opacity-95 select-none z-0 ${!videoReady ? 'loader-logo' : ''}`}
+            priority
+          />
+          {!videoReady && (
+            <div className="absolute inset-0 shimmer shimmer-mask-logo z-10" />
+          )}
+        </div>
       </div>
 
+      {/* Block interactions until video is ready */}
+      {!videoReady && (
+        <div className="fixed inset-0 z-[30]" />
+      )}
       <div id="smooth-content">
         <main className="min-h-screen w-screen bg-black relative cursor-none">
 
@@ -145,12 +170,13 @@ export default function Home() {
         {/* Section 0: Hero */}
         <section className="h-screen w-screen relative flex items-center justify-center" style={{ willChange: 'transform' }}>
           <video
+            ref={heroVideoRef}
             autoPlay
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover bg"
-            style={{ willChange: 'auto' }}
+            className="absolute inset-0 w-full h-full object-cover bg transition-opacity duration-700"
+            style={{ willChange: 'auto', opacity: videoReady ? 1 : 0 }}
           >
             <source src="/hero.mp4" type="video/mp4" />
           </video>
