@@ -24,8 +24,6 @@ interface PinnedEventsSectionProps {
 
 export default function PinnedEventsSection({ events }: PinnedEventsSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const leftPanelRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
   const eventsContainerRef = useRef<HTMLDivElement>(null);
   const tensColRef = useRef<HTMLDivElement>(null);
   const onesColRef = useRef<HTMLDivElement>(null);
@@ -228,9 +226,11 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         lastDigitHeightRef.current = h;
         setDigitHeight(h);
       }
-      // Initialize to 01
-      if (onesColRef.current) gsap.set(onesColRef.current, { y: -(h * 1) });
-      if (tensColRef.current) gsap.set(tensColRef.current, { y: -(h * 0) });
+      const display = lastIndexRef.current + 1;
+      const tens = Math.floor(display / 10);
+      const ones = display % 10;
+      if (onesColRef.current) gsap.set(onesColRef.current, { y: -(h * ones) });
+      if (tensColRef.current) gsap.set(tensColRef.current, { y: -(h * tens) });
     };
     updateHeight();
     window.addEventListener('resize', updateHeight);
@@ -238,19 +238,16 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || !leftPanelRef.current || !rightPanelRef.current || !eventsContainerRef.current) return;
+    if (!containerRef.current || !eventsContainerRef.current) return;
 
     const container = containerRef.current;
     const eventsContainer = eventsContainerRef.current;
-
-    // Calculate total scroll distance needed (for N slides, we need N-1 screens of scroll)
-    const totalScrollDistance = Math.max(0, (events.length - 1) * window.innerHeight);
 
     // Main ScrollTrigger for the entire section
     const st = ScrollTrigger.create({
       trigger: container,
       start: "top top",
-      end: `+=${totalScrollDistance}`,
+      end: () => `+=${Math.max(0, (events.length - 1) * window.innerHeight)}`,
       pin: true,
       pinSpacing: true,
       onUpdate: (self) => {
@@ -311,6 +308,24 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     };
   }, [events.length, digitHeight, playRevealForIndex]);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const stFirst = ScrollTrigger.create({
+      trigger: container,
+      start: 'top 45%',
+      onEnter: () => {
+        if (!revealedSetRef.current.has(0)) {
+          playRevealForIndex(0);
+        }
+        stFirst.kill();
+      },
+    });
+    return () => {
+      stFirst.kill();
+    };
+  }, [playRevealForIndex]);
+
   useLayoutEffect(() => {
     if (currentEventIndex === 0 && !sectionEnteredRef.current) return;
     playRevealForIndex(currentEventIndex);
@@ -323,7 +338,6 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     >
       {/* Left Panel - Fixed Counter */}
       <div 
-        ref={leftPanelRef}
         className="absolute left-0 top-0 w-1/5 md:w-2/5 lg:w-1/3 h-full flex flex-col justify-center items-center z-20"
       >
         <div className="text-center">
@@ -378,7 +392,6 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
       {/* Right Panel - Scrolling Events */}
       <div 
-        ref={rightPanelRef}
         className="absolute right-0 top-0 w-4/5 md:w-3/5 lg:w-2/3 h-full overflow-hidden"
       >
         <div 

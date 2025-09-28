@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import AnimatedReveal from '@/components/AnimatedReveal';
 import Footer from '@/components/Footer';
 import { preEvents,Events } from '@/components/eventLists';
 import FullScreenSection from '@/components/FullScreenSection';
 import PinnedEventsSection from '@/components/PinnedEventsSection';
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrambleTextPlugin);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
 
@@ -24,8 +24,7 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   
-  // Ref for the pre events title
-  const preEventsTitleRef = useRef<HTMLHeadingElement>(null);
+  // Ref removed: using AnimatedTitle component instead
 
   useEffect(() => {
     setIsClient(true);
@@ -84,27 +83,7 @@ export default function Home() {
       smoothTouch: 0.1,
     });
 
-    // Text scramble effect for Pre Events title
-    if (preEventsTitleRef.current) {
-      ScrollTrigger.create({
-        trigger: preEventsTitleRef.current,
-        start: "top 80%",
-        onEnter: () => {
-          // First make the element visible and set initial scrambled text
-          gsap.set(preEventsTitleRef.current, { opacity: 1 });
-          gsap.to(preEventsTitleRef.current, {
-            duration: 2,
-            scrambleText: {
-              text: "Pre Events.",
-              chars: "upperAndLowerCase",
-              revealDelay: 0.5,
-              speed: 0.3
-            }
-          });
-        },
-        once: true
-      });
-    }
+    // No-op: title handled by AnimatedTitle
 
     return () => {
       scrollSmoother?.kill();
@@ -197,19 +176,48 @@ export default function Home() {
                     opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.5) * 0.002)) : 1,
                   }}
                 >
-                  <h1 className="text-[2.2em] md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tighter">
-                    TECHNO<br />
-                    ENTREPRENEURSHIP<br />
-                    <span className="text-[2.8em] md:text-7xl lg:text-8xl">FEST/</span>
-                  </h1>
-                  <div 
-                    className="mt-8 text-xl md:text-2xl lg:text-3xl text-white/90 max-w-2xl"
-                    // style={{
-                    //   transform: isClient ? `translateY(${Math.max(0, (scrollY - windowHeight) * 0.2)}px)` : 'none',
-                    //   opacity: isClient ? Math.max(0, Math.min(1, (scrollY - windowHeight * 0.6) * 0.003)) : 1
-                    // }}
-                  >
-                    Join the ultimate celebration of entrepreneurship and technology at IEDC&apos;s flagship event
+                  <div className="leading-none">
+                    <AnimatedReveal
+                      text="TECHNO"
+                      as="h1"
+                      className="text-[2.2em] md:text-8xl lg:text-9xl font-bold text-white tracking-tighter"
+                      mode="scrub"
+                      start="top 85%"
+                      end="+=300"
+                      split="chars"
+                    />
+                    <AnimatedReveal
+                      text="ENTREPRENEURSHIP"
+                      as="h2"
+                      className="text-[2.2em] md:text-8xl lg:text-9xl font-bold text-white tracking-tighter"
+                      mode="scrub"
+                      start="top 85%"
+                      end="+=300"
+                      split="chars"
+                    />
+                    <AnimatedReveal
+                      text="FEST/"
+                      as="h2"
+                      className="text-[2.8em] md:text-7xl lg:text-8xl font-bold text-white tracking-tighter"
+                      mode="scrub"
+                      start="top 85%"
+                      end="+=300"
+                      split="chars"
+                    />
+                  </div>
+                  <div className="mt-8 max-w-2xl">
+                    <AnimatedReveal
+                      text="Join the ultimate celebration of entrepreneurship and technology at IEDC's flagship event"
+                      as="p"
+                      className="text-xl md:text-2xl lg:text-3xl text-white/90"
+                      mode="scrub"
+                      start="top 90%"
+                      end="+=250"
+                      stagger={0.035}
+                      duration={0.5}
+                      initialYOffset={14}
+                      split="words"
+                    />
                   </div>
                 </div>
               </div>
@@ -226,11 +234,12 @@ export default function Home() {
           {/*Pre Events only*/}
           <div className="max-w-6xl mx-auto px-6 w-full pt-10">
             <div className="mb-12">
-              <h2 
-                ref={preEventsTitleRef} 
-              className="text-6xl lg:text-7xl font-semibold text-white tracking-tight opacity-0">
-                Pre Events.
-              </h2>
+              <AnimatedReveal
+                text="Pre Events."
+                as="h2"
+                className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                split="chars"
+              />
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
