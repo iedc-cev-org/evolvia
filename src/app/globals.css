@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -11,6 +11,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter-tight), "Inter Tight", system-ui, sans-serif;
   --font-serif: "Noto Serif", serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
