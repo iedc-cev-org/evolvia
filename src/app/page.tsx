@@ -292,7 +292,7 @@ export default function Home() {
                   {/* <div className="w-1 h-[30%] md:hidden bg-gradient-to-b from-black via-white to-black"></div> */}
 
                   <motion.div 
-                    className="mb-4 overflow-hidden rounded-sm flex-col w-[100%]"
+                    className="mb-4 overflow-hidden rounded-sm flex-col w-[100%] border-0"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.3 }}
