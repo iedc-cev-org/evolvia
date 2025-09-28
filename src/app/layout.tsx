@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter_Tight } from "next/font/google";
 import "./globals.css";
+import DisableImageInteractions from "@/components/DisableImageInteractions";
 
 const interTight = Inter_Tight({
   variable: "--font-inter-tight",
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body
         className={`${interTight.variable} font-sans antialiased`}
       >
+        <DisableImageInteractions />
         {children}
       </body>
     </html>
