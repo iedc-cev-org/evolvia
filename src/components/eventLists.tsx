@@ -24,11 +24,10 @@ export const preEvents=[
 export const Events = [
   {
     id:1,
-    name: "IEDC Alumini Interaction Meet",
+    name: "IEDC CEV Alumini Meet",
     image:"/alumini.webp",
     spec:"Exclusively for Aluminis",
-    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
-    link:""
+    link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
   },
 ];
 
