@@ -15,6 +15,8 @@ interface Event {
   name: string;
   image: string;
   spec?: string;
+  dateTime?: string;
+  venue?: string;
   link?: string;
 }
 
@@ -24,8 +26,6 @@ interface PinnedEventsSectionProps {
 
 export default function PinnedEventsSection({ events }: PinnedEventsSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const leftPanelRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
   const eventsContainerRef = useRef<HTMLDivElement>(null);
   const tensColRef = useRef<HTMLDivElement>(null);
   const onesColRef = useRef<HTMLDivElement>(null);
@@ -48,15 +48,17 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     const image = el.querySelector('.ev-image') as HTMLElement | null;
     const title = el.querySelector('.ev-title') as HTMLElement | null;
     const spec = el.querySelector('.ev-spec') as HTMLElement | null;
-    const cta = el.querySelector('.ev-cta') as HTMLElement | null;
+  const cta = el.querySelector('.ev-cta') as HTMLElement | null;
+  const meta = el.querySelector('.ev-meta') as HTMLElement | null;
     const shimmer = el.querySelector('.ev-shimmer') as HTMLElement | null;
 
     const removeInitialHideClasses = () => {
       el.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
-      if (image) image.classList.remove('opacity-0', 'translate-y-6');
-      if (title) title.classList.remove('opacity-0', 'translate-y-6');
-      if (spec) spec.classList.remove('opacity-0', 'translate-y-6');
-      if (cta) cta.classList.remove('opacity-0', 'translate-y-6');
+  if (image) image.classList.remove('opacity-0', 'translate-y-6');
+  if (title) title.classList.remove('opacity-0', 'translate-y-6');
+  if (spec) spec.classList.remove('opacity-0', 'translate-y-6');
+  if (meta) meta.classList.remove('opacity-0', 'translate-y-6');
+  if (cta) cta.classList.remove('opacity-0', 'translate-y-6');
     };
 
     if (title && !(title as HTMLElement).dataset.split) {
@@ -90,7 +92,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         // Ensure fully visible and remove initial hide classes
         gsap.set(el, { clearProps: 'opacity,transform' });
         el.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
-        gsap.set([image, spec, cta].filter(Boolean) as HTMLElement[], { opacity: 1, clearProps: 'y,scale' });
+  gsap.set([image, spec, meta, cta].filter(Boolean) as HTMLElement[], { opacity: 1, clearProps: 'y,scale' });
         if (title) gsap.set(title, { opacity: 1, clearProps: 'y' });
         if (chars && chars.length) gsap.set(chars, { opacity: 1, clearProps: 'y' });
         const shimmerEl = el.querySelector('.ev-shimmer') as HTMLElement | null;
@@ -101,7 +103,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
   // Initial setup - everything (including card wrapper) hidden and positioned
   gsap.set(el, { autoAlpha: 0, y: 20, scale: 0.95 });
-  gsap.set([image, spec, cta].filter(Boolean) as HTMLElement[], { opacity: 0, y: 20 });
+  gsap.set([image, spec, meta, cta].filter(Boolean) as HTMLElement[], { opacity: 0, y: 20 });
   if (chars && chars.length) gsap.set(chars, { opacity: 0, y: 16 });
   if (image) gsap.set(image, { y: 16, scale: 0.98 });
       if (title) gsap.set(title, { opacity: 1, y: 0 });
@@ -135,7 +137,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       }, 0.2)
       
   // Step 3: Reveal subtitle and button (0.4s - 0.85s)
-  .to([spec, cta].filter(Boolean) as HTMLElement[], { 
+  .to([spec, meta, cta].filter(Boolean) as HTMLElement[], { 
         opacity: 1, 
         y: 0, 
         duration: 0.5, 
@@ -228,9 +230,11 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         lastDigitHeightRef.current = h;
         setDigitHeight(h);
       }
-      // Initialize to 01
-      if (onesColRef.current) gsap.set(onesColRef.current, { y: -(h * 1) });
-      if (tensColRef.current) gsap.set(tensColRef.current, { y: -(h * 0) });
+      const display = lastIndexRef.current + 1;
+      const tens = Math.floor(display / 10);
+      const ones = display % 10;
+      if (onesColRef.current) gsap.set(onesColRef.current, { y: -(h * ones) });
+      if (tensColRef.current) gsap.set(tensColRef.current, { y: -(h * tens) });
     };
     updateHeight();
     window.addEventListener('resize', updateHeight);
@@ -238,19 +242,16 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || !leftPanelRef.current || !rightPanelRef.current || !eventsContainerRef.current) return;
+    if (!containerRef.current || !eventsContainerRef.current) return;
 
     const container = containerRef.current;
     const eventsContainer = eventsContainerRef.current;
-
-    // Calculate total scroll distance needed (for N slides, we need N-1 screens of scroll)
-    const totalScrollDistance = Math.max(0, (events.length - 1) * window.innerHeight);
 
     // Main ScrollTrigger for the entire section
     const st = ScrollTrigger.create({
       trigger: container,
       start: "top top",
-      end: `+=${totalScrollDistance}`,
+      end: () => `+=${Math.max(0, (events.length - 1) * window.innerHeight)}`,
       pin: true,
       pinSpacing: true,
       onUpdate: (self) => {
@@ -311,6 +312,24 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     };
   }, [events.length, digitHeight, playRevealForIndex]);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const stFirst = ScrollTrigger.create({
+      trigger: container,
+      start: 'top 45%',
+      onEnter: () => {
+        if (!revealedSetRef.current.has(0)) {
+          playRevealForIndex(0);
+        }
+        stFirst.kill();
+      },
+    });
+    return () => {
+      stFirst.kill();
+    };
+  }, [playRevealForIndex]);
+
   useLayoutEffect(() => {
     if (currentEventIndex === 0 && !sectionEnteredRef.current) return;
     playRevealForIndex(currentEventIndex);
@@ -323,7 +342,6 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     >
       {/* Left Panel - Fixed Counter */}
       <div 
-        ref={leftPanelRef}
         className="absolute left-0 top-0 w-1/5 md:w-2/5 lg:w-1/3 h-full flex flex-col justify-center items-center z-20"
       >
         <div className="text-center">
@@ -378,7 +396,6 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
       {/* Right Panel - Scrolling Events */}
       <div 
-        ref={rightPanelRef}
         className="absolute right-0 top-0 w-4/5 md:w-3/5 lg:w-2/3 h-full overflow-hidden"
       >
         <div 
@@ -433,6 +450,30 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                         <p className="ev-spec text-white/70 text-base md:text-lg lg:text-xl italic opacity-0 translate-y-6 will-change-transform">
                           ({event.spec})
                         </p>
+                      )}
+                      {(event.dateTime || event.venue) && event.link && (
+                        <div className="ev-meta flex flex-col gap-2 text-white/60 text-xs md:text-sm opacity-0 translate-y-6 will-change-transform">
+                          {event.dateTime && (
+                            <div className="inline-flex items-center gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" className="flex-shrink-0" aria-hidden>
+                                <path d="M7 11h6" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.25" />
+                                <path d="M16 2v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M8 2v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                              <span className="text-xs md:text-sm text-white/60 font-regular">{event.dateTime}</span>
+                            </div>
+                          )}
+                          {event.venue && event.link && (
+                            <div className="inline-flex items-center gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" className="flex-shrink-0" aria-hidden>
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                                <circle cx="12" cy="9" r="2.2" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                              <span className="text-xs md:text-sm text-white/60 font-regular">{event.venue}</span>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
                     <div className="mt-4 md:mt-6 lg:mt-8 flex-shrink-0 w-full">

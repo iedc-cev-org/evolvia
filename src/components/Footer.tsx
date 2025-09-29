@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import AnimatedReveal from '@/components/AnimatedReveal'
 
 export default function Footer() {
   return (
@@ -17,9 +18,7 @@ export default function Footer() {
             </div>
         </div>
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center pb-20">
-            <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight">
-                Coming Soon...
-            </h2>
+            <AnimatedReveal text="Stay tuned." as="h2" className="text-5xl lg:text-6xl font-bold text-white tracking-tight" split="chars" />
         </div>
     <div className="relative z-20 bg-white/10 backdrop-blur-md border border-white/20 max-w-5xl w-8/9 md:w-3/4 mx-auto p-6 m-4 rounded-xl shadow-lg flex flex-col justify-between gap-6">
             <div className='flex justify-around items-start gap-4'>
