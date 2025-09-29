@@ -28,7 +28,7 @@ export const Events = [
     image:"/events/alumini.webp",
     spec:"Exclusively for Alumni",
     dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "TBA",
+    venue: "College Premises",
     link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
   },
   {
