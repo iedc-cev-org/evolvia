@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className='relative w-full flex flex-col justify-end z-20 py-10'>
         <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="w-full h-full transform translate-y-[-10%] md:translate-y-[20%]">
+            <div className="w-full h-full transform translate-y-[-30%] md:translate-y-[-10%] lg:translate-y-[-10%]">
                 <Image
                     src="/footer.webp"
                     alt="Footer background"

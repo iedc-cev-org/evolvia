@@ -23,11 +23,35 @@ export const preEvents=[
 
 export const Events = [
   {
-    id:"e1",
-    name: "IEDC CEV ALUMINI MEET",
-    image:"/alumini.webp",
-    spec:"Exclusively for Aluminis",
+    id:1,
+    name: "IEDC Alumni Interaction Meet",
+    image:"/events/alumini.webp",
+    spec:"Exclusively for Alumni",
     link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
   },
+  {
+    id:2,
+    name: "Startup Stories",
+    image:"/events/startup_stories.webp",
+    spec:"Open for all students",
+    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
+    link:""
+  },
+  {
+    id:3,
+    name: "Name",
+    image:"",
+    spec:"Open for all students",
+    // link:"https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
+    link:""
+  },/*
+  {
+    id:4,
+    name: "Tech Innovation Workshop",
+    image:"https://picsum.photos/300/400",
+    spec:"Limited seats available",
+    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
+    link:""
+  },*/
 ];
 

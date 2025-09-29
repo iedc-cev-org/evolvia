@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
@@ -11,6 +10,7 @@ import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import Footer from '@/components/Footer';
 import { preEvents,Events } from '@/components/eventLists';
 import FullScreenSection from '@/components/FullScreenSection';
+import PinnedEventsSection from '@/components/PinnedEventsSection';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrambleTextPlugin);
 
@@ -26,7 +26,6 @@ export default function Home() {
   
   // Ref for the pre events title
   const preEventsTitleRef = useRef<HTMLHeadingElement>(null);
-  const EventsTitleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -112,43 +111,7 @@ export default function Home() {
       ScrollTrigger.killAll();
     };
   }, []);
-
-  useEffect(() => {
-    const scrollSmoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1,
-      effects: true,
-      smoothTouch: 0.1,
-    });
-
-    // Text scramble effect for Pre Events title
-    if (EventsTitleRef.current) {
-      ScrollTrigger.create({
-        trigger: EventsTitleRef.current,
-        start: "top 80%",
-        onEnter: () => {
-          // First make the element visible and set initial scrambled text
-          gsap.set(EventsTitleRef.current, { opacity: 1 });
-          gsap.to(EventsTitleRef.current, {
-            duration: 2,
-            scrambleText: {
-              text: "Ongoing Events.",
-              chars: "upperAndLowerCase",
-              revealDelay: 0.5,
-              speed: 0.3
-            }
-          });
-        },
-        once: true
-      });
-    }
-
-    return () => {
-      scrollSmoother?.kill();
-      ScrollTrigger.killAll();
-    };
-  }, []);
+  
   return (
     <div id="smooth-wrapper" className="fixed top-0 left-0 w-full h-full overflow-hidden">
       {/* Custom Smooth Cursor */}
@@ -254,109 +217,11 @@ export default function Home() {
           </FullScreenSection>
         </section>
         
-        {/* Section 2: Pre Events */}
+        {/* Section 2: Pinned Events Section */}
+        <PinnedEventsSection events={Events} />
+        
+        {/* Section 3: Pre Events */}
         <section className="w-screen bg-black relative flex flex-col items-center py-14 mb-10" style={{ willChange: 'transform' }}>
-
-          {/*Events only*/}
-
-          <div className="max-w-6xl mx-auto px-6 w-full pb-10">
-            <div className="mb-12">
-              <h2 
-              ref={EventsTitleRef}
-                className="text-6xl lg:text-7xl font-semibold text-white tracking-tight opacity-0">
-                Ongoing Events
-              </h2>
-              <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Events.map((event, index) => (
-                <motion.div
-                  key={index}
-                  id={event.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: index * 0.1,
-                    ease: [0.25, 0.25, 0, 1]
-                  }}
-                  className="group cursor-pointer flex justify-between items-center space-x-4"
-                >
-                  {/* <div className="text-[5em] md:hidden font-serif font-medium bg-gradient-to-b from-black via-white to-black bg-clip-text text-transparent">
-                    {event.id}
-                  </div> */}
-                    
-                  {/* <div className="w-1 h-[30%] md:hidden bg-gradient-to-b from-black via-white to-black"></div> */}
-
-                  <motion.div 
-                    className="mb-4 overflow-hidden rounded-sm flex-col w-[100%] border-0"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 1.02 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Image
-                        src={event.image}
-                        alt={event.name}
-                        width={400}
-                        height={300}
-                        className="w-full h-full object-cover transition-all duration-500 ease-out mb-2"
-                        // style={{
-                        //   filter: 'grayscale(100%)',
-                        // }}
-                        // onMouseEnter={(e) => {
-                        //   e.currentTarget.style.filter = 'grayscale(0%)';
-                        // }}
-                        // onMouseLeave={(e) => {
-                        //   e.currentTarget.style.filter = 'grayscale(100%)';
-                        // }}
-                        // onTouchStart={(e) => {
-                        //   if (e.currentTarget) {
-                        //     e.currentTarget.style.filter = 'grayscale(0%)';
-                        //   }
-                        // }}
-                        // onTouchEnd={(e) => {
-                        //   const target = e.currentTarget;
-                        //   if (target) {
-                        //     setTimeout(() => {
-                        //       if (target && target.style) {
-                        //         target.style.filter = 'grayscale(100%)';
-                        //       }
-                        //     }, 1500);
-                        //   }
-                        // }}
-                      />
-                    </motion.div>
-                    <div className="flex flex-col gap-2 mt-auto">
-                      <h3 className="text-2xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">
-                        {event.name}
-                      </h3>
-                      {
-                        event.spec && <p className="text-gray-500">({event.spec})</p>
-                      }
-                      {event?.link?(
-                        <Link 
-                        href={event.link}
-                        className="text-center max-w-3/4 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300"
-                        >
-                        Register
-                      </Link>
-                      ):<p className="text-center max-w-3/4 text-xl px-6 py-3 bg-white font-light text-black rounded-xsm hover:bg-gray-200 hover:scale-103 transition-all duration-300">
-                        Registration not Opened
-                        </p>}
-                    </div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
 
           {/*Pre Events only*/}
           <div className="max-w-6xl mx-auto px-6 w-full pt-10">
