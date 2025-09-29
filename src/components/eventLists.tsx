@@ -46,6 +46,8 @@ export const Events = [
     name: "Name",
     image:"",
     spec:"Open for all students",
+    dateTime: "TBA",
+    venue: "TBA",
     // link:"https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
     link:""
   },/*
