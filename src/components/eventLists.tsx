@@ -26,7 +26,7 @@ export const Events = [
     id:1,
     name: "IEDC Alumni Interaction Meet",
     image:"/events/alumini.webp",
-    spec:"Exclusively for Alumni",
+    spec:"Exclusively for Alumni(Only for pass out Students)",
     dateTime: "Oct 08 2025 | 9 AM - 4 PM",
     venue: "College Premises",
     link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
