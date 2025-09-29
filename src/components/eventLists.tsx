@@ -27,6 +27,8 @@ export const Events = [
     name: "IEDC Alumni Interaction Meet",
     image:"/events/alumini.webp",
     spec:"Exclusively for Alumni",
+    dateTime: "Oct 08 2025 | 9 AM - 4 PM",
+    venue: "TBA",
     link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
   },
   {
@@ -34,6 +36,8 @@ export const Events = [
     name: "Startup Stories",
     image:"/events/startup_stories.webp",
     spec:"Open for all students",
+    dateTime: "TBA",
+    venue: "TBA",
     // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
     link:""
   },/*
@@ -42,6 +46,8 @@ export const Events = [
     name: "Tech Innovation Workshop",
     image:"https://picsum.photos/300/400",
     spec:"Limited seats available",
+    dateTime: "TBA",
+    venue: "TBA",
     // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
     link:""
   },*/
