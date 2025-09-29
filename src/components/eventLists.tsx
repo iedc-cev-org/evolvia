@@ -44,7 +44,7 @@ export const Events = [
   {
     id:3,
     name: "VISIO - AI image & video exhibition",
-    image:"/events/visio.webp",
+    image:"/events/isio.webp",
     spec:"Open for all students",
     dateTime: "TBA",
     venue: "TBA",
