@@ -68,8 +68,8 @@ export const Events = [
     spec:"",
     dateTime: "oct 8 2025| 10 AM - 1 PM",
     venue: "college of engineering vadakara",
-    // link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
-    link:"",
+    link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
+    // link:"",
   },
    /*
   {
