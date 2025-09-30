@@ -406,7 +406,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
           {events.map((event, index) => (
             <div
               key={index}
-              className="h-screen w-full flex items-center justify-center px-4 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12 lg:py-14 xl:py-16"
+              className="h-screen w-full flex items-center justify-center px-4 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12 lg:py-14 xl:py-16 gap-4"
             >
               <motion.div
                 ref={(el) => { cardRefs.current[index] = el; }}
@@ -499,14 +499,14 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+      {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
         <div className="flex flex-col items-center text-white/50">
           <div className="text-sm font-mono mb-2">SCROLL</div>
           <div className="w-6 h-10 border border-white/30 rounded-full flex justify-center">
             <div className="w-0.5 h-3 bg-white/30 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

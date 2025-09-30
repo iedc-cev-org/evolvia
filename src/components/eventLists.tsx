@@ -47,8 +47,19 @@ export const Events = [
     image:"/events/visio_ai.webp",
     spec:"Open for all students",
      dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "College Premises", link:"https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
-  },/*
+    venue: "College Premises", 
+    link:"https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
+  },
+  {
+    id:4,
+    name: "PITCHBOX - Welcome innovative ideas from diverse sectors",
+    // image:"/events/visio_ai.webp",
+    spec:"Deadline for submission: Oct 05 2025",
+    dateTime: "Oct 08 2025 | 1:30 AM - 4 PM",
+    venue: "College Premises", 
+    link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
+  },
+  /*
   {
     id:4,
     name: "Tech Innovation Workshop",
