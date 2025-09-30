@@ -43,7 +43,7 @@ export const Events = [
   },
   {
     id:3,
-    name: "VISIO - AI image & video exhibition",
+    name: "Visio - AI image & video exhibition",
     image:"/events/visio_ai.webp",
     spec:"Open for all students",
      dateTime: "Oct 08 2025 | 9 AM - 4 PM",
@@ -52,33 +52,33 @@ export const Events = [
   },
   {
     id:4,
-    name: "PITCHBOX - Welcome innovative ideas from diverse sectors",
-    // image:"/events/visio_ai.webp",
+    name: "PitchBox - Idea pitching competition",
+    image:"/events/pitchbox.webp",
     spec:"Deadline for submission: Oct 05 2025",
     dateTime: "Oct 08 2025 | 1:30 PM - 4 PM",
-    venue: " Astra | College Premises", 
+    venue: "Astra | CEV Premises", 
     // link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
     link:"",
   },
    
   {
     id:5,
-    name: "Hack4Ease",
+    name: "Hack 4 Ease",
     image:"/events/hack4ease.webp",
     spec:"",
     dateTime: "Oct 08 2025 | 10 AM - 1 PM",
-    venue: " Eclipse | College Of Engineering Vadakara",
+    venue: "Eclipse | CEV Premises",
     link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
     // link:"",
   },
 
   {
     id:6,
-    name: "Quizzard - The ultimate Buzzer Quiz Challenge.",
-    image:"/events/quizzard.png",
+    name: "Quizzard",
+    image:"/events/quizzard.webp",
     spec:"",
     dateTime: "Oct 08 2025 | 10 AM - 4 PM",
-    venue: "Orion | College Premises",
+    venue: "Orion | CEV Premises",
     // link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
     link:"",
   },
@@ -101,7 +101,7 @@ export const Events = [
     dateTime: "TBA",
     venue: "TBA",
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
-  },*/
+  },
   {
     id:9,
     name: "Event",
@@ -112,6 +112,6 @@ export const Events = [
     // link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
     link:"",
   },
-  
+  */
 ];
 
