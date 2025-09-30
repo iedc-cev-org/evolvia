@@ -434,7 +434,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                 <div className="ev-tilt flex flex-col md:flex-row gap-4 md:gap-5 lg:gap-6 xl:gap-8 items-stretch will-change-transform">
                   <div className="ev-image relative w-full md:w-[44%] md:min-w-[44%] overflow-hidden rounded-sm opacity-0 translate-y-6 will-change-transform aspect-[3/4]">
                     <Image
-                      src={event.image ?? "/image.png"}
+                      src={event.image ?? "/image.jpg"}
                       alt={event.name}
                       fill
                       className="object-cover transition-transform duration-700 hover:scale-105"
