@@ -57,7 +57,8 @@ export const Events = [
     spec:"Deadline for submission: Oct 05 2025",
     dateTime: "Oct 08 2025 | 1:30 AM - 4 PM",
     venue: "College Premises", 
-    link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
+    // link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
+    link:"",
   },
   /*
   {
