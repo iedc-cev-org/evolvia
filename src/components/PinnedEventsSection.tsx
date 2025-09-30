@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface Event {
   id: number;
   name: string;
-  image: string;
+  image?: string;
   spec?: string;
   dateTime?: string;
   venue?: string;
