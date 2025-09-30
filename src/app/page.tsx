@@ -64,7 +64,9 @@ export default function Home() {
   const handleJumpToEvent = () => {
     const eventsSection = document.querySelector('#events-section');
     if (eventsSection) {
-      eventsSection.scrollIntoView({ behavior: 'smooth' });
+      const rect = eventsSection.getBoundingClientRect();
+      const scrollTop = window.scrollY + rect.top;
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
       setTimeout(() => setShowJumpButton(false), 1000);
     }
   };
