@@ -60,16 +60,37 @@ export const Events = [
     // link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
     link:"",
   },
-  /*
+   
   {
-    id:4,
-    name: "Tech Innovation Workshop",
-    image:"https://picsum.photos/300/400",
-    spec:"Limited seats available",
+    id:5,
+    name: "Hack4Ease",
+    image:"/events/hack4ease.jpg",
+    spec:"",
+    dateTime: "oct 8 2025| 10 AM - 1 PM",
+    venue: "college of engineering vadakara",
+    // link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
+    link:"",
+  },
+   /*
+  {
+    id:6,
+    name: "Buzzer Quiz",
+    image:"",
+    spec:"unlimited seats",
     dateTime: "TBA",
     venue: "TBA",
-    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
-    link:""
+     link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },*/
+   /*
+  {
+    id:7,
+    name: "Venture Way",
+    image:"",
+    spec:"unlimited seats",
+    dateTime: "TBA",
+    venue: "TBA",
+     link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
+  },*/
+  
 ];
 
