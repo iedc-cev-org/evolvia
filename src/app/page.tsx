@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -22,12 +22,53 @@ export default function Home() {
   const [videoReady, setVideoReady] = useState(false);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  // Track real mouse and smooth cursor separately
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [hashEventIndex, setHashEventIndex] = useState<number | null>(null);
+  const [showJumpButton, setShowJumpButton] = useState(false);
   
-  // Ref removed: using AnimatedTitle component instead
+  const reorderedEvents = useMemo(() => {
+    if (hashEventIndex === null || hashEventIndex < 0 || hashEventIndex >= Events.length) {
+      return Events;
+    }
+    const targetEvent = Events[hashEventIndex];
+    const otherEvents = Events.filter((_, idx) => idx !== hashEventIndex);
+    return [targetEvent, ...otherEvents];
+  }, [hashEventIndex]);
 
+  useEffect(() => {
+    const checkHash = () => {
+      const hash = window.location.hash;
+      const match = hash.match(/^#e(\d+)$/);
+      if (match) {
+        const eventIndex = parseInt(match[1]) - 1;
+        if (eventIndex >= 0 && eventIndex < Events.length) {
+          setHashEventIndex(eventIndex);
+          setShowJumpButton(true);
+        }
+      }
+    };
+
+    checkHash();
+    
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
+
+  useEffect(() => {
+    if (showJumpButton && scrollY > windowHeight * 2) {
+      setShowJumpButton(false);
+    }
+  }, [scrollY, windowHeight, showJumpButton]);
+
+  const handleJumpToEvent = () => {
+    const eventsSection = document.querySelector('#events-section');
+    if (eventsSection) {
+      eventsSection.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => setShowJumpButton(false), 1000);
+    }
+  };
+  
   useEffect(() => {
     setIsClient(true);
     setWindowHeight(window.innerHeight);
@@ -155,6 +196,22 @@ export default function Home() {
             <div className="absolute inset-0 shimmer shimmer-mask-logo z-10" />
           )}
         </div>
+        
+        {showJumpButton && scrollY < 100 && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            onClick={handleJumpToEvent}
+            className="absolute -bottom-24 left-1/2 -translate-x-1/2 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/30 rounded-full text-white text-sm md:text-base font-medium hover:bg-white/20 transition-all duration-300 shadow-lg inline-flex items-center gap-2 whitespace-nowrap"
+          >
+            Jump to Event
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+          </motion.button>
+        )}
       </div>
 
       {/* Block interactions until video is ready */}
@@ -252,7 +309,9 @@ export default function Home() {
         </section>
         
         {/* Section 2: Pinned Events Section */}
-        <PinnedEventsSection events={Events} />
+        <section id="events-section">
+          <PinnedEventsSection events={reorderedEvents} />
+        </section>
         
         {/* Section 3: Pre Events */}
         <section className="w-screen bg-black relative flex flex-col items-center py-14 mb-10" style={{ willChange: 'transform' }}>

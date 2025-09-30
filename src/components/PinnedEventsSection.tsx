@@ -197,30 +197,27 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     });
   }, [events.length, playRevealForIndex]);
 
-  // Handle URL hash changes for direct event access
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
       const match = hash.match(/^#e(\d+)$/);
       if (match) {
-        const eventIndex = parseInt(match[1]) - 1; // Convert to 0-based index
+        const eventId = parseInt(match[1]);
+        const eventIndex = events.findIndex(e => e.id === eventId);
         if (eventIndex >= 0 && eventIndex < events.length) {
-          // Longer delay for initial page load, shorter for hash changes
           const delay = sectionEnteredRef.current ? 100 : 500;
           setTimeout(() => scrollToEvent(eventIndex), delay);
         }
       }
     };
 
-    // Check initial hash on mount with longer delay for page load
     if (window.location.hash) {
       setTimeout(handleHashChange, 200);
     }
     
-    // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [events.length, scrollToEvent]);
+  }, [events, scrollToEvent]);
 
   useEffect(() => {
     if (!digitMeasureRef.current) return;
@@ -274,14 +271,14 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
         if (currentIndex !== lastIndexRef.current) {
           setCurrentEventIndex(currentIndex);
-          // Only update URL hash when we're actively in the pinned section
           if (sectionEnteredRef.current) {
-            const newHash = `#e${currentIndex + 1}`;
+            const currentEvent = events[currentIndex];
+            const newHash = `#e${currentEvent.id}`;
             if (window.location.hash !== newHash) {
               history.replaceState(null, '', newHash);
             }
           }
-          const display = currentIndex + 1; // 1-based display number
+          const display = currentIndex + 1;
           const tens = Math.floor(display / 10);
           const ones = display % 10;
           if (digitHeight > 0) {
@@ -310,7 +307,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     return () => {
       st.kill();
     };
-  }, [events.length, digitHeight, playRevealForIndex]);
+  }, [events, digitHeight, playRevealForIndex]);
 
   useEffect(() => {
     if (!containerRef.current) return;
