@@ -65,8 +65,13 @@ export default function Home() {
     const eventsSection = document.querySelector('#events-section');
     if (eventsSection) {
       const rect = eventsSection.getBoundingClientRect();
-      const scrollTop = window.scrollY + rect.top;
-      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+      const targetScrollTop = window.scrollY + rect.top;
+      
+      window.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      });
+      
       setTimeout(() => setShowJumpButton(false), 1000);
     }
   };
@@ -97,7 +102,8 @@ export default function Home() {
     };
   }, []);
 
-  // Smooth cursor animation
+  
+
   useEffect(() => {
     let animationFrame: number;
 
@@ -117,7 +123,8 @@ export default function Home() {
     return () => cancelAnimationFrame(animationFrame);
   }, [mousePosition]);
 
-  // ScrollSmoother initialization after video ready
+  
+
   useEffect(() => {
     if (!videoReady) return;
     const scrollSmoother = ScrollSmoother.create({
@@ -312,7 +319,7 @@ export default function Home() {
         
         {/* Section 2: Pinned Events Section */}
         <section id="events-section">
-          <PinnedEventsSection events={reorderedEvents} />
+        <PinnedEventsSection events={reorderedEvents} />
         </section>
         
         {/* Section 3: Pre Events */}

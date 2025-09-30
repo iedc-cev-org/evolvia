@@ -19,7 +19,8 @@ const FullScreenSection: React.FC<{ children?: React.ReactNode }> = ({ children 
     setIsClient(true);
   }, []);
 
-  // Preload images
+  
+
   useEffect(() => {
     let mounted = true;
     const frameImages: HTMLImageElement[] = [];
@@ -95,7 +96,8 @@ const FullScreenSection: React.FC<{ children?: React.ReactNode }> = ({ children 
       let offsetX = 0;
       let offsetY = 0;
 
-      // COVER mode: Fill screen, crop excess
+      
+
       if (canvasAspect > imgAspect) {
         drawWidth = w;
         drawHeight = w / imgAspect;
@@ -106,17 +108,20 @@ const FullScreenSection: React.FC<{ children?: React.ReactNode }> = ({ children 
         offsetX = (w - drawWidth) / 2;
       }
 
-      // Draw current frame
+      
+
       ctx.globalAlpha = 1 - progress;
       ctx.drawImage(currentImg, offsetX, offsetY, drawWidth, drawHeight);
 
-      // Draw next frame with interpolation if it exists and progress > 0
+      
+
       if (nextImg && nextImg.complete && progress > 0 && currentFrameIndex !== nextFrameIndex) {
         ctx.globalAlpha = progress;
         ctx.drawImage(nextImg, offsetX, offsetY, drawWidth, drawHeight);
       }
 
-      // Reset global alpha
+      
+
       ctx.globalAlpha = 1;
       
       lastDrawFrameRef.current = exactFrameIndex;

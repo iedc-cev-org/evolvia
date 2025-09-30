@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface Event {
   id: number;
   name: string;
-  image?: string;
+  image: string;
   spec?: string;
   dateTime?: string;
   venue?: string;
@@ -65,7 +65,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       const text = title.textContent || '';
       title.textContent = '';
       const frag = document.createDocumentFragment();
-      // Split into words to prevent mid-word line breaks
+      
+
       const words = text.split(' ');
       words.forEach((word, wi) => {
         const wordSpan = document.createElement('span');
@@ -89,7 +90,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
     if (image || title || spec || cta) {
       if (revealedSetRef.current.has(idx)) {
-        // Ensure fully visible and remove initial hide classes
+        
+
         gsap.set(el, { clearProps: 'opacity,transform' });
         el.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
   gsap.set([image, spec, meta, cta].filter(Boolean) as HTMLElement[], { opacity: 1, clearProps: 'y,scale' });
@@ -101,7 +103,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         return;
       }
 
-  // Initial setup - everything (including card wrapper) hidden and positioned
+  
+
   gsap.set(el, { autoAlpha: 0, y: 20, scale: 0.95 });
   gsap.set([image, spec, meta, cta].filter(Boolean) as HTMLElement[], { opacity: 0, y: 20 });
   if (chars && chars.length) gsap.set(chars, { opacity: 0, y: 16 });
@@ -111,7 +114,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
       const tl = gsap.timeline();
       
-      // Step 1: Reveal card background (0.0s - 0.35s)
+      
+
       tl.to(el, { 
         autoAlpha: 1, 
         y: 0, 
@@ -120,7 +124,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         ease: 'power2.out' 
       }, 0)
       
-      // Step 2: Reveal image and title text (0.1s - 0.6s)
+      
+
       .to(image, { 
         opacity: 1, 
         y: 0, 
@@ -136,7 +141,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         stagger: 0.025 
       }, 0.2)
       
-  // Step 3: Reveal subtitle and button (0.4s - 0.85s)
+  
+
   .to([spec, meta, cta].filter(Boolean) as HTMLElement[], { 
         opacity: 1, 
         y: 0, 
@@ -145,7 +151,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         stagger: 0.1 
       }, 0.5)
       
-  // Step 4: Shimmer effect overlaying everything (0.2s - 0.9s)
+  
+
   .to(shimmer, { 
         xPercent: 240, 
         opacity: 0.4, 
@@ -163,7 +170,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       });
       tl.eventCallback('onComplete', () => {
         revealedSetRef.current.add(idx);
-        // Remove initial hide classes so it stays visible
+        
+
         removeInitialHideClasses();
       });
 
@@ -171,24 +179,29 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     }
   }, []);
 
-  // Function to scroll to a specific event index
+  
+
   const scrollToEvent = useCallback((eventIndex: number) => {
     if (!containerRef.current) return;
     const targetIndex = Math.max(0, Math.min(eventIndex, events.length - 1));
     
-    // Calculate the scroll position needed to show the target event
+    
+
     const scrollProgress = events.length > 1 ? targetIndex / (events.length - 1) : 0;
     const totalScrollDistance = Math.max(0, (events.length - 1) * window.innerHeight);
     
-    // Get the container's position and add the target scroll offset
+    
+
     const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
     const targetScrollTop = containerTop + (scrollProgress * totalScrollDistance);
     
-    // Update current event index immediately
+    
+
     setCurrentEventIndex(targetIndex);
     lastIndexRef.current = targetIndex;
     
-    // Trigger reveal animation for the target event
+    
+
     setTimeout(() => playRevealForIndex(targetIndex), 100);
     
     window.scrollTo({
@@ -202,8 +215,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       const hash = window.location.hash;
       const match = hash.match(/^#e(\d+)$/);
       if (match) {
-        const eventId = parseInt(match[1]);
-        const eventIndex = events.findIndex(e => e.id === eventId);
+        const eventIndex = parseInt(match[1]) - 1;
         if (eventIndex >= 0 && eventIndex < events.length) {
           const delay = sectionEnteredRef.current ? 100 : 500;
           setTimeout(() => scrollToEvent(eventIndex), delay);
@@ -217,7 +229,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [events, scrollToEvent]);
+  }, [events.length, scrollToEvent]);
 
   useEffect(() => {
     if (!digitMeasureRef.current) return;
@@ -244,41 +256,48 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     const container = containerRef.current;
     const eventsContainer = eventsContainerRef.current;
 
-    // Main ScrollTrigger for the entire section
+    
+
     const st = ScrollTrigger.create({
       trigger: container,
       start: "top top",
       end: () => `+=${Math.max(0, (events.length - 1) * window.innerHeight)}`,
       pin: true,
       pinSpacing: true,
+      anticipatePin: 1,
       onUpdate: (self) => {
         const totalSlides = events.length;
         const progress = totalSlides > 1 ? self.progress : 0;
 
-        // Continuous vertical movement based on scroll progress (in pixels)
-  const maxShiftPx = (totalSlides - 1) * window.innerHeight;
+        const maxShiftPx = (totalSlides - 1) * window.innerHeight;
   const translatePx = Math.max(-maxShiftPx, Math.min(0, -progress * maxShiftPx));
   gsap.set(eventsContainer, { y: translatePx });
 
-        // Determine active index when the next panel is visibly entering (10% more below)
   const segment = progress * (totalSlides - 1);
   const base = Math.floor(segment);
   const frac = segment - base;
   const down = (self as unknown as ScrollTriggerType).direction >= 0;
-  const threshold = down ? 0.75 : 0.25;
+  
+        const isNearEnd = base >= totalSlides - 2;
+        const threshold = isNearEnd ? (down ? 0.6 : 0.4) : (down ? 0.75 : 0.25);
+        
         let currentIndex = base + (frac >= threshold ? 1 : 0);
         currentIndex = Math.min(Math.max(currentIndex, 0), totalSlides - 1);
+        
+        if (progress >= 0.98 && totalSlides > 0) {
+          currentIndex = totalSlides - 1;
+        }
 
         if (currentIndex !== lastIndexRef.current) {
           setCurrentEventIndex(currentIndex);
           if (sectionEnteredRef.current) {
-            const currentEvent = events[currentIndex];
-            const newHash = `#e${currentEvent.id}`;
+            const newHash = `#e${currentIndex + 1}`;
             if (window.location.hash !== newHash) {
               history.replaceState(null, '', newHash);
             }
           }
-          const display = currentIndex + 1;
+          const display = currentIndex + 1; 
+
           const tens = Math.floor(display / 10);
           const ones = display % 10;
           if (digitHeight > 0) {
@@ -295,19 +314,23 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       onEnter: () => {
         sectionEnteredRef.current = true;
         if (!revealedSetRef.current.has(0)) {
-          // Kick off reveal for the first card when the section pins
           playRevealForIndex(0);
         }
       },
       onLeave: () => {
-        // Add any leave animations here
+        if (events.length > 0 && !revealedSetRef.current.has(events.length - 1)) {
+          playRevealForIndex(events.length - 1);
+        }
+      },
+      onLeaveBack: () => {
+        sectionEnteredRef.current = false;
       },
     });
 
     return () => {
       st.kill();
     };
-  }, [events, digitHeight, playRevealForIndex]);
+  }, [events.length, digitHeight, playRevealForIndex]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -403,8 +426,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
           {events.map((event, index) => (
             <div
               key={index}
-              id={`${event.id}`}
-              className="h-screen w-full flex items-center justify-center px-4 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12 lg:py-14 xl:py-16 gap-4"
+              className="h-screen w-full flex items-center justify-center px-4 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12 lg:py-14 xl:py-16"
             >
               <motion.div
                 ref={(el) => { cardRefs.current[index] = el; }}
@@ -432,7 +454,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                 <div className="ev-tilt flex flex-col md:flex-row gap-4 md:gap-5 lg:gap-6 xl:gap-8 items-stretch will-change-transform">
                   <div className="ev-image relative w-full md:w-[44%] md:min-w-[44%] overflow-hidden rounded-sm opacity-0 translate-y-6 will-change-transform aspect-[3/4]">
                     <Image
-                      src={event.image ?? "/image.jpg"}
+                      src={event.image}
                       alt={event.name}
                       fill
                       className="object-cover transition-transform duration-700 hover:scale-105"
@@ -497,14 +519,14 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       </div>
 
       {/* Scroll Indicator */}
-      {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
         <div className="flex flex-col items-center text-white/50">
           <div className="text-sm font-mono mb-2">SCROLL</div>
           <div className="w-6 h-10 border border-white/30 rounded-full flex justify-center">
             <div className="w-0.5 h-3 bg-white/30 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
