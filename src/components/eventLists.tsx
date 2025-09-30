@@ -66,7 +66,7 @@ export const Events = [
     name: "Hack4Ease",
     image:"/events/hack4ease.jpg",
     spec:"",
-    dateTime: "Oct 8 2025| 10 AM - 1 PM",
+    dateTime: "Oct 8 2025 | 10 AM - 1 PM",
     venue: "Eclipse | College of Engineering Vadakara",
     link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
     // link:"",
