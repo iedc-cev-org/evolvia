@@ -46,10 +46,8 @@ export const Events = [
     name: "VISIO - AI image & video exhibition",
     image:"/events/visio_ai.webp",
     spec:"Open for all students",
-    dateTime: "TBA",
-    venue: "TBA",
-    // link:"https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
-    link:""
+     dateTime: "Oct 08 2025 | 9 AM - 4 PM",
+    venue: "College Premises", link:"https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
   },/*
   {
     id:4,
