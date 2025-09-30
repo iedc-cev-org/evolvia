@@ -79,8 +79,8 @@ export const Events = [
     spec:"",
     dateTime: "Oct 08 2025 | 10 AM - 4 PM",
     venue: "Orion | College Premises",
-    link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
-    // link:"",
+    // link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
+    link:"",
   },
    /*
   {
