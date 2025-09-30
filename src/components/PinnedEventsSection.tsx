@@ -179,57 +179,34 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     }
   }, []);
 
-  
-
-  const scrollToEvent = useCallback((eventIndex: number) => {
-    if (!containerRef.current) return;
-    const targetIndex = Math.max(0, Math.min(eventIndex, events.length - 1));
-    
-    
-
-    const scrollProgress = events.length > 1 ? targetIndex / (events.length - 1) : 0;
-    const totalScrollDistance = Math.max(0, (events.length - 1) * window.innerHeight);
-    
-    
-
-    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
-    const targetScrollTop = containerTop + (scrollProgress * totalScrollDistance);
-    
-    
-
-    setCurrentEventIndex(targetIndex);
-    lastIndexRef.current = targetIndex;
-    
-    
-
-    setTimeout(() => playRevealForIndex(targetIndex), 100);
-    
-    window.scrollTo({
-      top: targetScrollTop,
-      behavior: 'smooth'
-    });
-  }, [events.length, playRevealForIndex]);
-
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleHashOnLoad = () => {
       const hash = window.location.hash;
-      const match = hash.match(/^#e(\d+)$/);
-      if (match) {
-        const eventIndex = parseInt(match[1]) - 1;
-        if (eventIndex >= 0 && eventIndex < events.length) {
-          const delay = sectionEnteredRef.current ? 100 : 500;
-          setTimeout(() => scrollToEvent(eventIndex), delay);
+      if (hash.match(/^#e(\d+)$/)) {
+        if (containerRef.current && !sectionEnteredRef.current) {
+          setTimeout(() => {
+            const container = containerRef.current;
+            if (container) {
+              const rect = container.getBoundingClientRect();
+              const targetScrollTop = window.scrollY + rect.top;
+              
+              window.scrollTo({
+                top: targetScrollTop,
+                behavior: 'smooth'
+              });
+            }
+          }, 300);
         }
       }
     };
 
     if (window.location.hash) {
-      setTimeout(handleHashChange, 200);
+      handleHashOnLoad();
     }
     
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [events.length, scrollToEvent]);
+    window.addEventListener('hashchange', handleHashOnLoad);
+    return () => window.removeEventListener('hashchange', handleHashOnLoad);
+  }, []);
 
   useEffect(() => {
     if (!digitMeasureRef.current) return;
@@ -290,8 +267,9 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
         if (currentIndex !== lastIndexRef.current) {
           setCurrentEventIndex(currentIndex);
-          if (sectionEnteredRef.current) {
-            const newHash = `#e${currentIndex + 1}`;
+          if (sectionEnteredRef.current && currentIndex >= 0 && currentIndex < events.length) {
+            const actualEventId = events[currentIndex].id;
+            const newHash = `#e${actualEventId}`;
             if (window.location.hash !== newHash) {
               history.replaceState(null, '', newHash);
             }
@@ -330,7 +308,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     return () => {
       st.kill();
     };
-  }, [events.length, digitHeight, playRevealForIndex]);
+  }, [events, digitHeight, playRevealForIndex]);
 
   useEffect(() => {
     if (!containerRef.current) return;
