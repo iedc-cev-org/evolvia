@@ -91,6 +91,16 @@ export const Events = [
     venue: "TBA",
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },*/
+  {
+    id:8,
+    name: "Event",
+    image:"",
+    spec:"",
+    dateTime: "",
+    venue: "",
+    // link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
+    link:"",
+  },
   
 ];
 
