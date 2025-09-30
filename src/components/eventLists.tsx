@@ -55,8 +55,8 @@ export const Events = [
     name: "PITCHBOX - Welcome innovative ideas from diverse sectors",
     // image:"/events/visio_ai.webp",
     spec:"Deadline for submission: Oct 05 2025",
-    dateTime: "Oct 08 2025 | 1:30 AM - 4 PM",
-    venue: "Astra | College Premises", 
+    dateTime: "Oct 08 2025 | 1:30 PM - 4 PM",
+    venue: " Astra | College Premises", 
     // link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
     link:"",
   },
@@ -64,16 +64,27 @@ export const Events = [
   {
     id:5,
     name: "Hack4Ease",
-    image:"/events/hack4ease.jpg",
+    image:"/events/hack4ease.webp",
     spec:"",
-    dateTime: "Oct 8 2025 | 10 AM - 1 PM",
-    venue: "Eclipse | College of Engineering Vadakara",
+    dateTime: "Oct 08 2025 | 10 AM - 1 PM",
+    venue: " Eclipse | College Of Engineering Vadakara",
     link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
+    // link:"",
+  },
+
+  {
+    id:6,
+    name: "Quizzard - The ultimate Buzzer Quiz Challenge.",
+    image:"/events/quizzard.png",
+    spec:"",
+    dateTime: "Oct 08 2025 | 10 AM - 4 PM",
+    venue: "Orion | College Premises",
+    link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
     // link:"",
   },
    /*
   {
-    id:6,
+    id:7,
     name: "Buzzer Quiz",
     image:"",
     spec:"unlimited seats",
@@ -83,7 +94,7 @@ export const Events = [
   },*/
    /*
   {
-    id:7,
+    id:8,
     name: "Venture Way",
     image:"",
     spec:"unlimited seats",
@@ -92,7 +103,7 @@ export const Events = [
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },*/
   {
-    id:8,
+    id:9,
     name: "Event",
     image:"",
     spec:"",
