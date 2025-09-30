@@ -67,7 +67,7 @@ export const Events = [
     image:"/events/hack4ease.jpg",
     spec:"",
     dateTime: "oct 8 2025| 10 AM - 1 PM",
-    venue: "college of engineering vadakara",
+    venue: "Eclipse | College of Engineering Vadakara",
     link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
     // link:"",
   },
