@@ -406,7 +406,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
           {events.map((event, index) => (
             <div
               key={index}
-              id={`e${event.id}`}
+              id={`${event.id}`}
               className="h-screen w-full flex items-center justify-center px-4 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12 lg:py-14 xl:py-16 gap-4"
             >
               <motion.div
