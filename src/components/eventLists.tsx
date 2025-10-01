@@ -36,7 +36,7 @@ export const Events = [
     name: "BIT'BURST 2.0",
     image:"/events/bitburst.webp",
     spec:"Exclusively for CEV Students",
-    dateTime: "Oct 06 - 07 2025 | 4 PM - 4 PM",
+    dateTime: "Oct 06 - 07 2025 | 4 PM | 24 hrs",
     venue: "CCF, Programing Lab",
     link:"https://snaptiqz.com/event/pCn_980UQs5EC9rp3SLfu",
   },
