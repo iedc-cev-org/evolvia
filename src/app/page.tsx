@@ -9,7 +9,7 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import AnimatedReveal from '@/components/AnimatedReveal';
 import Footer from '@/components/Footer';
 import { preEvents,Events } from '@/components/eventLists';
-import FullScreenSection from '@/components/FullScreenSection';
+import FullScreenSection from '@/components/ScrollVideo';
 import PinnedEventsSection from '@/components/PinnedEventsSection';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -175,7 +175,7 @@ export default function Home() {
           : 'top-12 left-12 hidden md:block'
       }`} style={{ willChange: 'transform, opacity' }}>
         <Image
-          src="/iedclogo.webp"
+          src="/page-assets/iedclogo.webp"
           alt="IEDC Logo"
           width={80}
           height={80}
@@ -194,7 +194,7 @@ export default function Home() {
       }}>
         <div className="relative w-[200px] h-[200px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px]">
           <Image
-            src="/logo.webp"
+            src="/page-assets/logo.webp"
             alt="Evolvia"
             fill
             sizes="(max-width: 768px) 260px, (max-width: 1024px) 360px, 400px"
@@ -244,7 +244,7 @@ export default function Home() {
             className="absolute inset-0 w-full h-full object-cover bg transition-opacity duration-700"
             style={{ willChange: 'auto', opacity: videoReady ? 1 : 0 }}
           >
-            <source src="/hero.mp4" type="video/mp4" />
+            <source src="/page-assets/hero.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-black/30"></div>
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
@@ -353,7 +353,7 @@ export default function Home() {
                   className="group cursor-pointer"
                 >
                   <motion.div 
-                    className="mb-4 overflow-hidden rounded-sm"
+                    className="mb-4 overflow-hidden rounded-sm relative"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.3 }}
@@ -363,37 +363,30 @@ export default function Home() {
                       whileTap={{ scale: 1.02 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <Image
-                        src={event.image}
-                        alt={event.name}
-                        width={400}
-                        height={300}
-                        className="w-full h-full md:h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-out"
-                        style={{
-                          filter: 'grayscale(100%)',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.filter = 'grayscale(0%)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.filter = 'grayscale(100%)';
-                        }}
-                        onTouchStart={(e) => {
-                          if (e.currentTarget) {
-                            e.currentTarget.style.filter = 'grayscale(0%)';
-                          }
-                        }}
-                        onTouchEnd={(e) => {
-                          const target = e.currentTarget;
-                          if (target) {
-                            setTimeout(() => {
-                              if (target && target.style) {
-                                target.style.filter = 'grayscale(100%)';
-                              }
-                            }, 1500);
-                          }
-                        }}
-                      />
+                        {event.isCompleted && (
+                          <div className="absolute z-20 left-3 top-3 px-2 py-1 bg-white/10 text-white text-xs rounded-sm backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-0 pointer-events-none">
+                            Completed
+                          </div>
+                        )}
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={event.image}
+                          alt={event.name}
+                          width={400}
+                          height={300}
+                          className="w-full h-full object-cover transition-opacity duration-500 ease-out group-hover:opacity-0 grayscale"
+                        />
+                        {event.completed_image && (
+                          <Image
+                            src={event.completed_image}
+                            alt={`${event.name} (completed)`}
+                            width={400}
+                            height={300}
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out pointer-events-none z-10"
+                            style={{ top: 0, left: 0 }}
+                          />
+                        )}
+                      </div>
                     </motion.div>
                   </motion.div>
                   <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">

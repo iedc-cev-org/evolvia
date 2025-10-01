@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="absolute inset-0 z-0 overflow-hidden">
             <div className="w-full h-full transform translate-y-[-30%] md:translate-y-[-10%] lg:translate-y-[-10%]">
                 <Image
-                    src="/footer.webp"
+                    src="/page-assets/footer.webp"
                     alt="Footer background"
                     fill
                     className="object-contain object-bottom"
@@ -23,7 +23,7 @@ export default function Footer() {
     <div className="relative z-20 bg-white/10 backdrop-blur-md border border-white/20 max-w-5xl w-8/9 md:w-3/4 mx-auto p-6 m-4 rounded-xl shadow-lg flex flex-col justify-between gap-6">
             <div className='flex justify-around items-start gap-4'>
                 <div className='flex-shrink-0'>
-                    <Image src='/iedclogo.webp' alt='iedc logo' width={80} height={80}/>
+                    <Image src='/page-assets/iedclogo.webp' alt='iedc logo' width={80} height={80}/>
                 </div>
                 <div className='flex justify-end flex-1 text-sm gap-8'>
                     <div className='flex flex-col space-y-2 items-start'>
@@ -40,7 +40,7 @@ export default function Footer() {
             </div>
             <div className="relative w-full h-16 mt-2"> 
                 <Image
-                    src="/logo.webp"
+                    src="/page-assets/logo.webp"
                     alt="evolvia logo"
                     fill
                     className="object-contain"

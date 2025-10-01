@@ -1,21 +1,27 @@
 export const preEvents=[
   {
     name:"How to build a Startup",
-    image:'/F.webp',
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
-    link:"https://www.google.com"
+    isCompleted: true,
+    image:'/pre-events/franklin.webp',
+    completed_image:'/pre-events/franklin_completed.webp',
+    description: "",
+    link:""
   },
   {
     name:"What's Vibe Coding",
-    image:'/VIBE.webp',
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
-    link:"https://www.google.com"
+    isCompleted: true,
+    image:'/pre-events/vibecoding.webp',
+    completed_image:'/pre-events/vibecoding_completed.webp',
+    description: "",
+    link:""
   },
   {
     name:"What's Supabase",
-    image:'/SP.webp',
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nemo natus molestiae enim voluptatum, in nesciunt architecto error quia voluptates expedita aliquam. Rem fuga odio sed voluptatum dolorem illo nihil",
-    link:"https://www.google.com"
+    isCompleted: true,
+    image:'/pre-events/supabase.webp',
+    completed_image:'/pre-events/supabase_completed.webp',
+    description: "",
+    link:""
   }
 ]
 
