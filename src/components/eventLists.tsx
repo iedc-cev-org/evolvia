@@ -33,13 +33,12 @@ export const Events = [
   },
   {
     id:2,
-    name: "Startup Stories",
-    image:"/events/startup_stories.webp",
-    spec:"Open for all students",
-    dateTime: "TBA",
-    venue: "TBA",
-    // link:"https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
-    link:""
+    name: "BIT'BURST 2.0",
+    image:"/events/bitburst.webp",
+    spec:"Exclusively for CEV Students",
+    dateTime: "Oct 06 - 07 2025 | 4 PM - 4 PM",
+    venue: " College Premises",
+    link:"https://snaptiqz.com/event/pCn_980UQs5EC9rp3SLfu",
   },
   {
     id:3,
@@ -103,16 +102,6 @@ export const Events = [
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
   */
-  {
-    id:9,
-    name: "BIT'BURST 2.0",
-    image:"",
-    spec:"",
-    dateTime: "Oct 06 2025 | 4 PM - 4 PM",
-    venue: " CEV Premises",
-    // link:"https://snaptiqz.com/event/pCn_980UQs5EC9rp3SLfu",
-    link:"",
-  },
   
 ];
 
