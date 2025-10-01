@@ -60,7 +60,7 @@ export const Events = [
     name: "PitchBox - Idea pitching competition",
     image:"/events/pitchbox.webp",
     spec:"Deadline for submission: Oct 05 2025",
-    dateTime: "Oct 08 2025 | 1:30 PM - 4 PM",
+    dateTime: "Oct 08 2025",
     venue: "Astra | CEV Premises", 
     link:"https://snaptiqz.com/event/d3CX6qg5nslalaXoNf_p6",
   },
