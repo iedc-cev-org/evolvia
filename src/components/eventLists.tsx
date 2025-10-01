@@ -102,16 +102,17 @@ export const Events = [
     venue: "TBA",
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
+  */
   {
     id:9,
-    name: "Event",
+    name: "BIT'BURST 2.0",
     image:"",
     spec:"",
-    dateTime: "",
-    venue: "",
-    // link:"https://snaptiqz.com/event/jZ4EWWS_GU-KVI5BEVymZ",
+    dateTime: "Oct 06 2025 | 4 PM - 4 PM",
+    venue: " CEV Premises",
+    // link:"https://snaptiqz.com/event/pCn_980UQs5EC9rp3SLfu",
     link:"",
   },
-  */
+  
 ];
 
