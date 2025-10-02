@@ -86,6 +86,16 @@ export const Events = [
     // link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
     link:"",
   },
+{
+    id:7,
+    name: "IEDC Leads Meet",
+    image:"",
+    spec:"",
+    dateTime: "",
+    venue: "College of Engineering Vadakara",
+    // link:"  https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
+    link:"",
+  },
    /*
   {
     id:7,
