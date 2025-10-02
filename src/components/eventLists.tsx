@@ -91,10 +91,9 @@ export const Events = [
     name: "IEDC Leads Meet",
     image:"",
     spec:"",
-    dateTime: "",
+    dateTime: "08 Oct 2025",
     venue: "College of Engineering Vadakara",
-    // link:"  https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
-    link:"",
+    link:"  https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
   },
    /*
   {
