@@ -89,7 +89,7 @@ export const Events = [
 {
     id:7,
     name: "IEDC Leads Meet",
-    image:"",
+    image:"/events/leadsmeet.jpg",
     spec:"",
     dateTime: "08 Oct 2025",
     venue: "College of Engineering Vadakara",
