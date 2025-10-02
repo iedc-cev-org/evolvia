@@ -89,10 +89,10 @@ export const Events = [
 {
     id:7,
     name: "IEDC Leads Meet",
-    image:"/events/leadsmeet.jpg",
-    spec:"",
-    dateTime: "08 Oct 2025",
-    venue: "College of Engineering Vadakara",
+    image: "/events/leadsmeet.webp",
+    spec: "",
+    dateTime: "Oct 08 2025",
+    venue: "CEV Premises",
     link:"  https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
   },
    /*
@@ -104,8 +104,8 @@ export const Events = [
     dateTime: "TBA",
     venue: "TBA",
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
-  },*/
-   /*
+  },
+  
   {
     id:8,
     name: "Venture Way",
