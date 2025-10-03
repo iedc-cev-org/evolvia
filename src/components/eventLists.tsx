@@ -81,10 +81,9 @@ export const Events = [
     name: "Quizzard",
     image:"/events/quizzard.webp",
     spec:"",
-    dateTime: "Oct 08 2025 | 10 AM - 4 PM",
+    dateTime: "Oct 08 2025 | 1:30 PM - 3 PM",
     venue: "Orion | CEV Premises",
-    // link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
-    link:"",
+    link:"  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
   },
 {
     id:7,
