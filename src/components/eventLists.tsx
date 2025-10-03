@@ -94,17 +94,17 @@ export const Events = [
     venue: "CEV Premises",
     link:"  https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
   },
-   /*
+  
   {
-    id:7,
-    name: "Buzzer Quiz",
-    image:"",
-    spec:"unlimited seats",
-    dateTime: "TBA",
+    id:8,
+    name: "Quizzard - School",
+    image:"/events/IMG-20251003-WA0001.jpg",
+    spec:"Exclusively for School Students",
+    dateTime: "08 Oct 2025 | 10:00 AM- 12:30 PM",
     venue: "TBA",
      link:"https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
-  
+  /*
   {
     id:8,
     name: "Venture Way",
