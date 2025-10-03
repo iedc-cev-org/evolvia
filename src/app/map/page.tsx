@@ -2,18 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from '@/components/Footer';
 import venuesData from '@/data/venues.json';
 
 interface Venue {
+  floor: string;
   id: string;
   name: string;
   location: string;
   block: string;
   description?: string;
   images?: string[];
+  coordinates?: { lat: number; lng: number };
 }
 
 const venues: Venue[] = venuesData;
@@ -21,6 +23,28 @@ const venues: Venue[] = venuesData;
 export default function MapPage() {
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
   const [activeBlock, setActiveBlock] = useState<string>("all");
+
+  const openInMaps = (e: MouseEvent, coords?: { lat: number; lng: number }, label?: string) => {
+    e.stopPropagation();
+    if (!coords) return;
+    const { lat, lng } = coords;
+    const query = encodeURIComponent(label ?? `${lat},${lng}`);
+    const geoUrl = `geo:${lat},${lng}?q=${query}`;
+    const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
+    try {
+      const a = document.createElement('a');
+      a.href = geoUrl;
+      a.rel = 'noopener noreferrer';
+      a.target = '_self';
+      document.body.appendChild(a);
+      a.click();
+      // fallback to Google Maps shortly after in case geo: isn't handled
+      setTimeout(() => window.open(googleUrl, '_blank'), 600);
+    } catch {
+      window.open(googleUrl, '_blank');
+    }
+  };
 
   const blocks = ["all", "Main Block", "Celestara (MCA Block)", "Pathway", "Special Zone"];
 
@@ -54,13 +78,17 @@ export default function MapPage() {
         /> */}
       </div>
 
-      <div className="fixed top-4 right-4 md:top-6 md:right-6 z-30">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="fixed top-4 right-4 md:top-6 md:right-6 z-30">
         <Link href="/">
           <button className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-sm hover:bg-white/20 transition-all duration-300">
             Home
           </button>
         </Link>
-      </div>
+      </motion.div>
 
       <div className="relative z-10 pt-20 md:pt-24 pb-12 px-4 md:px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
@@ -146,7 +174,7 @@ export default function MapPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        <span>{venue.location}</span>
+                        <span>{venue.location}</span><span className="text-white/30">{venue.floor}</span>
                       </div>
                       {venue.description && (
                         <p className="text-white/60 text-sm mt-3 group-hover:text-white/80 transition-colors duration-300 line-clamp-2">
@@ -156,12 +184,26 @@ export default function MapPage() {
                     </div>
 
                     <div className="mt-4 pt-4 border-t border-white/10">
-                      <div className="flex items-center gap-2 text-white/50 group-hover:text-white/80 transition-colors duration-300">
-                        <span className="text-sm">View Details</span>
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
+                          <div className="flex items-center gap-3 justify-between">
+                            <div className="flex items-center gap-2 text-white/50 group-hover:text-white/80 transition-colors duration-300">
+                              <span className="text-sm">View Details</span>
+                              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                              </svg>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              {venue.coordinates && (
+                                <button
+                                  onClick={(e) => openInMaps(e, venue.coordinates, venue.name)}
+                                  className="p-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-md text-white hover:bg-white/10 transition-all duration-200"
+                                  aria-label={`Open ${venue.name} in maps`}
+                                >
+                                  <Image src="/page-assets/googlemap.svg" alt="Open in maps" width={100} height={20} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
                     </div>
                   </div>
                 </div>
@@ -259,6 +301,22 @@ export default function MapPage() {
                         <span className="text-sm">
                           Look for venue signage with the {selectedVenue.name} emblem
                         </span>
+                      </div>
+                      <div className="mt-4 flex gap-3">
+                        {selectedVenue.coordinates && (
+                          <button
+                            onClick={(e) => openInMaps(e, selectedVenue.coordinates, selectedVenue.name)}
+                            className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/10 rounded-md text-sm text-white hover:bg-white/20 transition-all duration-200"
+                          >
+                            Open in maps
+                          </button>
+                        )}
+                        <button
+                          onClick={() => setSelectedVenue(null)}
+                          className="px-4 py-2 bg-white text-black rounded-md text-sm hover:opacity-95"
+                        >
+                          Close
+                        </button>
                       </div>
                     </div>
                   </div>

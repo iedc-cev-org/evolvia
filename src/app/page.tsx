@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import { preEvents,Events } from '@/components/eventLists';
 import FullScreenSection from '@/components/ScrollVideo';
 import PinnedEventsSection from '@/components/PinnedEventsSection';
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -169,7 +170,12 @@ export default function Home() {
         }}
       />
   {/* IEDC Logo */}
-      <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className={`fixed z-25 transition-all duration-1500 ease-in-out ${
         scrollY < 100 
           ? 'top-6 left-6' 
           : 'top-12 left-12 hidden md:block'
@@ -181,7 +187,7 @@ export default function Home() {
           height={80}
           className="opacity-90"
         />
-      </div>
+    </motion.div>
 
   {/* Evolvia Logo */}
       <div className={`fixed z-25 transition-all duration-1500 ease-in-out ${
@@ -222,7 +228,20 @@ export default function Home() {
           </motion.button>
         )}
       </div>
-
+      <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="fixed top-4 right-4 md:top-6 md:right-6 z-30 transition-all duration-1500 ease-in-out">
+        <Link href="/map" aria-label="Go to Map Page">
+            <button
+            className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-sm hover:bg-white/20 transition-all duration-300 inline-flex items-center gap-2">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2 1,6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            Map
+            </button>
+        </Link>
+      </motion.div>
       {/* Block interactions until video is ready */}
       {!videoReady && (
         <div className="fixed inset-0 z-[30]" />

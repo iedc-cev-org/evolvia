@@ -3,16 +3,22 @@
     "id": "nebula",
     "name": "Nebula",
     "location": "Mini Auditorium",
+    "floor": "Second Floor",
     "block": "Main Block",
     "description": "A cosmic gathering space for major events",
     "images": [
       "/map-assets/nebula.webp"
-    ]
+    ],
+    "coordinates": {
+      "lat": 11.563922,
+      "lng": 75.650681
+    }
   },
   {
     "id": "eclipse",
     "name": "Eclipse + Quasar",
     "location": "Programming Lab + CCF",
+    "floor": "First Floor",
     "block": "Main Block",
     "description": "Twin spaces for technical sessions",
     "images": [
@@ -29,6 +35,7 @@
     "name": "Astra",
     "location": "ASAP Room",
     "block": "Main Block",
+    "floor": "First Floor",
     "description": "Innovation hub for creative minds",
     "images": [
       "/map-assets/astra.webp"
@@ -43,6 +50,7 @@
     "name": "Zenith",
     "location": "Main Block Center - near notice boards",
     "block": "Main Block",
+    "floor": "Ground Floor",
     "description": "The central point of convergence",
     "images": [
       "/map-assets/zenith.webp"
@@ -57,6 +65,7 @@
     "name": "Starlight Trail",
     "location": "MCA to Main Block Path",
     "block": "Pathway",
+    "floor": "Ground Floor",
     "description": "Journey through the stellar path",
     "images": [
       "/map-assets/starlight-trail-1.webp",
@@ -71,6 +80,7 @@
     "id": "orion",
     "name": "Orion",
     "location": "MCA Seminar Hall",
+    "floor": "Ground Floor",
     "block": "Celestara (MCA Block)",
     "description": "Grand hall for major presentations",
     "images": [
@@ -84,8 +94,9 @@
   {
     "id": "lyra",
     "name": "Lyra",
-    "location": "MCA Room D111",
+    "location": "MCA Room D-111",
     "block": "Celestara (MCA Block)",
+    "floor": "Ground Floor",
     "description": "Intimate space for focused sessions",
     "images": [
       "/map-assets/lyra.webp"
@@ -98,7 +109,8 @@
   {
     "id": "pegasus",
     "name": "Pegasus",
-    "location": "MCA Counselling Center D103",
+    "location": "MCA Counselling Center D-103",
+    "floor": "Ground Floor",
     "block": "Celestara (MCA Block)",
     "description": "Guidance and mentorship zone",
     "images": [
@@ -112,8 +124,9 @@
   {
     "id": "cassiopeia",
     "name": "Cassiopeia",
-    "location": "MCA Girls Common Room B-311",
+    "location": "MCA Girls Common Room D-311",
     "block": "Celestara (MCA Block)",
+    "floor": "Ground Floor",
     "description": "Collaborative community space",
     "images": [
       "/map-assets/cassiopeia.webp"
@@ -128,6 +141,7 @@
     "name": "Nova",
     "location": "IEDC-Games (MCA Hall)",
     "block": "Celestara (MCA Block)",
+    "floor": "Second Floor",
     "description": "Entertainment and gaming arena",
     "images": [
       "/map-assets/nova.webp"
@@ -140,8 +154,9 @@
   {
     "id": "cygnus",
     "name": "Cygnus",
-    "location": "Mu-Corner MCA Room D102",
+    "location": "Mu-Corner MCA Room D-102",
     "block": "Celestara (MCA Block)",
+    "floor": "Ground Floor",
     "description": "Creative corner for innovation",
     "images": [
       "/map-assets/cygnus.webp"
@@ -156,6 +171,7 @@
     "name": "IEDC Town",
     "location": "Special Event Space",
     "block": "Special Zone",
+    "floor": "Ground Floor",
     "description": "The heart of entrepreneurship",
     "images": [
       "/map-assets/test.png"
