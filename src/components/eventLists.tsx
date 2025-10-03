@@ -112,5 +112,14 @@ export const Events = [
     venue: "TBA",
     // link: "https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
+  {
+    id: 10,
+    name: "Innoverse-The Project Expo",
+    image: "/events/innoverse.webp",
+    spec: "Exclusively for School Students",
+    dateTime: "TBA",
+    venue: "TBA",
+    // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
+  }
 ];
 
