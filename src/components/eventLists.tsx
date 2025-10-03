@@ -100,7 +100,7 @@ export const Events = [
     name: "Quizzard - School",
     image: "/events/quizzards_school.webp",
     spec: "Exclusively for School Students",
-    dateTime: "08 Oct 2025 | 10:00 AM- 12:30 PM",
+    dateTime: "Oct 08 2025 | 10 AM - 12:30 PM",
     venue: "TBA",
     link: "https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
