@@ -114,9 +114,9 @@ export const Events = [
   },
   {
     id: 10,
-    name: "Innoverse-The Project Expo",
+    name: "Innoverse",
     image: "/events/innoverse.webp",
-    spec: "Exclusively for School Students",
+    spec: "Student project exhibition",
     dateTime: "TBA",
     venue: "TBA",
     // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",

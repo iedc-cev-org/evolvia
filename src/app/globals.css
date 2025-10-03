@@ -67,6 +67,10 @@ svg, canvas, video {
   filter: blur(8);
 }
 
+.offwhite-gradient{
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+}
+
 .shimmer{
   overflow: hidden;
   pointer-events: none;
