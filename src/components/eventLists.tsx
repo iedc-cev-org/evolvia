@@ -79,7 +79,7 @@ export const Events = [
   {
     id:6,
     name: "Quizzard",
-    image:"/events/quizzard.webp",
+    image:"/events/IMG-20251003-WA0000.jpg",
     spec:"",
     dateTime: "Oct 08 2025 | 1:30 PM - 3 PM",
     venue: "Orion | CEV Premises",
