@@ -28,8 +28,7 @@ export default function MapPage() {
     e.stopPropagation();
     if (!coords) return;
     const { lat, lng } = coords;
-    const query = encodeURIComponent(label ?? `${lat},${lng}`);
-    const geoUrl = `geo:${lat},${lng}?q=${query}`;
+    const geoUrl = `geo:${lat},${lng}`;
     const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
     try {
