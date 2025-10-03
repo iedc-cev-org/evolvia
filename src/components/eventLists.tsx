@@ -82,7 +82,7 @@ export const Events = [
     spec: "College Level Quiz Competition",
     dateTime: "Oct 08 2025 | 1:30 PM - 3 PM",
     venue: "Orion | CEV Premises",
-    link: "  https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
+    link: "https://snaptiqz.com/event/q_jbt1fDaUtjfWSqPK7DG",
   },
   {
     id: 7,
@@ -91,7 +91,7 @@ export const Events = [
     spec: "Networking event for IEDC leads",
     dateTime: "Oct 08 2025",
     venue: "CEV Premises",
-    link: "  https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
+    link: "https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
   },
 
   {
