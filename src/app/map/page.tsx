@@ -209,7 +209,7 @@ export default function MapPage() {
                       <div className={`${selectedVenue.images.length > 1 ? 'overflow-x-auto scrollbar-hide' : ''}`}>
                         <div className={`flex gap-3 ${selectedVenue.images.length > 1 ? 'w-max' : ''}`}>
                           {selectedVenue.images.map((img, idx) => (
-                            <div key={idx} className={`relative ${selectedVenue.images && selectedVenue.images.length === 1 ? 'w-full' : 'w-80'} h-48 rounded-lg overflow-hidden flex-shrink-0`}>
+                            <div key={idx} className={`relative ${selectedVenue.images && selectedVenue.images.length === 1 ? 'w-full h-48 sm:h-80 md:h-80' : 'w-80 h-48'} rounded-lg overflow-hidden flex-shrink-0`}>
                               <Image
                                 src={img}
                                 alt={`${selectedVenue.name} ${idx + 1}`}
