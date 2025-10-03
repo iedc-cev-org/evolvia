@@ -445,8 +445,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                         {event.name}
                       </h3>
                       {event.spec && (
-                        <p className="ev-spec text-white/70 text-base md:text-lg lg:text-xl italic opacity-0 translate-y-6 will-change-transform">
-                          ({event.spec})
+                        <p className="ev-spec text-white/70 text-base md:text-lg lg:text-xl opacity-0 translate-y-6 will-change-transform">
+                          {event.spec}
                         </p>
                       )}
                       {(event.dateTime || event.venue) && event.link && (
