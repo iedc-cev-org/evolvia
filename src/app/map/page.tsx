@@ -24,24 +24,16 @@ export default function MapPage() {
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
   const [activeBlock, setActiveBlock] = useState<string>("all");
 
-  const openInMaps = (e: MouseEvent, coords?: { lat: number; lng: number }, label?: string) => {
+  const openInMaps = (e: MouseEvent, coords?: { lat: number; lng: number }) => {
     e.stopPropagation();
     if (!coords) return;
     const { lat, lng } = coords;
-    const geoUrl = `geo:${lat},${lng}`;
     const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
     try {
-      const a = document.createElement('a');
-      a.href = geoUrl;
-      a.rel = 'noopener noreferrer';
-      a.target = '_self';
-      document.body.appendChild(a);
-      a.click();
-      // fallback to Google Maps shortly after in case geo: isn't handled
-      setTimeout(() => window.open(googleUrl, '_blank'), 600);
+      setTimeout(() => window.location.href = googleUrl, 100);
     } catch {
-      window.open(googleUrl, '_blank');
+      window.location.href = googleUrl;
     }
   };
 
@@ -194,11 +186,11 @@ export default function MapPage() {
                             <div className="flex items-center gap-2">
                               {venue.coordinates && (
                                 <button
-                                  onClick={(e) => openInMaps(e, venue.coordinates, venue.name)}
+                                  onClick={(e) => openInMaps(e, venue.coordinates)}
                                   className="p-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-md text-white hover:bg-white/10 transition-all duration-200"
                                   aria-label={`Open ${venue.name} in maps`}
                                 >
-                                  <Image src="/page-assets/googlemap.svg" alt="Open in maps" width={100} height={20} />
+                                  <Image src="/page-assets/googlemap.svg" className="pointer-events-none" alt="Open in maps" width={100} height={20} />
                                 </button>
                               )}
                             </div>
@@ -304,7 +296,7 @@ export default function MapPage() {
                       <div className="mt-4 flex gap-3">
                         {selectedVenue.coordinates && (
                           <button
-                            onClick={(e) => openInMaps(e, selectedVenue.coordinates, selectedVenue.name)}
+                            onClick={(e) => openInMaps(e, selectedVenue.coordinates)}
                             className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/10 rounded-md text-sm text-white hover:bg-white/20 transition-all duration-200"
                           >
                             Open in maps
