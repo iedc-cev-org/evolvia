@@ -70,7 +70,7 @@ export default function MapPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-12 md:mb-16"
           >
-            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 mix-blend-exclusion">
+            <h1 className="offwhite-gradient text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 mix-blend-exclusion">
               Venue Map
             </h1>
             <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
@@ -91,7 +91,7 @@ export default function MapPage() {
                   onClick={() => setActiveBlock(block)}
                   className={`px-4 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300 ${
                     activeBlock === block
-                      ? "bg-white text-black"
+                      ? "bg-gradient-to-b from-white to-white/70 text-black"
                       : "bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20"
                   }`}
                 >
@@ -128,7 +128,7 @@ export default function MapPage() {
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/0 to-black/60"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white text-center px-4 mix-blend-exclusion">
+                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white text-center px-4 offwhite-gradient">
                           {venue.name}.
                         </h3>
                       </div>
