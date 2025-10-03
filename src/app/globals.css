@@ -93,8 +93,8 @@ svg, canvas, video {
 }
 
 .shimmer-mask-logo{
-  -webkit-mask-image: url('/logo.webp');
-  mask-image: url('/logo.webp');
+  -webkit-mask-image: url('/page-assets/logo.webp');
+  mask-image: url('/page-assets/logo.webp');
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
