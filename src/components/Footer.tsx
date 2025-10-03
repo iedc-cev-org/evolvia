@@ -3,23 +3,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 import AnimatedReveal from '@/components/AnimatedReveal'
 
-export default function Footer() {
+export default function Footer({ hideHero }: { hideHero?: boolean } = {}) {
   return (
     <footer className='relative w-full flex flex-col justify-end z-20 py-10'>
-        <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="w-full h-full transform translate-y-[-30%] md:translate-y-[-10%] lg:translate-y-[-10%]">
-                <Image
-                    src="/page-assets/footer.webp"
-                    alt="Footer background"
-                    fill
-                    className="object-contain object-bottom"
-                    priority={false}
-                />
+        {!hideHero && (
+          <>
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <div className="w-full h-full transform translate-y-[-30%] md:translate-y-[-10%] lg:translate-y-[-10%]">
+                    <Image
+                        src="/page-assets/footer.webp"
+                        alt="Footer background"
+                        fill
+                        className="object-contain object-bottom"
+                        priority={false}
+                    />
+                </div>
             </div>
-        </div>
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center pb-20">
-            <AnimatedReveal text="Stay tuned." as="h2" className="text-5xl lg:text-6xl font-bold text-white tracking-tight" split="chars" />
-        </div>
+            <div className="relative z-10 flex-1 flex flex-col items-center justify-center pb-20">
+                <AnimatedReveal text="Stay tuned." as="h2" className="text-5xl lg:text-6xl font-bold text-white tracking-tight" split="chars" />
+            </div>
+          </>
+        )}
     <div className="relative z-20 bg-white/10 backdrop-blur-md border border-white/20 max-w-5xl w-8/9 md:w-3/4 mx-auto p-6 m-4 rounded-xl shadow-lg flex flex-col justify-between gap-6">
             <div className='flex justify-around items-start gap-4'>
                 <div className='flex-shrink-0'>

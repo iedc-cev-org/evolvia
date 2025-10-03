@@ -102,3 +102,16 @@ svg, canvas, video {
   -webkit-mask-size: contain;
   mask-size: contain;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.mix-blend-exclusion {
+  mix-blend-mode: exclusion;
+}

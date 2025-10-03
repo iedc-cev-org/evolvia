@@ -1,0 +1,98 @@
+[
+  {
+    "id": "nebula",
+    "name": "Nebula",
+    "location": "Mini Auditorium",
+    "block": "Main Block",
+    "description": "A cosmic gathering space for major events",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "eclipse",
+    "name": "Eclipse + Quasar",
+    "location": "Programming Lab + CCF",
+    "block": "Main Block",
+    "description": "Twin spaces for technical sessions",
+    "images": ["/map-assets/test.png", "/map-assets/test.png"]
+  },
+  {
+    "id": "astra",
+    "name": "Astra",
+    "location": "ASAP Room",
+    "block": "Main Block",
+    "description": "Innovation hub for creative minds",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "zenith",
+    "name": "Zenith",
+    "location": "Main Block Center - near notice boards",
+    "block": "Main Block",
+    "description": "The central point of convergence",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "starlight",
+    "name": "Starlight Trail",
+    "location": "MCA to Main Block Path",
+    "block": "Pathway",
+    "description": "Journey through the stellar path",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "orion",
+    "name": "Orion",
+    "location": "MCA Seminar Hall",
+    "block": "Celestara (MCA Block)",
+    "description": "Grand hall for major presentations",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "lyra",
+    "name": "Lyra",
+    "location": "MCA Room D111",
+    "block": "Celestara (MCA Block)",
+    "description": "Intimate space for focused sessions",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "pegasus",
+    "name": "Pegasus",
+    "location": "MCA Counselling Center D103",
+    "block": "Celestara (MCA Block)",
+    "description": "Guidance and mentorship zone",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "cassiopeia",
+    "name": "Cassiopeia",
+    "location": "MCA Girls Common Room B-311",
+    "block": "Celestara (MCA Block)",
+    "description": "Collaborative community space",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "nova",
+    "name": "Nova",
+    "location": "IEDC-Games (MCA Hall)",
+    "block": "Celestara (MCA Block)",
+    "description": "Entertainment and gaming arena",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "cygnus",
+    "name": "Cygnus",
+    "location": "Mu-Corner MCA Room D102",
+    "block": "Celestara (MCA Block)",
+    "description": "Creative corner for innovation",
+    "images": ["/map-assets/test.png"]
+  },
+  {
+    "id": "iedc-town",
+    "name": "IEDC Town",
+    "location": "Special Event Space",
+    "block": "Special Zone",
+    "description": "The heart of entrepreneurship",
+    "images": ["/map-assets/test.png"]
+  }
+]
