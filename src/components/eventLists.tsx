@@ -78,7 +78,7 @@ export const Events = [
   {
     id: 6,
     name: "Quizzard",
-    image: "/events/quizzard_college.webp",
+    image: "/events/quizzards_college.webp",
     spec: "College Level Quiz Competition",
     dateTime: "Oct 08 2025 | 1:30 PM - 3 PM",
     venue: "Orion | CEV Premises",
