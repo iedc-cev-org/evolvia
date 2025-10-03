@@ -269,7 +269,7 @@ export default function MapPage() {
         </div>
       </div>
 
-  <div className="relative z-10 py-12 border-t border-white/10">
+  <div className="relative py-12 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
           <div className="text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">Navigation Tips</h2>

@@ -5,7 +5,7 @@ import AnimatedReveal from '@/components/AnimatedReveal'
 
 export default function Footer({ hideHero }: { hideHero?: boolean } = {}) {
   return (
-    <footer className='relative w-full flex flex-col justify-end z-20 py-10'>
+    <footer className= {!hideHero ? 'relative w-full flex flex-col justify-end z-20 py-10' : 'relative w-full flex flex-col justify-end z-0 py-10'}>
         {!hideHero && (
           <>
             <div className="absolute inset-0 z-0 overflow-hidden">
