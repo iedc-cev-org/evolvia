@@ -376,7 +376,7 @@ export default function Home() {
         </section>
         
         {/* Section 2: Pinned Events Section */}
-        
+
         <section id="events-section">
         <PinnedEventsSection events={reorderedEvents} />
         </section>
@@ -526,7 +526,7 @@ export default function Home() {
               />
               <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4 mx-auto"></div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 bg-amber-50/5 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 bg-amber-50/5 p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-md">
               {Sponsors.map((sponsor, index) => (
                 <motion.div
                   key={sponsor.name}
@@ -540,13 +540,15 @@ export default function Home() {
                     delay: index * 0.1,
                     ease: [0.25, 0.25, 0, 1]    
                   }}
+                  className="flex items-center justify-center bg-white/5 rounded-xl p-2 sm:p-4 md:p-6 h-28 sm:h-32 md:h-40 lg:h-44"
                 >
                   <Image
                     src={sponsor.image}
                     alt={sponsor.name}
-                    width={800}
-                    height={300}
-                    className="w-48 h-full object-cover transition-opacity duration-500 ease-out"
+                    width={200}
+                    height={80}
+                    className="object-contain w-full h-full max-h-20 sm:max-h-24 md:max-h-32 lg:max-h-36 transition-opacity duration-500 ease-out"
+                    style={{ background: 'transparent' }}
                   />
                 </motion.div>
               ))}
