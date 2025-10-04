@@ -25,7 +25,52 @@ export const preEvents = [
   }
 ]
 
+export const StallsAndExpos = [
+  {
+    name: "Innoverse",
+    image: "/stalls/innoverse.webp",
+    description: "A product development expo based on AI powered Automation and Robotics."
+  },
+  {
+    name: "Robo Soccer",
+    image: "/stalls/robo_soccer.webp",
+    description: "Finite Intelligence™ presents Robo Soccer, based on AI powered Robotics."
+  },
+  {
+    name: "Talrop Ecosystem",
+    image: "/stalls/talrop.webp",
+    description: "Diverse startups and innovations by Talrop, a leading talent solutions company."
+  },
+  {
+    name: "FOSS Corner",
+    image: "/stalls/foss.webp",
+    description: "Explore the world of Free and Open Source Software (FOSS) with us."
+  },
+  {
+    name: "Mu Corner",
+    image: "/stalls/mucorner.webp",
+    description: "Discover the latest in games and interactive experiences with Mu Learn."
+  }
+]
 
+export const Sponsors = [
+  {
+    name: "Made Products",
+    image: "/sponsors/made_cover.webp"
+  },
+  {
+    name: "Cake Stories",
+    image: "/sponsors/cake_stories.webp"
+  },
+  {
+    name: "Finite Intelligence",
+    image: "/sponsors/finite_intelligence.webp"
+  },
+  { 
+    name: "Snaptiqz",
+    image: "/sponsors/snaptiqz.webp"
+  }
+]
 
 export const Events = [
   {
