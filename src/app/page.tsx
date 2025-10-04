@@ -8,10 +8,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import AnimatedReveal from '@/components/AnimatedReveal';
 import Footer from '@/components/Footer';
-import { preEvents,Events } from '@/components/eventLists';
+import { preEvents, Events, StallsAndExpos } from '@/components/eventLists';
 import FullScreenSection from '@/components/ScrollVideo';
 import PinnedEventsSection from '@/components/PinnedEventsSection';
 import Link from "next/link";
+import { Sponsors } from "@/components/eventLists";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -22,6 +23,7 @@ export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
+  const stallsSectionRef = useRef<HTMLDivElement | null>(null);
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -153,6 +155,43 @@ export default function Home() {
       v.removeEventListener('loadeddata', onReady);
     };
   }, []);
+
+  useEffect(() => {
+    if (!isClient || !stallsSectionRef.current) return;
+
+    const section = stallsSectionRef.current;
+    const cards = gsap.utils.toArray<HTMLElement>(section.querySelectorAll('.stall-card'));
+    if (!cards.length) return;
+
+
+    // Start cards off-screen at bottom
+    gsap.set(cards, { y: window.innerHeight * 0.7, opacity: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => '+=' + (cards.length * 220 + 400),
+        pin: true,
+        pinSpacing: true,
+        scrub: true,
+      },
+    });
+
+    tl.to(cards, {
+      y: (i) => 0,
+      opacity: 1,
+      ease: 'power2.out',
+      stagger: { each: 0.18 },
+    });
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, [isClient, videoReady]);
 
   
   
@@ -337,11 +376,70 @@ export default function Home() {
         </section>
         
         {/* Section 2: Pinned Events Section */}
+        
         <section id="events-section">
         <PinnedEventsSection events={reorderedEvents} />
         </section>
-        
-        {/* Section 3: Pre Events */}
+        {/* Section 3: Stalls and Expos */}
+        <section ref={stallsSectionRef} className="w-screen bg-black relative flex flex-col items-center py-20" style={{ willChange: 'transform' }}>
+          <div className="max-w-6xl mx-auto px-6 w-full">
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-12">
+              <div className="space-y-6 max-w-3xl">
+                <AnimatedReveal
+                  text="Stalls & Expos."
+                  as="h2"
+                  className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                  split="chars"
+                />
+                <AnimatedReveal
+                  text="Experience the innovators shaping the future of automation, robotics, and tech culture."
+                  as="p"
+                  className="text-lg lg:text-xl text-white/70"
+                  split="words"
+                  stagger={0.04}
+                  duration={0.6}
+                  initialYOffset={16}
+                />
+              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.6, ease: [0.25, 0.25, 0, 1] }}
+                className="flex items-center gap-3 px-6 py-4 bg-white/5 border border-white/10 rounded-full text-white/80 backdrop-blur-md"
+              >
+                <span className="inline-flex h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]" />
+                <span className="text-sm uppercase tracking-[0.3em]">On Floor Showcase</span>
+              </motion.div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {StallsAndExpos.map((stall, index) => (
+                <article
+                  key={stall.name}
+                  className="stall-card relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg group"
+                  style={{ willChange: 'transform' }}
+                >
+                  <div className="relative h-80 overflow-hidden">
+                    <Image
+                      src={stall.image}
+                      alt={stall.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 420px"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      priority={index === 0}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <div className="relative z-10 h-full flex flex-col justify-end p-6 space-y-3">
+                      <h3 className="text-2xl font-semibold text-white">{stall.name}</h3>
+                      <p className="text-sm text-white/70 leading-relaxed">{stall.description}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        {/* Section 4: Pre Events */}
         <section className="w-screen bg-black relative flex flex-col items-center py-14 mb-10" style={{ willChange: 'transform' }}>
 
           {/*Pre Events only*/}
@@ -416,7 +514,46 @@ export default function Home() {
             </div>
           </div>
         </section>
-        {/* Section 4: Footer */}
+        {/* Section 5: Sponsors */}
+        <section className="w-screen bg-black relative flex flex-col items-center py-14 mb-10" style={{ willChange: 'transform' }}>
+          <div className="max-w-6xl mx-auto px-6 w-full pt-10">
+            <div className="mb-12 text-center">
+              <AnimatedReveal
+                text="Our Sponsors."
+                as="h2"
+                className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                split="chars"
+              />
+              <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4 mx-auto"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 bg-amber-50/5 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+              {Sponsors.map((sponsor, index) => (
+                <motion.div
+                  key={sponsor.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.1,
+                    ease: [0.25, 0.25, 0, 1]    
+                  }}
+                >
+                  <Image
+                    src={sponsor.image}
+                    alt={sponsor.name}
+                    width={800}
+                    height={300}
+                    className="w-48 h-full object-cover transition-opacity duration-500 ease-out"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+        {/* Section 6: Footer */}
         <section className="w-screen bg-black my-16">
           <Footer />
         </section>
