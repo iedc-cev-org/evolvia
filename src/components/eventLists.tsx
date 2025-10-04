@@ -120,7 +120,7 @@ export const Events = [
     dateTime: "TBA",
     venue: "TBA",
     // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
-  }
+  },
   {
     id: 11,
     name: "Startup Stories",
