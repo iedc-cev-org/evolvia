@@ -139,7 +139,7 @@ export default function MapPage() {
                     <div className="rounded-lg overflow-hidden h-18 relative bg-black/10">
                       {venue.images && venue.images.length > 0 && (
                         <Image
-                          src="/map-assets/image.png"
+                          src="/map-assets/image.webp"
                           alt={venue.name}
                           fill
                           className="object-cover"
