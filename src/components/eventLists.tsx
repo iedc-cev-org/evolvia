@@ -121,5 +121,14 @@ export const Events = [
     venue: "TBA",
     // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
   }
+  {
+    id: 11,
+    name: "Startup Stories",
+    image: "",
+    spec: "",
+    dateTime:"08 Oct 2025",
+    venue: "College Premises",
+link:"https://snaptiqz.com/event/oyAujIp-24D0JFrjpH9jR",
+  }
 ];
 
