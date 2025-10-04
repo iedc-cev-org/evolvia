@@ -124,11 +124,11 @@ export const Events = [
   {
     id: 11,
     name: "Startup Stories",
-    image: "",
-    spec: "",
-    dateTime:"08 Oct 2025",
-    venue: "College Premises",
-link:"https://snaptiqz.com/event/oyAujIp-24D0JFrjpH9jR",
+    image: "/events/startup_stories.webp",
+    spec: "Talks by startup founders",
+    dateTime:"Oct 08 2025",
+    venue: "CEV Premises",
+    link:"https://snaptiqz.com/event/oyAujIp-24D0JFrjpH9jR",
   }
 ];
 
