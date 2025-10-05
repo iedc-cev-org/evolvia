@@ -159,12 +159,12 @@ export const Events = [
   },
   {
     id: 10,
-    name: "Connect with the CEO",
-    image: "/events/CEO.webp",
-    spec: "",
-    dateTime: "Oct 08 2025 | 10:30 AM - 11 AM",
-    venue: "ASAP ROOM",
-    link: "https://snaptiqz.com/event/5_AMPBjPXTj1V0t8tj_am",
+    name: "Innoverse",
+    image: "/events/innoverse.webp",
+    spec: "Student project exhibition",
+    dateTime: "Oct 08 2025 | 11 AM - 4 PM",
+    venue: "Cassiopeia | CEV Premises",
+    // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
   },
   {
     id: 11,
@@ -186,3 +186,17 @@ export const Events = [
   }
 ];
 
+export const Speakers = [
+  {
+    name: "Nandu Krishna T",
+    designation: "CTO Lofritex IT Solutions",
+    expertise: "Full Stack Developer",
+    image: "/speakers/nandu_krishna.webp"
+  },
+  {
+    name: "Rony K Roy",
+    designation: "Sr.Technology Fellow",
+    expertise: "Kerala Startup Mission",
+    image: "/speakers/rony.webp"
+  },
+]

@@ -8,11 +8,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import AnimatedReveal from '@/components/AnimatedReveal';
 import Footer from '@/components/Footer';
-import { preEvents, Events, StallsAndExpos } from '@/components/eventLists';
+import { preEvents, Events, StallsAndExpos, Speakers, Sponsors } from '@/components/eventLists';
 import FullScreenSection from '@/components/ScrollVideo';
 import PinnedEventsSection from '@/components/PinnedEventsSection';
 import Link from "next/link";
-import { Sponsors } from "@/components/eventLists";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -514,7 +513,57 @@ export default function Home() {
             </div>
           </div>
         </section>
-        {/* Section 5: Sponsors */}
+        {/* Section 5: Speakers */}
+        <section className="w-screen bg-black relative flex flex-col items-center py-14 mb-10" style={{ willChange: 'transform' }}>
+          <div className="max-w-6xl mx-auto px-6 w-full pt-10">
+            <div className="mb-12">
+              <AnimatedReveal
+                text="Our Speakers."
+                as="h2"
+                className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                split="chars"
+              />
+              <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {Speakers.map((speaker, index) => (
+                <motion.div
+                  key={speaker.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.1,
+                    ease: [0.25, 0.25, 0, 1]
+                  }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg"
+                >
+                  <div className="relative h-96 overflow-hidden">
+                    <Image
+                      src={speaker.image}
+                      alt={speaker.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      priority={index === 0}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <div className="relative z-10 h-full flex flex-col justify-end p-6 space-y-2">
+                      <h3 className="text-3xl font-semibold text-white">{speaker.name}</h3>
+                      <p className="text-base text-white/80">{speaker.designation}</p>
+                      <p className="text-sm text-white/60">{speaker.expertise}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 6: Sponsors */}
         <section className="w-screen bg-black relative flex flex-col items-center py-14 mb-10" style={{ willChange: 'transform' }}>
           <div className="max-w-6xl mx-auto px-6 w-full pt-10">
             <div className="mb-12 text-center">
@@ -555,7 +604,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        {/* Section 6: Footer */}
+        {/* Section 7: Footer */}
         <section className="w-screen bg-black my-16">
           <Footer />
         </section>
