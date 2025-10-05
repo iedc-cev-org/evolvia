@@ -162,7 +162,7 @@ export const Events = [
     name: "Connect with the CEO",
     image: "/events/ceo.webp",
     spec: "Student project exhibition",
-    dateTime: "Oct 08 2025",
+    dateTime: "Oct 08 2025 | 10:30 AM",
     venue: "Cassiopeia | CEV Premises",
     link: "https://snaptiqz.com/event/5_AMPBjPXTj1V0t8tj_am"
   },
