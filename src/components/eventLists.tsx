@@ -145,7 +145,7 @@ export const Events = [
     image: "/events/quizzards_school.webp",
     spec: "Exclusively for School Students",
     dateTime: "Oct 08 2025 | 10 AM - 12:30 PM",
-    venue: "TBA",
+    venue: "CEV Premises",
     link: "https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
   {
@@ -154,7 +154,7 @@ export const Events = [
     image: "/events/ventureway.webp",
     spec: "Business Model Competition",
     dateTime: "TBA",
-    venue: "TBA",
+    venue: "CEV Premises",
      link: "https://snaptiqz.com/event/gAbgUGX0HfFj20UTMzdL9",
   },
   {
