@@ -174,6 +174,15 @@ export const Events = [
     dateTime:"Oct 08 2025",
     venue: "CEV Premises",
     link:"https://snaptiqz.com/event/oyAujIp-24D0JFrjpH9jR",
+  }, 
+  {
+    id: 12,
+    name: "IEE N.O.W",
+    image: "",
+    spec: "Topic-Blockchain",
+    dateTime:"Oct 08 2025",
+    venue: "CEV Premises",
+    link:"https://snaptiqz.com/event/tQDZcVppvy5oF6vxVEulg",
   }
 ];
 
