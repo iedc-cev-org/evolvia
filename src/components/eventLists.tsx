@@ -162,7 +162,7 @@ export const Events = [
     name: "Innoverse",
     image: "/events/innoverse.webp",
     spec: "Student project exhibition",
-    dateTime: "08 Oct 2025",
+    dateTime: "Oct 08 2025",
     venue: "CEV Premises",
     // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
   },
