@@ -155,7 +155,7 @@ export const Events = [
     spec: "Business Model Competition",
     dateTime: "TBA",
     venue: "TBA",
-     link: "https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
+     link: "https://snaptiqz.com/event/gAbgUGX0HfFj20UTMzdL9",
   },
   {
     id: 10,
