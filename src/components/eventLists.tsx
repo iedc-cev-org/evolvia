@@ -89,7 +89,7 @@ export const Events = [
     spec: "Exclusively for CEV Students",
     dateTime: "Oct 06 - 07 2025 | 4 PM | 24 hrs",
     venue: "CCF, Programming Lab",
-    link: "https://snaptiqz.com/event/pCn_980UQs5EC9rp3SLfu",
+    link: "",
   },
   {
     id: 3,
