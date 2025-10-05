@@ -159,12 +159,12 @@ export const Events = [
   },
   {
     id: 10,
-    name: "Innoverse",
-    image: "/events/innoverse.webp",
-    spec: "Student project exhibition",
-    dateTime: "Oct 08 2025 | 11 AM - 4 PM",
-    venue: "Cassiopeia | CEV Premises",
-    // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
+    name: "Connect with the CEO",
+    image: "/events/CEO.webp",
+    spec: "",
+    dateTime: "Oct 08 2025 | 10:30 AM - 11 AM",
+    venue: "ASAP ROOM",
+    link: "https://snaptiqz.com/event/5_AMPBjPXTj1V0t8tj_am",
   },
   {
     id: 11,
