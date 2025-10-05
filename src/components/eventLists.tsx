@@ -79,7 +79,7 @@ export const Events = [
     image: "/events/alumini.webp",
     spec: "Only for pass out Students",
     dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "College Premises",
+    venue: "IEDC TOWN|Cev Premises",
     link: "https://snaptiqz.com/event/iuqDD8FbT7rFE5UvJTu5j",
   },
   {
@@ -88,7 +88,7 @@ export const Events = [
     image: "/events/bitburst.webp",
     spec: "Exclusively for CEV Students",
     dateTime: "Oct 06 - 07 2025 | 4 PM | 24 hrs",
-    venue: "CCF, Programing Lab",
+    venue: "CCF, Programming Lab",
     link: "https://snaptiqz.com/event/pCn_980UQs5EC9rp3SLfu",
   },
   {
@@ -97,7 +97,7 @@ export const Events = [
     image: "/events/visio_ai.webp",
     spec: "AI image & video exhibition",
     dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "College Premises",
+    venue: "Lyra|Cev Premises",
     link: "https://snaptiqz.com/event/AwEd2rU3f91edjdHIVwow",
   },
   {
@@ -134,8 +134,8 @@ export const Events = [
     name: "IEDC Leads Meet",
     image: "/events/leadsmeet.webp",
     spec: "Networking event for IEDC leads",
-    dateTime: "Oct 08 2025",
-    venue: "CEV Premises",
+    dateTime: "Oct 08 2025 | 9 AM - 4 PM",
+    venue: "IEDC TOWN|CEV Premises",
     link: "https://snaptiqz.com/event/SDkHpsY8wg9J9RleiPFP9",
   },
 
@@ -145,7 +145,7 @@ export const Events = [
     image: "/events/quizzards_school.webp",
     spec: "Exclusively for School Students",
     dateTime: "Oct 08 2025 | 10 AM - 12:30 PM",
-    venue: "CEV Premises",
+    venue: "Orion|CEV Premises",
     link: "https://snaptiqz.com/event/QqZXqSQO6Pj5YVX8H1Gb6",
   },
   {
@@ -153,7 +153,7 @@ export const Events = [
     name: "Venture Way",
     image: "/events/ventureway.webp",
     spec: "Business Model Competition",
-    dateTime: "TBA",
+    dateTime: "Oct 08 2025 | 9 AM - 4 PM",
     venue: "CEV Premises",
      link: "https://snaptiqz.com/event/gAbgUGX0HfFj20UTMzdL9",
   },
@@ -162,8 +162,8 @@ export const Events = [
     name: "Innoverse",
     image: "/events/innoverse.webp",
     spec: "Student project exhibition",
-    dateTime: "Oct 08 2025",
-    venue: "CEV Premises",
+    dateTime: "Oct 08 2025 | 11 AM - 4 PM",
+    venue: "Cassiopeia|CEV Premises",
     // link: "https://snaptiqz.com/event/5rxbnY5ItoKhWsMrRuD4G",
   },
   {
@@ -171,8 +171,8 @@ export const Events = [
     name: "Startup Stories",
     image: "/events/startup_stories.webp",
     spec: "Talks by startup founders",
-    dateTime:"Oct 08 2025",
-    venue: "CEV Premises",
+    dateTime:"Oct 08 2025 | 2 AM - 4 PM",
+    venue: "Nebula|CEV Premises",
     link:"https://snaptiqz.com/event/oyAujIp-24D0JFrjpH9jR",
   }, 
   {
@@ -180,8 +180,8 @@ export const Events = [
     name: "IEEE N.O.W",
     image: "/events/now.webp",
     spec: "Topic-Blockchain",
-    dateTime:"Oct 08 2025",
-    venue: "CEV Premises",
+    dateTime:"Oct 08 2025 | 11 AM - 12 PM",
+    venue: "Astra|CEV Premises",
     link:"https://snaptiqz.com/event/tQDZcVppvy5oF6vxVEulg",
   }
 ];
