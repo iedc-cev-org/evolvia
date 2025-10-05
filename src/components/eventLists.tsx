@@ -177,7 +177,7 @@ export const Events = [
   }, 
   {
     id: 12,
-    name: "IEE N.O.W",
+    name: "IEEE N.O.W",
     image: "",
     spec: "Topic-Blockchain",
     dateTime:"Oct 08 2025",
