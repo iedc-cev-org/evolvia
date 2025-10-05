@@ -484,7 +484,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                         </Link>
                       ) : (
                         <div className="ev-cta w-full text-center text-base md:text-lg lg:text-xl px-3 md:px-4 lg:px-6 py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
-                          Registration Not Open
+                          Registration Closed
                         </div>
                       )}
                     </div>
