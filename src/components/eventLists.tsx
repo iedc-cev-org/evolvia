@@ -178,7 +178,7 @@ export const Events = [
   {
     id: 12,
     name: "IEEE N.O.W",
-    image: "",
+    image: "/events/now.webp",
     spec: "Topic-Blockchain",
     dateTime:"Oct 08 2025",
     venue: "CEV Premises",
