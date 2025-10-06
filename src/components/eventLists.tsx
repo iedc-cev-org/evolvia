@@ -160,7 +160,7 @@ export const Events = [
   {
     id: 10,
     name: "Connect with the CEO",
-    image: "/events/ceo.webp",
+    image: "/events/connectceo.webp",
     spec: "Student project exhibition",
     dateTime: "Oct 08 2025 | 10:30 AM",
     venue: "Cassiopeia | CEV Premises",
