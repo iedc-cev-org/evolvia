@@ -184,6 +184,15 @@ export const Events = [
     venue: "Astra | CEV Premises",
     link:"https://snaptiqz.com/event/tQDZcVppvy5oF6vxVEulg",
   }
+{
+    id: 13,
+    name: "CONNECT",
+    image: "/events/",
+    spec: "An interactive Session with alumnis",
+    dateTime:"Oct 08 2025 | 11 AM - 1 PM",
+    venue: "Mini auditorium",
+    link:"https://snaptiqz.com/event/_sMpzD8_KixpV0KP1TBkp",
+  }
 ];
 
 export const Speakers = [
