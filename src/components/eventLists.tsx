@@ -151,7 +151,7 @@ export const Events = [
   {
     id: 9,
     name: "Venture Way",
-    image: "/events/ventureway.webp",
+    image: "/events/venture.webp",
     spec: "Business Model Competition",
     dateTime: "Oct 08 2025 | 10:30 AM - 11:30 AM",
     venue: "CEV Premises",
@@ -169,9 +169,9 @@ export const Events = [
   {
     id: 11,
     name: "Startup Stories",
-    image: "/events/startup_stories.webp",
+    image: "/events/startup.webp",
     spec: "Talks by startup founders",
-    dateTime:"Oct 08 2025 | 2 AM - 4 PM",
+    dateTime:"Oct 08 2025 | 2 PM - 4 PM",
     venue: "Nebula | CEV Premises",
     link:"https://snaptiqz.com/event/oyAujIp-24D0JFrjpH9jR",
   }, 
