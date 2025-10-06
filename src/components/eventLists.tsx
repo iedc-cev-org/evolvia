@@ -183,7 +183,7 @@ export const Events = [
     dateTime:"Oct 08 2025 | 11 AM - 12 PM",
     venue: "Astra | CEV Premises",
     link:"https://snaptiqz.com/event/tQDZcVppvy5oF6vxVEulg",
-  }
+  },
 {
     id: 13,
     name: "CONNECT",
