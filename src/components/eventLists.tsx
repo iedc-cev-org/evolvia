@@ -187,7 +187,7 @@ export const Events = [
 {
     id: 13,
     name: "CONNECT",
-    image: "/events/",
+    image: "/events/connect.webp",
     spec: "An interactive Session with alumnis",
     dateTime:"Oct 08 2025 | 11 AM - 1 PM",
     venue: "Mini auditorium",
