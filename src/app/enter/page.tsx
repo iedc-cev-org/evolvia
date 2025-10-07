@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import Image from 'next/image';
 import LeaderboardClient from '@/components/LeaderboardClient';
 
 type User = { _id: string; name: string; email: string; image: string; score: number; createdAt: string };
@@ -98,7 +99,7 @@ export default function EnterPage() {
         setSelectedUser(null);
         window.dispatchEvent(new CustomEvent('users:changed'));
       }
-    } catch (err) {
+    } catch {
       setMessage('Network error');
     } finally {
       setLoading(false);
@@ -177,9 +178,11 @@ export default function EnterPage() {
                           }}
                           className="w-full p-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3"
                         >
-                          <img 
+                          <Image 
                             src={user.image} 
                             alt={user.name}
+                            width={32}
+                            height={32}
                             className="w-8 h-8 rounded-full"
                           />
                           <div>
@@ -200,9 +203,11 @@ export default function EnterPage() {
             {selectedUser && (
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-md p-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <img 
+                  <Image 
                     src={selectedUser.image} 
                     alt={selectedUser.name}
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full"
                   />
                   <div>

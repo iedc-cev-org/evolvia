@@ -178,7 +178,7 @@ export default function Home() {
     });
 
     tl.to(cards, {
-      y: (i) => 0,
+      y: () => 0,
       opacity: 1,
       ease: 'power2.out',
       stagger: { each: 0.18 },

@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import Image from 'next/image';
 import LeaderboardClient from '@/components/LeaderboardClient';
 import { useSession } from 'next-auth/react';
 
@@ -18,9 +19,11 @@ export default function LeaderboardPage() {
           <h1 className="text-3xl font-bold">Game Leaderboard</h1>
           {session && (
             <div className="flex items-center gap-3">
-              <img 
+              <Image 
                 src={session.user?.image || ''} 
                 alt={session.user?.name || ''} 
+                width={32}
+                height={32}
                 className="w-8 h-8 rounded-full"
               />
               <div className="text-right">

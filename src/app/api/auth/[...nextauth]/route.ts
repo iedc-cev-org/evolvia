@@ -15,7 +15,7 @@ const handler = NextAuth({
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider !== "google") return false;
       
       console.log('Google sign-in attempt:', { 
@@ -80,10 +80,10 @@ const handler = NextAuth({
         return true; // Still allow sign-in even if database save fails
       }
     },
-    async jwt({ token, user }) {
+    async jwt({ token }) {
       return token;
     },
-    async session({ session, token }) {
+    async session({ session }) {
       return session;
     },
   },

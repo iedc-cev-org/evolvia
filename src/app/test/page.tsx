@@ -1,11 +1,19 @@
 "use client";
 import React, { useState } from 'react';
 
+interface TestResult {
+  test: string;
+  success: boolean;
+  data?: unknown;
+  error?: string;
+  timestamp: string;
+}
+
 export default function TestPage() {
-  const [testResults, setTestResults] = useState<any[]>([]);
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const addTestResult = (test: string, success: boolean, data?: any, error?: string) => {
+  const addTestResult = (test: string, success: boolean, data?: unknown, error?: string) => {
     setTestResults(prev => [...prev, {
       test,
       success,
@@ -15,7 +23,7 @@ export default function TestPage() {
     }]);
   };
 
-  const runTest = async (testName: string, testFn: () => Promise<any>) => {
+  const runTest = async (testName: string, testFn: () => Promise<unknown>) => {
     try {
       const result = await testFn();
       addTestResult(testName, true, result);
@@ -95,7 +103,7 @@ export default function TestPage() {
       await runTest('Clear Database', async () => {
         // We'll just reseed with empty data
         const res = await fetch('/api/seed', { method: 'POST' });
-        const data = await res.json();
+        await res.json();
         return { message: 'Database cleared and reseeded' };
       });
     } finally {
@@ -152,12 +160,12 @@ export default function TestPage() {
                 </div>
               )}
               
-              {result.data && (
+              {result.data != null && (
                 <div className="mt-2">
                   <details className="text-sm">
                     <summary className="cursor-pointer text-gray-300">Show Details</summary>
                     <pre className="mt-2 p-2 bg-black/50 rounded overflow-auto">
-                      {JSON.stringify(result.data, null, 2)}
+                      {typeof result.data === 'string' ? result.data : JSON.stringify(result.data, null, 2)}
                     </pre>
                   </details>
                 </div>

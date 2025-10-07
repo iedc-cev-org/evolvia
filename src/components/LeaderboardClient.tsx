@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type User = { 
   _id: string; 
@@ -151,9 +152,11 @@ export default function LeaderboardClient() {
                 <span className="font-mono text-base font-bold text-white/70 min-w-[3rem] text-center">
                   #{idx + 1}
                 </span>
-                <img 
+                <Image
                   src={user.image} 
                   alt={user.name}
+                  width={100}
+                  height={100}
                   className="w-10 h-10 rounded-full border-2 border-white/20"
                 />
                 <div className="flex-1">
