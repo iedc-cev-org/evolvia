@@ -236,7 +236,7 @@ export const Speakers = [
     name: "Ahammed Kabeer",
     designation: "Founder & Ceo , Mirrorfolio",
     expertise: "",
-    image: "/speakers/kabeer1.webp"
+    image: "/speakers/kabeer.webp"
   },
 
 ]
