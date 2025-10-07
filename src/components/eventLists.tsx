@@ -210,33 +210,33 @@ export const Speakers = [
   },
    {
     name: "Adhish Chakyery",
-    designation: " Co Founder & Ceo , Meda(Abix Global Group) ",
-    expertise: "",
+    designation: "Co Founder & Ceo",
+    expertise: " Meda(Abix Global Group) ",
     image: "/speakers/adhish.webp"
   },
    {
     name: "Rajath Navas",
-    designation: "ceo & Founder , Pace Lab",
-    expertise: "",
+    designation: "ceo & Founder",
+    expertise: "Pace Lab",
     image: "/speakers/rajath.webp"
   },
    {
     name: "Musfira Parvin K",
-    designation: "Vice President Of Business Development , Talrop",
-    expertise: "",
+    designation: "Vice President Of Business Development",
+    expertise: "Talrop",
     image: "/speakers/musfi.webp"
   },
    {
     name: "Muhammed Jaseel",
-    designation: "Co Founder , Kalibah Trading LLP",
-    expertise: "",
+    designation: "Co Founder",
+    expertise: "Kalibah Trading LLP",
     image: "/speakers/jaseel.webp"
   },
    {
     name: "Ahammed Kabeer",
-    designation: "Founder & Ceo , Mirrorfolio",
-    expertise: "",
-    image: "/speakers/kabeer.webp"
+    designation: "Founder & Ceo ",
+    expertise: "Mirrorfolio",
+    image: "/speakers/kabeerr.webp"
   },
 
 ]
