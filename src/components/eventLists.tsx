@@ -75,6 +75,7 @@ export const Sponsors = [
 export const Events = [
   {
     id: 1,
+    isClosed: true,
     name: "IEDC Alumni Interaction Meet",
     image: "/events/alumini.webp",
     spec: "Only for pass out Students",
@@ -84,6 +85,7 @@ export const Events = [
   },
   {
     id: 2,
+    isClosed: true,
     name: "BIT'BURST 2.0",
     image: "/events/bitburst.webp",
     spec: "Exclusively for CEV Students",
@@ -93,6 +95,7 @@ export const Events = [
   },
   {
     id: 3,
+    isClosed: true,
     name: "Visio",
     image: "/events/visio_ai.webp",
     spec: "AI image & video exhibition",
@@ -102,6 +105,7 @@ export const Events = [
   },
   {
     id: 4,
+    isClosed: true,
     name: "PitchBox",
     image: "/events/pitchbox.webp",
     spec: "Idea pitching competition",
@@ -112,6 +116,7 @@ export const Events = [
 
   {
     id: 5,
+    isClosed: true,
     name: "Hack 4 Ease",
     image: "/events/hack4ease.webp",
     spec: "",
@@ -122,6 +127,7 @@ export const Events = [
 
   {
     id: 6,
+    isClosed: true,
     name: "Quizzard",
     image: "/events/quizzards_college.webp",
     spec: "College Level Quiz Competition",
@@ -131,6 +137,7 @@ export const Events = [
   },
   {
     id: 7,
+    isClosed: true,
     name: "IEDC Leads Meet",
     image: "/events/leadsmeet.webp",
     spec: "Networking event for IEDC leads",
@@ -141,6 +148,7 @@ export const Events = [
 
   {
     id: 8,
+    isClosed: true,
     name: "Quizzard - School",
     image: "/events/quizzards_school.webp",
     spec: "Exclusively for School Students",
@@ -150,6 +158,7 @@ export const Events = [
   },
   {
     id: 9,
+    isClosed: true,
     name: "Venture Way",
     image: "/events/venture.webp",
     spec: "Business Model Competition",
@@ -159,6 +168,7 @@ export const Events = [
   },
   {
     id: 10,
+    isClosed: true,
     name: "Connect with the CEO",
     image: "/events/connectceo.webp",
     spec: "Student project exhibition",
@@ -168,6 +178,7 @@ export const Events = [
   },
   {
     id: 11,
+    isClosed: true,
     name: "Startup Stories",
     image: "/events/startup.webp",
     spec: "Talks by startup founders",
@@ -177,6 +188,7 @@ export const Events = [
   }, 
   {
     id: 12,
+    isClosed: true,
     name: "IEEE N.O.W",
     image: "/events/now.webp",
     spec: "Topic-Blockchain",
@@ -186,6 +198,7 @@ export const Events = [
   },
 {
     id: 13,
+    isClosed: true,
     name: "CONNECT",
     image: "/events/connect.webp",
     spec: "An interactive session with alumnis",
