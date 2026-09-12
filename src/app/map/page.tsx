@@ -60,13 +60,13 @@ export default function MapPage() {
       </div>
 
       <div className="fixed top-4 left-4 md:top-6 md:left-6 z-30">
-        {/* <Image
+        <Image
           src="/page-assets/iedclogo.webp"
           alt="IEDC Logo"
           width={60}
           height={60}
           className="opacity-90 w-12 h-12 md:w-16 md:h-16"
-        /> */}
+        />
       </div>
 
       <motion.div

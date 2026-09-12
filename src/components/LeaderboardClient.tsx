@@ -35,13 +35,11 @@ export default function LeaderboardClient() {
       
       const data = await res.json();
       
-      // Check if the response has an error
       if (data.error) {
         const errorMsg = data.details ? `${data.error}: ${data.details}` : data.error;
         throw new Error(errorMsg);
       }
       
-      // Ensure data is an array
       if (Array.isArray(data)) {
         setUsers(data);
       } else {
@@ -89,7 +87,6 @@ export default function LeaderboardClient() {
             Retry Connection
           </button>
           
-          {/* Show demo data when database is unavailable */}
           <div className="text-left">
             <p className="text-sm text-white/60 mb-4">Showing demo data (database unavailable):</p>
             <ol className="space-y-4">

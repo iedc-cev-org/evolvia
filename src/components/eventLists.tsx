@@ -1,255 +1,270 @@
-export const preEvents = [
-  {
-    name: "How to build a Startup",
-    isCompleted: true,
-    image: '/pre-events/franklin.webp',
-    completed_image: '/pre-events/franklin_completed.webp',
-    description: "",
-    link: ""
-  },
-  {
-    name: "What's Vibe Coding",
-    isCompleted: true,
-    image: '/pre-events/vibecoding.webp',
-    completed_image: '/pre-events/vibecoding_completed.webp',
-    description: "",
-    link: ""
-  },
-  {
-    name: "What's Supabase",
-    isCompleted: true,
-    image: '/pre-events/supabase.webp',
-    completed_image: '/pre-events/supabase_completed.webp',
-    description: "",
-    link: ""
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+
+export interface PreEvent {
+  id?: number | string;
+  slug?: string;
+  name: string;
+  image: string;
+  completed_image?: string;
+  spec?: string;
+  dateTime?: string;
+  venue?: string;
+  link?: string;
+  description?: string;
+  isClosed?: boolean;
+  isCompleted?: boolean;
+  order_index?: number;
+  type?: string;
+}
+
+export interface Event {
+  id: number | string;
+  slug?: string;
+  name: string;
+  image: string;
+  completed_image?: string;
+  spec?: string;
+  dateTime?: string;
+  venue?: string;
+  link?: string;
+  description?: string;
+  isClosed?: boolean;
+  isCompleted?: boolean;
+  order_index?: number;
+  type?: string;
+}
+
+export interface StallAndExpo {
+  id?: number | string;
+  name: string;
+  image: string;
+  description?: string;
+  order_index?: number;
+}
+
+export interface Speaker {
+  id?: number | string;
+  name: string;
+  designation?: string;
+  expertise?: string;
+  image: string;
+  order_index?: number;
+}
+
+export interface Sponsor {
+  id?: number | string;
+  name: string;
+  image: string;
+  order_index?: number;
+}
+
+export const preEvents: PreEvent[] = [];
+export const StallsAndExpos: StallAndExpo[] = [];
+export const Sponsors: Sponsor[] = [];
+export const Events: Event[] = [];
+export const Speakers: Speaker[] = [];
+
+interface RawDatabaseRow {
+  id?: number | string;
+  slug?: string;
+  name?: string;
+  title?: string;
+  poster_url?: string;
+  image_url?: string;
+  image?: string;
+  completed_poster_url?: string;
+  completed_image_url?: string;
+  completed_image?: string;
+  spec?: string;
+  specification?: string;
+  tagline?: string;
+  date_time?: string;
+  dateTime?: string;
+  venue?: string;
+  location?: string;
+  link?: string;
+  registration_link?: string;
+  url?: string;
+  description?: string;
+  is_closed?: boolean;
+  isClosed?: boolean;
+  is_completed?: boolean;
+  isCompleted?: boolean;
+  order_index?: number;
+  type?: string;
+  designation?: string;
+  expertise?: string;
+}
+
+const mapEventFromDb = (row: RawDatabaseRow, index: number, fallbackType: string): Event => {
+  const eventName = row.name || row.title || `Event ${index + 1}`;
+  const generatedSlug =
+    row.slug ||
+    eventName
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+  return {
+    id: row.id ?? index + 1,
+    slug: generatedSlug,
+    name: eventName,
+    image: row.poster_url || row.image_url || row.image || "/events/alumini.webp",
+    completed_image: row.completed_poster_url || row.completed_image_url || row.completed_image || undefined,
+    spec: row.spec || row.specification || row.tagline || "",
+    dateTime: row.date_time || row.dateTime || "",
+    venue: row.venue || row.location || "",
+    link: row.link || row.registration_link || row.url || "",
+    description: row.description || "",
+    isClosed: Boolean(row.is_closed ?? row.isClosed ?? false),
+    isCompleted: Boolean(row.is_completed ?? row.isCompleted ?? false),
+    order_index: row.order_index ?? index,
+    type: row.type || fallbackType,
+  };
+};
+
+const mapStallFromDb = (row: RawDatabaseRow, index: number): StallAndExpo => ({
+  id: row.id ?? index + 1,
+  name: row.name || row.title || `Stall ${index + 1}`,
+  image: row.poster_url || row.image_url || row.image || "/stalls/innoverse.webp",
+  description: row.description || "",
+  order_index: row.order_index ?? index,
+});
+
+const mapSpeakerFromDb = (row: RawDatabaseRow, index: number): Speaker => ({
+  id: row.id ?? index + 1,
+  name: row.name || row.title || `Speaker ${index + 1}`,
+  designation: row.designation || "",
+  expertise: row.expertise || "",
+  image: row.poster_url || row.image_url || row.image || "/speakers/nandu_krishna.webp",
+  order_index: row.order_index ?? index,
+});
+
+const mapSponsorFromDb = (row: RawDatabaseRow, index: number): Sponsor => ({
+  id: row.id ?? index + 1,
+  name: row.name || row.title || `Sponsor ${index + 1}`,
+  image: row.poster_url || row.image_url || row.image || "/sponsors/made_cover.webp",
+  order_index: row.order_index ?? index,
+});
+
+export async function fetchPreEvents(): Promise<PreEvent[]> {
+  if (!isSupabaseConfigured) return preEvents;
+  try {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("type", "pre_event")
+      .order("order_index", { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return preEvents;
+    }
+    return (data as RawDatabaseRow[]).map((row, index) => mapEventFromDb(row, index, "pre_event"));
+  } catch {
+    return preEvents;
   }
-]
+}
 
-export const StallsAndExpos = [
-  {
-    name: "Innoverse",
-    image: "/stalls/innoverse.webp",
-    description: "A product development expo based on AI powered Automation and Robotics."
-  },
-  {
-    name: "Robo Soccer",
-    image: "/stalls/robo_soccer.webp",
-    description: "Finite Intelligence™ presents Robo Soccer, based on AI powered Robotics."
-  },
-  {
-    name: "Talrop Ecosystem",
-    image: "/stalls/talrop.webp",
-    description: "Diverse startups and innovations by Talrop, a leading talent solutions company."
-  },
-  {
-    name: "FOSS Corner",
-    image: "/stalls/foss.webp",
-    description: "Explore the world of Free and Open Source Software (FOSS) with us."
-  },
-  {
-    name: "Mu Corner",
-    image: "/stalls/mucorner.webp",
-    description: "Discover the latest in games and interactive experiences with Mu Learn."
+export async function fetchMainEvents(): Promise<Event[]> {
+  if (!isSupabaseConfigured) return Events;
+  try {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("type", "main_event")
+      .order("order_index", { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return Events;
+    }
+    return (data as RawDatabaseRow[]).map((row, index) => mapEventFromDb(row, index, "main_event"));
+  } catch {
+    return Events;
   }
-]
+}
 
-export const Sponsors = [
-  {
-    name: "Made Products",
-    image: "/sponsors/made_cover.webp"
-  },
-  {
-    name: "Cake Stories",
-    image: "/sponsors/cake_stories.webp"
-  },
-  {
-    name: "Finite Intelligence",
-    image: "/sponsors/finite_intelligence.webp"
-  },
-  { 
-    name: "Snaptiqz",
-    image: "/sponsors/snaptiqz.webp"
+export async function fetchStallsAndExpos(): Promise<StallAndExpo[]> {
+  if (!isSupabaseConfigured) return StallsAndExpos;
+  try {
+    const { data, error } = await supabase
+      .from("stalls_and_expos")
+      .select("*")
+      .order("order_index", { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return StallsAndExpos;
+    }
+    return (data as RawDatabaseRow[]).map(mapStallFromDb);
+  } catch {
+    return StallsAndExpos;
   }
-]
+}
 
-export const Events = [
-  {
-    id: 1,
-    isClosed: true,
-    name: "IEDC Alumni Interaction Meet",
-    image: "/events/alumini.webp",
-    spec: "Only for pass out Students",
-    dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "IEDC TOWN | CEV Premises",
-    link: "",
-  },
-  {
-    id: 2,
-    isClosed: true,
-    name: "BIT'BURST 2.0",
-    image: "/events/bitburst.webp",
-    spec: "Exclusively for CEV Students",
-    dateTime: "Oct 06 - 07 2025 | 4 PM | 24 hrs",
-    venue: "CCF, Programming Lab",
-    link: "",
-  },
-  {
-    id: 3,
-    isClosed: true,
-    name: "Visio",
-    image: "/events/visio_ai.webp",
-    spec: "AI image & video exhibition",
-    dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "Lyra | CEV Premises",
-    link: "",
-  },
-  {
-    id: 4,
-    isClosed: true,
-    name: "PitchBox",
-    image: "/events/pitchbox.webp",
-    spec: "Idea pitching competition",
-    dateTime: "Oct 08 2025 | 1 PM - 4 PM",
-    venue: "Astra | CEV Premises",
-    link: "",
-  },
+export async function fetchSpeakers(): Promise<Speaker[]> {
+  if (!isSupabaseConfigured) return Speakers;
+  try {
+    const { data, error } = await supabase
+      .from("speakers")
+      .select("*")
+      .order("order_index", { ascending: true });
 
-  {
-    id: 5,
-    isClosed: true,
-    name: "Hack 4 Ease",
-    image: "/events/hack4ease.webp",
-    spec: "",
-    dateTime: "Oct 08 2025 | 10 AM - 1 PM",
-    venue: "Eclipse | CEV Premises",
-    link: "",
-  },
-
-  {
-    id: 6,
-    isClosed: true,
-    name: "Quizzard",
-    image: "/events/quizzards_college.webp",
-    spec: "College Level Quiz Competition",
-    dateTime: "Oct 08 2025 | 1:30 PM - 3 PM",
-    venue: "Orion | CEV Premises",
-    link: "",
-  },
-  {
-    id: 7,
-    isClosed: true,
-    name: "IEDC Leads Meet",
-    image: "/events/leadsmeet.webp",
-    spec: "Networking event for IEDC leads",
-    dateTime: "Oct 08 2025 | 9 AM - 4 PM",
-    venue: "IEDC TOWN | CEV Premises",
-    link: "",
-  },
-
-  {
-    id: 8,
-    isClosed: true,
-    name: "Quizzard - School",
-    image: "/events/quizzards_school.webp",
-    spec: "Exclusively for School Students",
-    dateTime: "Oct 08 2025 | 10 AM - 12:30 PM",
-    venue: "Orion | CEV Premises",
-    link: "",
-  },
-  {
-    id: 9,
-    isClosed: true,
-    name: "Venture Way",
-    image: "/events/venture.webp",
-    spec: "Business Model Competition",
-    dateTime: "Oct 08 2025 | 10:30 AM - 11:30 AM",
-    venue: "CEV Premises",
-     link: "",
-  },
-  {
-    id: 10,
-    isClosed: true,
-    name: "Connect with the CEO",
-    image: "/events/connectceo.webp",
-    spec: "Student project exhibition",
-    dateTime: "Oct 08 2025 | 10:30 AM",
-    venue: "Cassiopeia | CEV Premises",
-    link: ""
-  },
-  {
-    id: 11,
-    isClosed: true,
-    name: "Startup Stories",
-    image: "/events/startup.webp",
-    spec: "Talks by startup founders",
-    dateTime:"Oct 08 2025 | 2 PM - 4 PM",
-    venue: "Nebula | CEV Premises",
-    link:"",
-  }, 
-  {
-    id: 12,
-    isClosed: true,
-    name: "IEEE N.O.W",
-    image: "/events/now.webp",
-    spec: "Topic-Blockchain",
-    dateTime:"Oct 08 2025 | 11 AM - 12 PM",
-    venue: "Astra | CEV Premises",
-    link:"",
-  },
-{
-    id: 13,
-    isClosed: true,
-    name: "CONNECT",
-    image: "/events/connect.webp",
-    spec: "An interactive session with alumnis",
-    dateTime:"Oct 08 2025 | 11 AM - 1 PM",
-    venue: "Mini auditorium",
-    link:"",
+    if (error || !data || data.length === 0) {
+      return Speakers;
+    }
+    return (data as RawDatabaseRow[]).map(mapSpeakerFromDb);
+  } catch {
+    return Speakers;
   }
-];
+}
 
-export const Speakers = [
-  {
-    name: "Nandu Krishna T",
-    designation: "CTO Lofritex IT Solutions",
-    expertise: "Full Stack Developer",
-    image: "/speakers/nandu_krishna.webp"
-  },
-  {
-    name: "Rony K Roy",
-    designation: "Sr.Technology Fellow",
-    expertise: "Kerala Startup Mission",
-    image: "/speakers/rony.webp"
-  },
-   {
-    name: "Adhish Chakyery",
-    designation: "Co Founder & Ceo",
-    expertise: " Meda(Abix Global Group) ",
-    image: "/speakers/adhish.webp"
-  },
-   {
-    name: "Rajath Navas",
-    designation: "ceo & Founder",
-    expertise: "Pace Lab",
-    image: "/speakers/rajath.webp"
-  },
-   {
-    name: "Musfira Parvin K",
-    designation: "Vice President Of Business Development",
-    expertise: "Talrop",
-    image: "/speakers/musfi.webp"
-  },
-   {
-    name: "Muhammed Jaseel",
-    designation: "Co Founder",
-    expertise: "Kalibah Trading LLP",
-    image: "/speakers/jaseel.webp"
-  },
-   {
-    name: "Ahammed Kabeer",
-    designation: "Founder & Ceo ",
-    expertise: "Mirrorfolio",
-    image: "/speakers/kabeerr.webp"
-  },
+export async function fetchSponsors(): Promise<Sponsor[]> {
+  if (!isSupabaseConfigured) return Sponsors;
+  try {
+    const { data, error } = await supabase
+      .from("sponsors")
+      .select("*")
+      .order("order_index", { ascending: true });
 
-]
+    if (error || !data || data.length === 0) {
+      return Sponsors;
+    }
+    return (data as RawDatabaseRow[]).map(mapSponsorFromDb);
+  } catch {
+    return Sponsors;
+  }
+}
+
+export interface EvolviaDataset {
+  preEvents: PreEvent[];
+  events: Event[];
+  stallsAndExpos: StallAndExpo[];
+  stalls: StallAndExpo[];
+  speakers: Speaker[];
+  sponsors: Sponsor[];
+}
+
+export async function fetchAllEvolviaData(): Promise<EvolviaDataset> {
+  const [preEventsRes, eventsRes, stallsRes, speakersRes, sponsorsRes] = await Promise.allSettled([
+    fetchPreEvents(),
+    fetchMainEvents(),
+    fetchStallsAndExpos(),
+    fetchSpeakers(),
+    fetchSponsors(),
+  ]);
+
+  const resolvedPre = preEventsRes.status === "fulfilled" && Array.isArray(preEventsRes.value) ? preEventsRes.value : preEvents;
+  const resolvedEvents = eventsRes.status === "fulfilled" && Array.isArray(eventsRes.value) ? eventsRes.value : Events;
+  const resolvedStalls = stallsRes.status === "fulfilled" && Array.isArray(stallsRes.value) ? stallsRes.value : StallsAndExpos;
+  const resolvedSpeakers = speakersRes.status === "fulfilled" && Array.isArray(speakersRes.value) ? speakersRes.value : Speakers;
+  const resolvedSponsors = sponsorsRes.status === "fulfilled" && Array.isArray(sponsorsRes.value) ? sponsorsRes.value : Sponsors;
+
+  return {
+    preEvents: resolvedPre,
+    events: resolvedEvents,
+    stallsAndExpos: resolvedStalls,
+    stalls: resolvedStalls,
+    speakers: resolvedSpeakers,
+    sponsors: resolvedSponsors,
+  };
+}
