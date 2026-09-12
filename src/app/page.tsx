@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -74,53 +74,102 @@ export default function Home() {
     return [targetEvent, ...otherEvents];
   }, [hashEventIndex, eventsData]);
 
-  useEffect(() => {
-    const checkHash = () => {
-      const rawHash = window.location.hash.replace(/^#/, "");
-      if (!rawHash) return;
+  const scrollToTargetSlug = useCallback((rawHash?: string) => {
+    const hash = (rawHash ?? window.location.hash).replace(/^#/, "");
+    if (!hash) return false;
 
-      const numMatch = rawHash.match(/^e(\d+)$/);
-      const targetIndex = eventsData.findIndex((ev) => {
-        if (ev.slug && ev.slug.toLowerCase() === rawHash.toLowerCase()) return true;
-        if (String(ev.id).toLowerCase() === rawHash.toLowerCase()) return true;
-        if (`e${ev.id}`.toLowerCase() === rawHash.toLowerCase()) return true;
-        if (numMatch && String(ev.id) === numMatch[1]) return true;
-        const normalizedName = ev.name
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-+|-+$/g, "");
-        if (normalizedName === rawHash.toLowerCase()) return true;
-        return false;
-      });
+    const targetPre = preEventsData.find((pe) => {
+      if (pe.slug && pe.slug.toLowerCase() === hash.toLowerCase()) return true;
+      if (String(pe.id).toLowerCase() === hash.toLowerCase()) return true;
+      const normalizedName = pe.name
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      if (normalizedName === hash.toLowerCase()) return true;
+      return false;
+    });
 
-      if (targetIndex >= 0) {
-        setHashEventIndex(targetIndex);
-        setShowJumpButton(true);
-        return;
+    if (targetPre) {
+      const preEl = document.getElementById(targetPre.slug || `preevent-${targetPre.id}`);
+      if (preEl) {
+        const smoother = ScrollSmoother.get();
+        if (smoother) {
+          smoother.scrollTo(preEl, true, "center center");
+        } else {
+          preEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return true;
       }
+    }
 
-      const targetPre = preEventsData.find((pe) => {
-        if (pe.slug && pe.slug.toLowerCase() === rawHash.toLowerCase()) return true;
-        if (String(pe.id).toLowerCase() === rawHash.toLowerCase()) return true;
-        const normalizedName = pe.name
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-+|-+$/g, "");
-        if (normalizedName === rawHash.toLowerCase()) return true;
-        return false;
-      });
+    const numMatch = hash.match(/^e(\d+)$/);
+    const targetIndex = eventsData.findIndex((ev) => {
+      if (ev.slug && ev.slug.toLowerCase() === hash.toLowerCase()) return true;
+      if (String(ev.id).toLowerCase() === hash.toLowerCase()) return true;
+      if (`e${ev.id}`.toLowerCase() === hash.toLowerCase()) return true;
+      if (numMatch && String(ev.id) === numMatch[1]) return true;
+      const normalizedName = ev.name
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      if (normalizedName === hash.toLowerCase()) return true;
+      return false;
+    });
 
-      if (targetPre) {
-        setShowJumpButton(true);
+    if (targetIndex >= 0) {
+      setHashEventIndex(targetIndex);
+      const eventsSection = document.querySelector("#events-section");
+      if (eventsSection) {
+        const smoother = ScrollSmoother.get();
+        if (smoother) {
+          smoother.scrollTo(eventsSection, true);
+        } else {
+          const rect = eventsSection.getBoundingClientRect();
+          const targetScrollTop = window.scrollY + rect.top;
+          window.scrollTo({
+            top: targetScrollTop,
+            behavior: "smooth",
+          });
+        }
       }
-    };
+      return true;
+    }
 
-    checkHash();
-    window.addEventListener("hashchange", checkHash);
-    return () => window.removeEventListener("hashchange", checkHash);
+    const directEl = document.getElementById(hash);
+    if (directEl) {
+      const smoother = ScrollSmoother.get();
+      if (smoother) {
+        smoother.scrollTo(directEl, true);
+      } else {
+        directEl.scrollIntoView({ behavior: "smooth" });
+      }
+      return true;
+    }
+
+    return false;
   }, [eventsData, preEventsData]);
+
+  useEffect(() => {
+    const rawHash = window.location.hash.replace(/^#/, "");
+    if (!rawHash) return;
+
+    if (videoReady && (preEventsData.length > 0 || eventsData.length > 0)) {
+      const timer = setTimeout(() => {
+        scrollToTargetSlug();
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [videoReady, preEventsData, eventsData, scrollToTargetSlug]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      scrollToTargetSlug();
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, [scrollToTargetSlug]);
 
   useEffect(() => {
     if (showJumpButton && scrollY > windowHeight * 2) {
@@ -129,42 +178,8 @@ export default function Home() {
   }, [scrollY, windowHeight, showJumpButton]);
 
   const handleJumpToEvent = () => {
-    const rawHash = window.location.hash.replace(/^#/, "");
-    const targetPre = preEventsData.find(
-      (pe) =>
-        (pe.slug && pe.slug.toLowerCase() === rawHash.toLowerCase()) ||
-        String(pe.id).toLowerCase() === rawHash.toLowerCase()
-    );
-
-    if (targetPre) {
-      const preEl = document.getElementById(targetPre.slug || `preevent-${targetPre.id}`);
-      if (preEl) {
-        const smoother = ScrollSmoother.get();
-        if (smoother) {
-          smoother.scrollTo(preEl, true);
-        } else {
-          preEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-        setTimeout(() => setShowJumpButton(false), 1000);
-        return;
-      }
-    }
-
-    const eventsSection = document.querySelector("#events-section");
-    if (eventsSection) {
-      const smoother = ScrollSmoother.get();
-      if (smoother) {
-        smoother.scrollTo(eventsSection, true);
-      } else {
-        const rect = eventsSection.getBoundingClientRect();
-        const targetScrollTop = window.scrollY + rect.top;
-        window.scrollTo({
-          top: targetScrollTop,
-          behavior: "smooth",
-        });
-      }
-      setTimeout(() => setShowJumpButton(false), 1000);
-    }
+    scrollToTargetSlug();
+    setTimeout(() => setShowJumpButton(false), 1000);
   };
 
   useEffect(() => {
@@ -294,18 +309,16 @@ export default function Home() {
     }
     if (slug) {
       window.location.hash = `#${slug}`;
-      const el = document.getElementById(slug);
-      if (el) {
-        const smoother = ScrollSmoother.get();
-        if (smoother) {
-          smoother.scrollTo(el, true);
-        } else {
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-        return;
-      }
+      scrollToTargetSlug(slug);
+      return;
     }
     if (link) {
+      if (link.startsWith("#")) {
+        const cleanSlug = link.replace(/^#/, "");
+        window.location.hash = link;
+        scrollToTargetSlug(cleanSlug);
+        return;
+      }
       const targetEv = eventsData.find(
         (e) =>
           e.slug === link ||
@@ -314,23 +327,7 @@ export default function Home() {
       );
       if (targetEv) {
         window.location.hash = `#${targetEv.slug || `e${targetEv.id}`}`;
-        const targetSection = document.querySelector("#events-section");
-        const smoother = ScrollSmoother.get();
-        if (smoother && targetSection) {
-          smoother.scrollTo(targetSection, true);
-        } else if (targetSection) {
-          targetSection.scrollIntoView({ behavior: "smooth" });
-        }
-        return;
-      }
-      if (link.startsWith("#")) {
-        const el = document.querySelector(link);
-        const smoother = ScrollSmoother.get();
-        if (smoother && el) {
-          smoother.scrollTo(el, true);
-        } else if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
+        scrollToTargetSlug(targetEv.slug || `e${targetEv.id}`);
       }
     }
   };

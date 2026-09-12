@@ -21,7 +21,7 @@
 - Verified in live browser testing: Homepage rendering, smooth scroll, Map page navigation, zone filter tabs, and return flow.
 - Removed all hardcoded raw dummy data arrays (`preEvents`, `Events`, `StallsAndExpos`, `Speakers`, `Sponsors`) in `src/components/eventLists.tsx` to ensure 100% dynamic data sourcing from Supabase.
 - Added interactive Register buttons to Pre-Event cards with status awareness (`Register Now`, `Event Completed`, `Registration Closed`).
-- Implemented smooth slug scrolling via ScrollSmoother/scrollTo instead of harsh jumps, preserving uninterrupted hero animation video loading.
+- Implemented automatic smooth scrolling to target event/pre-event slug cards (`/#<slug>`) once the web page and ScrollSmoother finish loading, eliminating skipped scrolls.
 - Configured dynamic DB registration link forwarding (`event.link`), `isClosed` status handling ('Registration Closed'), and `isCompleted` status handling ('Completed').
 - Restored smooth hover poster overlay transition: completed poster (`completed_image`) smoothly fades in on card hover only when `isCompleted` is true.
 - Preserved zero-comment production code standard across the codebase.
