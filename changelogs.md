@@ -25,3 +25,13 @@
 - Configured dynamic DB registration link forwarding (`event.link`), `isClosed` status handling ('Registration Closed'), and `isCompleted` status handling ('Completed').
 - Restored smooth hover poster overlay transition: completed poster (`completed_image`) smoothly fades in on card hover only when `isCompleted` is true.
 - Preserved zero-comment production code standard across the codebase.
+
+## Release 2026-09-18: Stable Main Event Redirection & Mobile Scrolling Enhancements
+
+### Fixed
+- **Main Event Disappearance on Redirection**: Eliminated dynamic array reordering in `src/app/page.tsx` that was causing `ScrollTrigger` instances in `src/components/PinnedEventsSection.tsx` to be killed and re-initialized mid-scroll.
+- **Direct Slide Targeting**: Main event slug URLs (`/#visio`, `/#bitburst-2-0`, `/#iedc-alumni-interaction-meet`) now calculate exact vertical slide offsets (`eventsSectionTop + targetIndex * window.innerHeight`) and glide ScrollSmoother directly to the targeted slide.
+- **Main Events 3:4 Poster Ratio**: Restored the 3:4 portrait poster ratio (`aspect-[3/4]`) across all screen sizes in `src/components/PinnedEventsSection.tsx`.
+- **Mobile Viewport Optimization in Pinned Events**: Adjusted left indicator column (`w-1/4`), scaled typography, and paddings so that all card details and buttons render cleanly on mobile viewports.
+- **Mobile Touch Inertia on Stalls Timeline**: Adjusted scrub timeline end distance on mobile screens to prevent scroll resistance on touch devices.
+- **Speakers & Sponsors Layout**: Refined card heights and multi-column grid gaps across mobile viewports, applying `overflow-x-hidden` across section wrappers to eliminate horizontal micro-shifts.

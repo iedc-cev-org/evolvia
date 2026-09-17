@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -37,7 +37,6 @@ export default function Home() {
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [hashEventIndex, setHashEventIndex] = useState<number | null>(null);
   const [showJumpButton, setShowJumpButton] = useState(false);
 
   const [eventsData, setEventsData] = useState<EventType[]>(Events);
@@ -64,15 +63,6 @@ export default function Home() {
       isMounted = false;
     };
   }, []);
-
-  const reorderedEvents = useMemo(() => {
-    if (hashEventIndex === null || hashEventIndex < 0 || hashEventIndex >= eventsData.length) {
-      return eventsData;
-    }
-    const targetEvent = eventsData[hashEventIndex];
-    const otherEvents = eventsData.filter((_, idx) => idx !== hashEventIndex);
-    return [targetEvent, ...otherEvents];
-  }, [hashEventIndex, eventsData]);
 
   const scrollToTargetSlug = useCallback((rawHash?: string) => {
     const hash = (rawHash ?? window.location.hash).replace(/^#/, "");
@@ -119,15 +109,15 @@ export default function Home() {
     });
 
     if (targetIndex >= 0) {
-      setHashEventIndex(targetIndex);
-      const eventsSection = document.querySelector("#events-section");
+      const eventsSection = document.querySelector("#events-section") as HTMLElement | null;
       if (eventsSection) {
+        const rect = eventsSection.getBoundingClientRect();
+        const sectionTop = window.scrollY + rect.top;
+        const targetScrollTop = sectionTop + targetIndex * window.innerHeight;
         const smoother = ScrollSmoother.get();
         if (smoother) {
-          smoother.scrollTo(eventsSection, true);
+          smoother.scrollTo(targetScrollTop, true);
         } else {
-          const rect = eventsSection.getBoundingClientRect();
-          const targetScrollTop = window.scrollY + rect.top;
           window.scrollTo({
             top: targetScrollTop,
             behavior: "smooth",
@@ -276,11 +266,14 @@ export default function Home() {
 
     gsap.set(cards, { y: window.innerHeight * 0.7, opacity: 0 });
 
+    const isMobile = window.innerWidth < 768;
+    const endDistance = isMobile ? cards.length * 120 + 200 : cards.length * 220 + 400;
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: () => "+=" + (cards.length * 220 + 400),
+        end: () => `+=${endDistance}`,
         pin: true,
         pinSpacing: true,
         scrub: true,
@@ -542,28 +535,28 @@ export default function Home() {
               </FullScreenSection>
             </section>
 
-            <section id="events-section">
-              <PinnedEventsSection events={reorderedEvents} />
+            <section id="events-section" className="w-full max-w-full overflow-x-hidden">
+              <PinnedEventsSection events={eventsData} />
             </section>
 
             <section
               ref={stallsSectionRef}
-              className="w-screen bg-black relative flex flex-col items-center py-20"
+              className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-16 md:py-20"
               style={{ willChange: "transform" }}
             >
-              <div className="max-w-6xl mx-auto px-6 w-full">
-                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-12">
-                  <div className="space-y-6 max-w-3xl">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 md:gap-10 mb-8 md:mb-12">
+                  <div className="space-y-4 md:space-y-6 max-w-3xl">
                     <AnimatedReveal
                       text="Stalls & Expos."
                       as="h2"
-                      className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                      className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight"
                       split="chars"
                     />
                     <AnimatedReveal
                       text="Experience the innovators shaping the future of automation, robotics, and tech culture."
                       as="p"
-                      className="text-lg lg:text-xl text-white/70"
+                      className="text-base sm:text-lg lg:text-xl text-white/70"
                       split="words"
                       stagger={0.04}
                       duration={0.6}
@@ -575,22 +568,22 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6, ease: [0.25, 0.25, 0, 1] }}
-                    className="flex items-center gap-3 px-6 py-4 bg-white/5 border border-white/10 rounded-full text-white/80 backdrop-blur-md"
+                    className="self-start lg:self-auto flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-white/5 border border-white/10 rounded-full text-white/80 backdrop-blur-md"
                   >
-                    <span className="inline-flex h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]" />
-                    <span className="text-sm uppercase tracking-[0.3em]">On Floor Showcase</span>
+                    <span className="inline-flex h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]" />
+                    <span className="text-xs sm:text-sm uppercase tracking-[0.25em] sm:tracking-[0.3em]">On Floor Showcase</span>
                   </motion.div>
                 </div>
 
                 {stallsData.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {stallsData.map((stall, index) => (
                       <article
                         key={stall.name + index}
                         className="stall-card relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg group"
                         style={{ willChange: "transform" }}
                       >
-                        <div className="relative h-80 overflow-hidden">
+                        <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden">
                           <Image
                             src={stall.image}
                             alt={stall.name}
@@ -600,10 +593,10 @@ export default function Home() {
                             priority={index === 0}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                          <div className="relative z-10 h-full flex flex-col justify-end p-6 space-y-3">
-                            <h3 className="text-2xl font-semibold text-white">{stall.name}</h3>
+                          <div className="relative z-10 h-full flex flex-col justify-end p-4 sm:p-6 space-y-2 sm:space-y-3">
+                            <h3 className="text-xl sm:text-2xl font-semibold text-white">{stall.name}</h3>
                             {stall.description && (
-                              <p className="text-sm text-white/70 leading-relaxed">{stall.description}</p>
+                              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">{stall.description}</p>
                             )}
                           </div>
                         </div>
@@ -618,22 +611,22 @@ export default function Home() {
 
             <section
               id="preevents-section"
-              className="w-screen bg-black relative flex flex-col items-center py-14 mb-10"
+              className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-12 md:py-14 mb-10"
               style={{ willChange: "transform" }}
             >
-              <div className="max-w-6xl mx-auto px-6 w-full pt-10">
-                <div className="mb-12">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-6 md:pt-10">
+                <div className="mb-8 md:mb-12">
                   <AnimatedReveal
                     text="Pre Events."
                     as="h2"
-                    className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight"
                     split="chars"
                   />
-                  <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
+                  <div className="w-24 sm:w-32 h-1 bg-gradient-to-r from-white to-transparent mt-3 md:mt-4"></div>
                 </div>
 
                 {preEventsData.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {preEventsData.map((event, index) => (
                       <motion.div
                         id={event.slug || `preevent-${event.id || index}`}
@@ -677,11 +670,11 @@ export default function Home() {
                             </div>
                           </div>
                           <div className="space-y-2">
-                            <h3 className="text-xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">
+                            <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-white/90 transition-colors duration-300">
                               {event.name}
                             </h3>
                             {event.spec && (
-                              <p className="text-sm text-white/70 leading-relaxed">{event.spec}</p>
+                              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">{event.spec}</p>
                             )}
                             {(event.dateTime || event.venue) && (
                               <div className="flex flex-col gap-1.5 text-xs text-white/60 pt-1">
@@ -709,19 +702,19 @@ export default function Home() {
                             )}
                           </div>
                         </div>
-                        <div className="mt-5 pt-3 border-t border-white/10">
+                        <div className="mt-4 sm:mt-5 pt-3 border-t border-white/10">
                           {event.isCompleted ? (
-                            <div className="w-full text-center py-2.5 px-4 rounded-md bg-white/10 text-white/70 font-medium border border-white/10">
+                            <div className="w-full text-center py-2 sm:py-2.5 px-3 sm:px-4 rounded-md bg-white/10 text-white/70 font-medium border border-white/10 text-xs sm:text-sm">
                               Completed
                             </div>
                           ) : event.isClosed ? (
-                            <div className="w-full text-center py-2.5 px-4 rounded-md bg-white/10 text-white/70 font-medium border border-white/10">
+                            <div className="w-full text-center py-2 sm:py-2.5 px-3 sm:px-4 rounded-md bg-white/10 text-white/70 font-medium border border-white/10 text-xs sm:text-sm">
                               Registration Closed
                             </div>
                           ) : event.link ? (
                             <button
                               onClick={() => handlePreEventAction(event.link, event.slug)}
-                              className="w-full py-2.5 px-4 rounded-md bg-white text-black hover:bg-white/90 text-xs md:text-sm font-semibold transition-all duration-200 shadow-md cursor-pointer text-center inline-flex items-center justify-center gap-2"
+                              className="w-full py-2 sm:py-2.5 px-3 sm:px-4 rounded-md bg-white text-black hover:bg-white/90 text-xs md:text-sm font-semibold transition-all duration-200 shadow-md cursor-pointer text-center inline-flex items-center justify-center gap-2"
                             >
                               Register Now
                               <svg
@@ -740,7 +733,7 @@ export default function Home() {
                               </svg>
                             </button>
                           ) : (
-                            <div className="w-full text-center py-2.5 px-4 rounded-md bg-white/10 text-white/70 font-medium border border-white/10">
+                            <div className="w-full text-center py-2 sm:py-2.5 px-3 sm:px-4 rounded-md bg-white/10 text-white/70 font-medium border border-white/10 text-xs sm:text-sm">
                               Coming Soon
                             </div>
                           )}
@@ -755,22 +748,22 @@ export default function Home() {
             </section>
 
             <section
-              className="w-screen bg-black relative flex flex-col items-center py-14 mb-10"
+              className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-12 md:py-14 mb-10"
               style={{ willChange: "transform" }}
             >
-              <div className="max-w-6xl mx-auto px-6 w-full pt-10">
-                <div className="mb-12">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-6 md:pt-10">
+                <div className="mb-8 md:mb-12">
                   <AnimatedReveal
                     text="Our Speakers."
                     as="h2"
-                    className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight"
                     split="chars"
                   />
-                  <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4"></div>
+                  <div className="w-24 sm:w-32 h-1 bg-gradient-to-r from-white to-transparent mt-3 md:mt-4"></div>
                 </div>
 
                 {speakersData.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {speakersData.map((speaker, index) => (
                       <motion.div
                         key={speaker.name + index}
@@ -786,7 +779,7 @@ export default function Home() {
                         }}
                         className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg"
                       >
-                        <div className="relative h-96 overflow-hidden">
+                        <div className="relative h-72 sm:h-80 md:h-96 overflow-hidden">
                           <Image
                             src={speaker.image}
                             alt={speaker.name}
@@ -796,10 +789,10 @@ export default function Home() {
                             priority={index === 0}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                          <div className="relative z-10 h-full flex flex-col justify-end p-6 space-y-2">
-                            <h3 className="text-3xl font-semibold text-white">{speaker.name}</h3>
-                            <p className="text-base text-white/80">{speaker.designation}</p>
-                            <p className="text-sm text-white/60">{speaker.expertise}</p>
+                          <div className="relative z-10 h-full flex flex-col justify-end p-4 sm:p-6 space-y-1.5 sm:space-y-2">
+                            <h3 className="text-2xl sm:text-3xl font-semibold text-white">{speaker.name}</h3>
+                            <p className="text-sm sm:text-base text-white/80">{speaker.designation}</p>
+                            <p className="text-xs sm:text-sm text-white/60">{speaker.expertise}</p>
                           </div>
                         </div>
                       </motion.div>
@@ -812,22 +805,22 @@ export default function Home() {
             </section>
 
             <section
-              className="w-screen bg-black relative flex flex-col items-center py-14 mb-10"
+              className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-12 md:py-14 mb-10"
               style={{ willChange: "transform" }}
             >
-              <div className="max-w-6xl mx-auto px-6 w-full pt-10">
-                <div className="mb-12 text-center">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-6 md:pt-10">
+                <div className="mb-8 md:mb-12 text-center">
                   <AnimatedReveal
                     text="Our Sponsors."
                     as="h2"
-                    className="text-6xl lg:text-7xl font-semibold text-white tracking-tight"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight"
                     split="chars"
                   />
-                  <div className="w-32 h-1 bg-gradient-to-r from-white to-transparent mt-4 mx-auto"></div>
+                  <div className="w-24 sm:w-32 h-1 bg-gradient-to-r from-white to-transparent mt-3 md:mt-4 mx-auto"></div>
                 </div>
 
                 {sponsorsData.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 bg-amber-50/5 p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8 bg-amber-50/5 p-3 sm:p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-md">
                     {sponsorsData.map((sponsor, index) => (
                       <motion.div
                         key={sponsor.name + index}
@@ -841,14 +834,14 @@ export default function Home() {
                           delay: index * 0.1,
                           ease: [0.25, 0.25, 0, 1],
                         }}
-                        className="flex items-center justify-center bg-white/5 rounded-xl p-2 sm:p-4 md:p-6 h-28 sm:h-32 md:h-40 lg:h-44"
+                        className="flex items-center justify-center bg-white/5 rounded-xl p-2 sm:p-4 md:p-6 h-24 sm:h-32 md:h-40 lg:h-44"
                       >
                         <Image
                           src={sponsor.image}
                           alt={sponsor.name}
                           width={200}
                           height={80}
-                          className="object-contain w-full h-full max-h-20 sm:max-h-24 md:max-h-32 lg:max-h-36 transition-opacity duration-500 ease-out"
+                          className="object-contain w-full h-full max-h-16 sm:max-h-24 md:max-h-32 lg:max-h-36 transition-opacity duration-500 ease-out"
                           style={{ background: "transparent" }}
                         />
                       </motion.div>
@@ -860,7 +853,7 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="w-screen bg-black my-16">
+            <section className="w-full max-w-full overflow-x-hidden bg-black my-16">
               <Footer />
             </section>
           </div>

@@ -182,17 +182,18 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       if (!rawHash) return;
 
       const numMatch = rawHash.match(/^e(\d+)$/);
-      const isMatched = events.some(
+      const targetIdx = events.findIndex(
         (ev) =>
           ev.slug === rawHash ||
           String(ev.id) === rawHash ||
           (numMatch && String(ev.id) === numMatch[1])
       );
 
-      if (isMatched && containerRef.current) {
+      if (targetIdx >= 0 && containerRef.current) {
         const container = containerRef.current;
         const rect = container.getBoundingClientRect();
-        const targetScrollTop = window.scrollY + rect.top;
+        const sectionTop = window.scrollY + rect.top;
+        const targetScrollTop = sectionTop + targetIdx * window.innerHeight;
 
         window.scrollTo({
           top: targetScrollTop,
@@ -334,10 +335,10 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       className="h-screen w-screen bg-black relative overflow-hidden"
     >
       <div
-        className="absolute left-0 top-0 w-1/5 md:w-2/5 lg:w-1/3 h-full flex flex-col justify-center items-center z-20"
+        className="absolute left-0 top-0 w-1/4 sm:w-1/3 md:w-2/5 lg:w-1/3 h-full flex flex-col justify-center items-center z-20 pointer-events-none"
       >
         <div className="text-center">
-          <div className="relative text-[3rem] md:text-[8rem] lg:text-[10rem] xl:text-[12rem] font-mono font-bold text-white/90 leading-none select-none inline-flex items-stretch gap-1 md:gap-2">
+          <div className="relative text-[2.2rem] sm:text-[3.5rem] md:text-[8rem] lg:text-[10rem] xl:text-[12rem] font-mono font-bold text-white/90 leading-none select-none inline-flex items-stretch gap-1 md:gap-2">
             <span ref={digitMeasureRef} className="absolute opacity-0 pointer-events-none" aria-hidden>
               0
             </span>
@@ -357,17 +358,17 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
             </div>
           </div>
 
-          <div className="w-16 md:w-32 h-0.5 bg-white/30 mx-auto mt-4 md:mt-8"></div>
+          <div className="w-10 sm:w-16 md:w-32 h-0.5 bg-white/30 mx-auto mt-2 sm:mt-4 md:mt-8"></div>
 
-          <div className="text-white/60 text-sm md:text-2xl lg:text-3xl font-light tracking-wider mt-4 md:mt-8 uppercase">
+          <div className="text-white/60 text-[10px] sm:text-xs md:text-2xl lg:text-3xl font-light tracking-wider mt-2 sm:mt-4 md:mt-8 uppercase">
             Ongoing Events
           </div>
 
-          <div className="mt-6 md:mt-12 flex flex-col items-center">
-            <div className="text-white/40 text-xs md:text-lg font-mono mb-2 md:mb-4">
+          <div className="mt-3 sm:mt-6 md:mt-12 flex flex-col items-center">
+            <div className="text-white/40 text-[10px] sm:text-xs md:text-lg font-mono mb-1 sm:mb-2 md:mb-4">
               {String(currentEventIndex + 1).padStart(2, "0")} / {String(events.length).padStart(2, "0")}
             </div>
-            <div className="w-1 h-16 md:h-32 bg-white/10 relative overflow-hidden">
+            <div className="w-0.5 sm:w-1 h-10 sm:h-16 md:h-32 bg-white/10 relative overflow-hidden">
               <div
                 className="absolute top-0 left-0 w-full bg-white/60 transition-all duration-300 ease-out"
                 style={{
@@ -380,7 +381,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
       </div>
 
       <div
-        className="absolute right-0 top-0 w-4/5 md:w-3/5 lg:w-2/3 h-full overflow-hidden"
+        className="absolute right-0 top-0 w-3/4 sm:w-2/3 md:w-3/5 lg:w-2/3 h-full overflow-hidden"
       >
         <div
           ref={eventsContainerRef}
@@ -390,11 +391,11 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
           {events.map((event, index) => (
             <div
               key={event.slug || event.id || index}
-              className="h-screen w-full flex items-center justify-center px-4 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12 lg:py-14 xl:py-16"
+              className="h-screen w-full flex items-center justify-center px-2 sm:px-4 md:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 md:py-12 lg:py-14 xl:py-16"
             >
               <motion.div
                 ref={(el) => { cardRefs.current[index] = el; }}
-                className="max-w-4xl w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-md shadow-xl p-4 md:p-6 lg:p-8 xl:p-10 opacity-0 translate-y-10 scale-95 will-change-transform"
+                className="max-w-4xl w-full max-h-[86vh] md:max-h-none overflow-y-auto md:overflow-visible bg-white/10 backdrop-blur-md border border-white/20 rounded-md shadow-xl p-3 sm:p-5 md:p-6 lg:p-8 xl:p-10 opacity-0 translate-y-10 scale-95 will-change-transform"
                 whileHover={{ y: -4, scale: 1.01 }}
                 transition={{ type: "spring", stiffness: 250, damping: 20 }}
                 onMouseMove={(e) => {
@@ -415,10 +416,10 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                   gsap.to(el, resetOptions);
                 }}
               >
-                <div className="ev-tilt flex flex-col md:flex-row gap-4 md:gap-5 lg:gap-6 xl:gap-8 items-stretch will-change-transform">
+                <div className="ev-tilt flex flex-col md:flex-row gap-2.5 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-8 items-stretch will-change-transform">
                   <div className="ev-image relative w-full md:w-[44%] md:min-w-[44%] overflow-hidden rounded-sm opacity-0 translate-y-6 will-change-transform aspect-[3/4] group/pimg">
                     {event.isCompleted && (
-                      <div className="absolute z-20 left-3 top-3 px-2.5 py-1 bg-black/60 text-white text-xs font-medium rounded-sm backdrop-blur-sm pointer-events-none">
+                      <div className="absolute z-20 left-2 top-2 sm:left-3 sm:top-3 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-black/60 text-white text-[10px] sm:text-xs font-medium rounded-sm backdrop-blur-sm pointer-events-none">
                         Completed
                       </div>
                     )}
@@ -441,47 +442,47 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                     <div className="ev-shimmer pointer-events-none absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent rotate-12" />
                   </div>
                   <div className="flex-1 flex flex-col justify-between min-w-0 overflow-hidden">
-                    <div className="space-y-2 md:space-y-3 lg:space-y-4">
-                      <h3 className="ev-title whitespace-normal break-normal text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight opacity-0 translate-y-6 will-change-transform">
+                    <div className="space-y-1.5 sm:space-y-2 md:space-y-3 lg:space-y-4">
+                      <h3 className="ev-title whitespace-normal break-normal text-base sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight opacity-0 translate-y-6 will-change-transform line-clamp-2 md:line-clamp-none">
                         {event.name}
                       </h3>
                       {event.spec && (
-                        <p className="ev-spec text-white/70 text-base md:text-lg lg:text-xl opacity-0 translate-y-6 will-change-transform">
+                        <p className="ev-spec text-white/70 text-xs sm:text-sm md:text-lg lg:text-xl opacity-0 translate-y-6 will-change-transform line-clamp-2 md:line-clamp-none">
                           {event.spec}
                         </p>
                       )}
                       {(event.dateTime || event.venue) && (
-                        <div className="ev-meta flex flex-col gap-2 text-white/60 text-xs md:text-sm opacity-0 translate-y-6 will-change-transform">
+                        <div className="ev-meta flex flex-col gap-1 sm:gap-2 text-white/60 text-[10px] sm:text-xs md:text-sm opacity-0 translate-y-6 will-change-transform">
                           {event.dateTime && (
-                            <div className="inline-flex items-center gap-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" className="flex-shrink-0" aria-hidden>
+                            <div className="inline-flex items-center gap-1.5 sm:gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" className="flex-shrink-0" aria-hidden>
                                 <path d="M7 11h6" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                                 <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.25" />
                                 <path d="M16 2v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M8 2v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
-                              <span className="text-xs md:text-sm text-white/60 font-regular">{event.dateTime}</span>
+                              <span className="text-[10px] sm:text-xs md:text-sm text-white/60 font-regular">{event.dateTime}</span>
                             </div>
                           )}
                           {event.venue && (
-                            <div className="inline-flex items-center gap-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" className="flex-shrink-0" aria-hidden>
+                            <div className="inline-flex items-center gap-1.5 sm:gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" className="flex-shrink-0" aria-hidden>
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                                 <circle cx="12" cy="9" r="2.2" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
-                              <span className="text-xs md:text-sm text-white/60 font-regular">{event.venue}</span>
+                              <span className="text-[10px] sm:text-xs md:text-sm text-white/60 font-regular">{event.venue}</span>
                             </div>
                           )}
                         </div>
                       )}
                     </div>
-                    <div className="mt-4 md:mt-6 lg:mt-8 flex-shrink-0 w-full">
+                    <div className="mt-2.5 sm:mt-4 md:mt-6 lg:mt-8 flex-shrink-0 w-full">
                       {event.isCompleted ? (
-                        <div className="ev-cta w-full text-center text-base md:text-lg lg:text-xl px-3 md:px-4 lg:px-6 py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
+                        <div className="ev-cta w-full text-center text-xs sm:text-sm md:text-lg lg:text-xl px-2.5 sm:px-3 md:px-4 lg:px-6 py-2 sm:py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
                           Completed
                         </div>
                       ) : event.isClosed ? (
-                        <div className="ev-cta w-full text-center text-base md:text-lg lg:text-xl px-3 md:px-4 lg:px-6 py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
+                        <div className="ev-cta w-full text-center text-xs sm:text-sm md:text-lg lg:text-xl px-2.5 sm:px-3 md:px-4 lg:px-6 py-2 sm:py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
                           Registration Closed
                         </div>
                       ) : event.link ? (
@@ -489,12 +490,12 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                           href={event.link}
                           target={event.link.startsWith("http") ? "_blank" : undefined}
                           rel={event.link.startsWith("http") ? "noopener noreferrer" : undefined}
-                          className="ev-cta inline-flex items-center justify-center w-full text-base md:text-lg lg:text-xl px-3 md:px-4 lg:px-6 py-2.5 md:py-3 lg:py-4 bg-white text-black font-medium rounded-sm hover:bg-white/90 transition-all duration-300 shadow-lg opacity-0 translate-y-6 will-change-transform"
+                          className="ev-cta inline-flex items-center justify-center w-full text-xs sm:text-sm md:text-lg lg:text-xl px-2.5 sm:px-3 md:px-4 lg:px-6 py-2 sm:py-2.5 md:py-3 lg:py-4 bg-white text-black font-medium rounded-sm hover:bg-white/90 transition-all duration-300 shadow-lg opacity-0 translate-y-6 will-change-transform"
                         >
                           Register Now
                         </Link>
                       ) : (
-                        <div className="ev-cta w-full text-center text-base md:text-lg lg:text-xl px-3 md:px-4 lg:px-6 py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
+                        <div className="ev-cta w-full text-center text-xs sm:text-sm md:text-lg lg:text-xl px-2.5 sm:px-3 md:px-4 lg:px-6 py-2 sm:py-2.5 md:py-3 lg:py-4 bg-white/10 text-white/70 font-medium rounded-sm border border-white/20 opacity-0 translate-y-6 will-change-transform">
                           Coming Soon
                         </div>
                       )}
