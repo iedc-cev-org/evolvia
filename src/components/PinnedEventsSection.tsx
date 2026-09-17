@@ -427,9 +427,8 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                       src={event.image}
                       alt={event.name}
                       fill
-                      className={`object-cover transition-all duration-700 group-hover/pimg:scale-105 ${
-                        event.isCompleted && event.completed_image ? "group-hover/pimg:opacity-0" : ""
-                      }`}
+                      className={`object-cover transition-all duration-700 group-hover/pimg:scale-105 ${event.isCompleted && event.completed_image ? "group-hover/pimg:opacity-0" : ""
+                        }`}
                     />
                     {event.isCompleted && event.completed_image && (
                       <Image

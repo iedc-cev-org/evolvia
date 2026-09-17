@@ -58,7 +58,7 @@ export default function Home() {
         if (Array.isArray(data.sponsors)) setSponsorsData(data.sponsors);
         ScrollTrigger.refresh();
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => {
       isMounted = false;
     };
@@ -345,9 +345,8 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className={`fixed z-25 transition-all duration-1500 ease-in-out ${
-          scrollY < 100 ? "top-6 left-6" : "top-12 left-12 hidden md:block"
-        }`}
+        className={`fixed z-25 transition-all duration-1500 ease-in-out ${scrollY < 100 ? "top-6 left-6" : "top-12 left-12 hidden md:block"
+          }`}
         style={{ willChange: "transform, opacity" }}
       >
         <Image
@@ -360,11 +359,10 @@ export default function Home() {
       </motion.div>
 
       <div
-        className={`fixed z-25 transition-all duration-1500 ease-in-out ${
-          scrollY < 100
+        className={`fixed z-25 transition-all duration-1500 ease-in-out ${scrollY < 100
             ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100"
             : "top-2 left-1/2 -translate-x-1/2 -translate-y-1/3 scale-40"
-        }`}
+          }`}
         style={{
           willChange: "transform",
           mixBlendMode: scrollY >= 100 ? "exclusion" : "normal",
@@ -654,9 +652,8 @@ export default function Home() {
                                 alt={event.name}
                                 fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                className={`w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-105 ${
-                                  event.isCompleted && event.completed_image ? "group-hover:opacity-0" : ""
-                                }`}
+                                className={`w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-105 ${event.isCompleted && event.completed_image ? "group-hover:opacity-0" : ""
+                                  }`}
                               />
                               {event.isCompleted && event.completed_image && (
                                 <Image
