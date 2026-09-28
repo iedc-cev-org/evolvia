@@ -291,6 +291,34 @@ export default function Home() {
     return () => observer.disconnect();
   }, [isClient, stallsData]);
 
+  useEffect(() => {
+    if (!isClient) return;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".pre-event-card, .speaker-card, .sponsor-card"));
+    if (!cards.length) return;
+    cards.forEach((card) => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(36px)";
+    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const card = entry.target as HTMLElement;
+          const idx = cards.indexOf(card);
+          setTimeout(() => {
+            card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }, (idx % 3) * 80);
+          observer.unobserve(card);
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [isClient, preEventsData, speakersData, sponsorsData]);
+
   const handlePreEventAction = (link?: string, slug?: string) => {
     if (link && (link.startsWith("http://") || link.startsWith("https://"))) {
       window.open(link, "_blank");
@@ -603,7 +631,6 @@ export default function Home() {
             <section
               id="preevents-section"
               className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-12 md:py-14 mb-10"
-              style={{ willChange: "transform" }}
             >
               <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-6 md:pt-10">
                 <div className="mb-8 md:mb-12">
@@ -619,18 +646,10 @@ export default function Home() {
                 {preEventsData.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {preEventsData.map((event, index) => (
-                      <motion.div
+                      <article
                         id={event.slug || `preevent-${event.id || index}`}
                         key={event.name + index}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{
-                          duration: 0.6,
-                          delay: index * 0.1,
-                          ease: [0.25, 0.25, 0, 1],
-                        }}
-                        className="group flex flex-col justify-between p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-white/20 scroll-mt-28"
+                        className="pre-event-card group flex flex-col justify-between p-4 rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:border-white/20 scroll-mt-28"
                       >
                         <div>
                           <div className="mb-4 overflow-hidden rounded-lg relative">
@@ -728,7 +747,7 @@ export default function Home() {
                             </div>
                           )}
                         </div>
-                      </motion.div>
+                      </article>
                     ))}
                   </div>
                 ) : (
@@ -739,7 +758,6 @@ export default function Home() {
 
             <section
               className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-12 md:py-14 mb-10"
-              style={{ willChange: "transform" }}
             >
               <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-6 md:pt-10">
                 <div className="mb-8 md:mb-12">
@@ -755,19 +773,9 @@ export default function Home() {
                 {speakersData.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {speakersData.map((speaker, index) => (
-                      <motion.div
+                      <div
                         key={speaker.name + index}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{
-                          duration: 0.6,
-                          delay: index * 0.1,
-                          ease: [0.25, 0.25, 0, 1],
-                        }}
-                        className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg"
+                        className="speaker-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-transform duration-300 hover:scale-[1.02]"
                       >
                         <div className="relative h-72 sm:h-80 md:h-96 overflow-hidden">
                           <Image
@@ -785,7 +793,7 @@ export default function Home() {
                             <p className="text-xs sm:text-sm text-white/60">{speaker.expertise}</p>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -796,7 +804,6 @@ export default function Home() {
 
             <section
               className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-12 md:py-14 mb-10"
-              style={{ willChange: "transform" }}
             >
               <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-6 md:pt-10">
                 <div className="mb-8 md:mb-12 text-center">
@@ -810,21 +817,11 @@ export default function Home() {
                 </div>
 
                 {sponsorsData.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8 bg-amber-50/5 p-3 sm:p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8 bg-amber-50/5 p-3 sm:p-6 md:p-8 rounded-2xl border border-white/10">
                     {sponsorsData.map((sponsor, index) => (
-                      <motion.div
+                      <div
                         key={sponsor.name + index}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{
-                          duration: 0.6,
-                          delay: index * 0.1,
-                          ease: [0.25, 0.25, 0, 1],
-                        }}
-                        className="flex items-center justify-center bg-white/5 rounded-xl p-2 sm:p-4 md:p-6 h-24 sm:h-32 md:h-40 lg:h-44"
+                        className="sponsor-card flex items-center justify-center bg-white/5 rounded-xl p-2 sm:p-4 md:p-6 h-24 sm:h-32 md:h-40 lg:h-44 transition-transform duration-300 hover:scale-[1.02]"
                       >
                         <Image
                           src={sponsor.image}
@@ -834,7 +831,7 @@ export default function Home() {
                           className="object-contain w-full h-full max-h-16 sm:max-h-24 md:max-h-32 lg:max-h-36 transition-opacity duration-500 ease-out"
                           style={{ background: "transparent" }}
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 ) : (
