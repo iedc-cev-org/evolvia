@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    minimumCacheTTL: 3600,
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
