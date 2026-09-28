@@ -1,11 +1,6 @@
 # changelogs.md
 
-## Release 2026-09-29: Fix Stall Images Not Showing
-
-### Fixed
-- Replaced Next.js `<Image width={0} height={0}>` with native `<img>` in stall cards. The `width=0/height=0` pattern caused the optimizer to request `w=1200` for each image — 11MB+ local `.webp` files timed out under the optimizer. Native `<img>` serves directly from `/public` with no proxy.
-- Removed unused `Image` import from `src/app/page.tsx`.
-
+## Release 2026-09-28: Fix Next.js Image Optimizer TimeoutError (code 23)
 
 ### Fixed
 - Added `unoptimized` prop to both `<Image>` components in `PinnedEventsSection.tsx` that render Supabase-hosted `.webp` posters. Next.js was proxy-downloading and re-encoding them server-side, causing repeated `TimeoutError` (code 23, ~10-12s). With `unoptimized`, the browser fetches the already-compressed files directly from Supabase CDN.
