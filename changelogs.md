@@ -1,5 +1,19 @@
 # changelogs.md
 
+## Release 2026-09-28: Fix Next.js Image Optimizer TimeoutError (code 23)
+
+### Fixed
+- Added `unoptimized` prop to both `<Image>` components in `PinnedEventsSection.tsx` that render Supabase-hosted `.webp` posters. Next.js was proxy-downloading and re-encoding them server-side, causing repeated `TimeoutError` (code 23, ~10-12s). With `unoptimized`, the browser fetches the already-compressed files directly from Supabase CDN.
+- Added `minimumCacheTTL: 3600` to `next.config.ts` to cache any remaining optimized remote images for 1 hour and prevent repeated fetches.
+
+
+### Fixed
+- Replaced GSAP scrub-pinned timeline on stalls section with IntersectionObserver stagger fade-in to eliminate scroll jank.
+- Removed `willChange: transform` from stall section and all stall cards.
+- Removed `backdrop-blur-lg` from stall cards (8 concurrent blur composites were major GPU bottleneck).
+- Added `loading="lazy"` to stall images 4–8; images 1–3 remain `priority`/eager.
+- Replaced framer-motion `whileInView` div in stalls header with a plain `div`.
+
 ## Release 2026-09-12: Dynamic Supabase Integration, Pre-Events Registration & Dependencies Update
 
 ### Added

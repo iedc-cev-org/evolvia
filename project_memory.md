@@ -4,6 +4,15 @@
 Evolvia is the official web portal for the IEDC flagship techno-entrepreneurship fest. The frontend is engineered with cinematic visual polish including scroll-based video sequences, GSAP pinned slide decks with digit counters, interactive cursor tracking, and campus 3D navigation.
 
 ## Supabase Schema & Field Mappings
+## Release 2026-09-28: Stall Section Performance Fixes
+
+### Fixed
+- **Stalls Scroll Lag**: Replaced GSAP `scrub: true` pinned timeline on stalls section with a lightweight `IntersectionObserver` stagger fade-in. Eliminated scroll jank caused by pinning + per-frame GSAP scrub repaints.
+- **Removed `willChange: transform`**: Dropped from stall section wrapper and every stall card to reduce excessive GPU composite layer creation.
+- **Removed `backdrop-blur-lg`**: Removed from all stall cards (8 concurrent blur composites were the primary GPU bottleneck).
+- **Image lazy loading**: First 3 stall images are `priority`/eager; remaining 5 use `loading="lazy"` to avoid blocking the main thread.
+- **Removed `motion.div` whileInView**: Replaced framer-motion observer div in the stalls header with a plain `div` to eliminate competing IntersectionObserver.
+
 
 ### 1. Events Table (`events`)
 - **Query Filter**: `type = 'main_event'` for core competitions and keynote sessions; `type = 'pre_event'` for workshops and pre-launch meets.
@@ -50,3 +59,4 @@ Evolvia is the official web portal for the IEDC flagship techno-entrepreneurship
 - **Pinned Scroll Deck**: Updates window hash dynamically as user scrolls (`#visio`, `#bitburst-2-0`, etc.). On card hover, `completed_image` smoothly overlays `image` only when `isCompleted` is true; otherwise standard `image` is shown with smooth scaling.
 - **Mobile Responsive Layout**: Pinned events layout automatically adapts on mobile viewports (< 768px) with proportional numeral indicators (`w-1/4`), 3:4 portrait poster ratio (`aspect-[3/4]`), and scaled typography/paddings to guarantee that all card metadata and Register buttons fit inside mobile phone heights with 0 vertical cutoffs or scroll traps.
 - **Pre-Events**: Feature dedicated Register Now CTA buttons linked to `event.link` from DB, with disabled badges for 'Registration Closed' (`isClosed: true`) and 'Completed' (`isCompleted: true`). Deep slug routing is enabled (`/#<slug>`): when a slug link is called, the web page initializes the hero and then automatically smooth-scrolls directly to the target card area through `ScrollSmoother`. On card hover, `completed_image` smoothly overlays `image` only when `isCompleted` is true.
+- **Stalls Section**: Cards fade in via IntersectionObserver stagger (no GSAP pin/scrub) to eliminate scroll lag. No `willChange` or `backdrop-blur` on cards. First 3 images are eager-loaded; rest are lazy-loaded.

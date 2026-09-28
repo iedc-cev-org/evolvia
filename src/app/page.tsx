@@ -261,39 +261,35 @@ export default function Home() {
     if (!isClient || !stallsSectionRef.current) return;
 
     const section = stallsSectionRef.current;
-    const cards = gsap.utils.toArray<HTMLElement>(section.querySelectorAll(".stall-card"));
+    const cards = Array.from(section.querySelectorAll<HTMLElement>(".stall-card"));
     if (!cards.length) return;
 
-    gsap.set(cards, { y: window.innerHeight * 0.7, opacity: 0 });
+    cards.forEach((card) => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(40px)";
+    });
 
-    const isMobile = window.innerWidth < 768;
-    const endDistance = isMobile ? cards.length * 120 + 200 : cards.length * 220 + 400;
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: () => `+=${endDistance}`,
-        pin: true,
-        pinSpacing: true,
-        scrub: true,
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const card = entry.target as HTMLElement;
+          const idx = cards.indexOf(card);
+          setTimeout(() => {
+            card.style.transition = "opacity 0.55s ease, transform 0.55s ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }, idx * 80);
+          observer.unobserve(card);
+        });
       },
-    });
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
+    );
 
-    tl.to(cards, {
-      y: () => 0,
-      opacity: 1,
-      ease: "power2.out",
-      stagger: { each: 0.18 },
-    });
+    cards.forEach((card) => observer.observe(card));
 
-    ScrollTrigger.refresh();
-
-    return () => {
-      tl.scrollTrigger?.kill();
-      tl.kill();
-    };
-  }, [isClient, videoReady, stallsData]);
+    return () => observer.disconnect();
+  }, [isClient, stallsData]);
 
   const handlePreEventAction = (link?: string, slug?: string) => {
     if (link && (link.startsWith("http://") || link.startsWith("https://"))) {
@@ -540,7 +536,6 @@ export default function Home() {
             <section
               ref={stallsSectionRef}
               className="w-full max-w-full overflow-x-hidden bg-black relative flex flex-col items-center py-16 md:py-20"
-              style={{ willChange: "transform" }}
             >
               <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                 <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 md:gap-10 mb-8 md:mb-12">
@@ -561,16 +556,10 @@ export default function Home() {
                       initialYOffset={16}
                     />
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6, ease: [0.25, 0.25, 0, 1] }}
-                    className="self-start lg:self-auto flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-white/5 border border-white/10 rounded-full text-white/80 backdrop-blur-md"
-                  >
+                  <div className="self-start lg:self-auto flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-white/5 border border-white/10 rounded-full text-white/80">
                     <span className="inline-flex h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]" />
                     <span className="text-xs sm:text-sm uppercase tracking-[0.25em] sm:tracking-[0.3em]">On Floor Showcase</span>
-                  </motion.div>
+                  </div>
                 </div>
 
                 {stallsData.length > 0 ? (
@@ -578,26 +567,30 @@ export default function Home() {
                     {stallsData.map((stall, index) => (
                       <article
                         key={stall.name + index}
-                        className="stall-card relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg group"
-                        style={{ willChange: "transform" }}
+                        className="stall-card overflow-hidden rounded-2xl border border-white/10 bg-white/5 group"
                       >
-                        <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden">
+                        <div className="relative overflow-hidden">
                           <Image
                             src={stall.image}
                             alt={stall.name}
-                            fill
+                            width={0}
+                            height={0}
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 420px"
-                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                            priority={index === 0}
+                            style={{ width: "100%", height: "auto", display: "block" }}
+                            className="transition-transform duration-700 ease-out group-hover:scale-105"
+                            priority={index < 3}
+                            loading={index < 3 ? "eager" : "lazy"}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                          <div className="relative z-10 h-full flex flex-col justify-end p-4 sm:p-6 space-y-2 sm:space-y-3">
-                            <h3 className="text-xl sm:text-2xl font-semibold text-white">{stall.name}</h3>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        </div>
+                        {(stall.name || stall.description) && (
+                          <div className="p-4 sm:p-5 space-y-1">
+                            <h3 className="text-lg sm:text-xl font-semibold text-white">{stall.name}</h3>
                             {stall.description && (
-                              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">{stall.description}</p>
+                              <p className="text-xs sm:text-sm text-white/60 leading-relaxed">{stall.description}</p>
                             )}
                           </div>
-                        </div>
+                        )}
                       </article>
                     ))}
                   </div>

@@ -59,7 +59,16 @@ export interface Sponsor {
 }
 
 export const preEvents: PreEvent[] = [];
-export const StallsAndExpos: StallAndExpo[] = [];
+export const StallsAndExpos: StallAndExpo[] = [
+  { id: 1, name: "Bethleham", image: "/stalls/bethleham.webp", order_index: 1 },
+  { id: 2, name: "Beyond the Games", image: "/stalls/btg.webp", order_index: 2 },
+  { id: 3, name: "Euphoria", image: "/stalls/euph.webp", order_index: 3 },
+  { id: 4, name: "Maker Station", image: "/stalls/maker station.webp", order_index: 4 },
+  { id: 5, name: "Paper Forge", image: "/stalls/pf 3.webp", order_index: 5 },
+  { id: 6, name: "Starship", image: "/stalls/starship.webp", order_index: 6 },
+  { id: 7, name: "StartupStreet", image: "/stalls/strp street.webp", order_index: 7 },
+  { id: 8, name: "Wevolve", image: "/stalls/wevolve.webp", order_index: 8 },
+];
 export const Sponsors: Sponsor[] = [];
 export const Events: Event[] = [];
 export const Speakers: Speaker[] = [];

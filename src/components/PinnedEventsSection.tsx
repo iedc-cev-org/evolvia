@@ -427,6 +427,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                       src={event.image}
                       alt={event.name}
                       fill
+                      unoptimized
                       className={`object-cover transition-all duration-700 group-hover/pimg:scale-105 ${event.isCompleted && event.completed_image ? "group-hover/pimg:opacity-0" : ""
                         }`}
                     />
@@ -435,6 +436,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
                         src={event.completed_image}
                         alt={`${event.name} (completed)`}
                         fill
+                        unoptimized
                         className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/pimg:opacity-100 transition-opacity duration-500 pointer-events-none z-10 group-hover/pimg:scale-105"
                       />
                     )}
