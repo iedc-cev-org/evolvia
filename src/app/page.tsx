@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
@@ -570,16 +569,13 @@ export default function Home() {
                         className="stall-card overflow-hidden rounded-2xl border border-white/10 bg-white/5 group"
                       >
                         <div className="relative overflow-hidden">
-                          <Image
+                          <img
                             src={stall.image}
                             alt={stall.name}
-                            width={0}
-                            height={0}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 420px"
                             style={{ width: "100%", height: "auto", display: "block" }}
                             className="transition-transform duration-700 ease-out group-hover:scale-105"
-                            priority={index < 3}
                             loading={index < 3 ? "eager" : "lazy"}
+                            decoding="async"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                         </div>
