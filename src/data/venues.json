@@ -1,26 +1,59 @@
 [
   {
-    "id": "nebula",
-    "name": "Nebula",
+    "id": "zenith",
+    "name": "Zenith",
     "location": "Mini Auditorium",
     "floor": "Second Floor",
     "block": "Main Block",
-    "description": "A cosmic gathering space for major events",
+    "description": "The central gathering space and main auditorium hosting keynotes, speaker sessions, and festival ceremonies.",
     "images": [
+      "/map-assets/zenith.webp",
       "/map-assets/nebula.webp"
     ],
     "coordinates": {
       "lat": 11.563922,
       "lng": 75.650681
-    }
+    },
+    "events": [
+      {
+        "name": "Inauguration",
+        "time": "9:00 AM - 10:00 AM",
+        "location": "Mini Auditorium",
+        "category": "Ceremony"
+      },
+      {
+        "name": "SELL YOUR IDEA (Speaker Session 1)",
+        "time": "10:00 AM - 11:00 AM",
+        "location": "Mini Auditorium",
+        "category": "Speaker Session"
+      },
+      {
+        "name": "Mind2Make (Speaker Session 2 - IIC)",
+        "time": "11:00 AM - 1:00 PM",
+        "location": "Mini Auditorium",
+        "category": "Speaker Session"
+      },
+      {
+        "name": "Startup Stories",
+        "time": "1:30 PM - 3:30 PM",
+        "location": "Mini Auditorium",
+        "category": "Talk"
+      },
+      {
+        "name": "Closing Ceremony",
+        "time": "3:30 PM - 4:00 PM",
+        "location": "Mini Auditorium",
+        "category": "Ceremony"
+      }
+    ]
   },
   {
     "id": "eclipse",
-    "name": "Eclipse + Quasar",
-    "location": "Programming Lab + CCF",
+    "name": "Eclipse",
+    "location": "CCF Lab",
     "floor": "First Floor",
     "block": "Main Block",
-    "description": "Twin spaces for technical sessions",
+    "description": "Advanced computing and networking facility hosting cybersecurity challenges and coding showdowns.",
     "images": [
       "/map-assets/eclipse.webp",
       "/map-assets/quasar.webp"
@@ -28,45 +61,189 @@
     "coordinates": {
       "lat": 11.563829,
       "lng": 75.650763
-    }
+    },
+    "events": [
+      {
+        "name": "MUE-CTF",
+        "time": "9:30 AM - 11:30 AM",
+        "location": "CCF Lab",
+        "category": "CTF Competition"
+      }
+    ]
   },
   {
     "id": "astra",
     "name": "Astra",
     "location": "ASAP Room",
-    "block": "Main Block",
     "floor": "First Floor",
-    "description": "Innovation hub for creative minds",
+    "block": "Main Block",
+    "description": "Interactive skill acceleration and presentation hub hosting hands-on workshops and venture pitches.",
     "images": [
       "/map-assets/astra.webp"
     ],
     "coordinates": {
       "lat": 11.563695,
       "lng": 75.650771
-    }
+    },
+    "events": [
+      {
+        "name": "Cyberpulse (FOSS Workshop)",
+        "time": "10:30 AM - 11:30 AM",
+        "location": "ASAP Room",
+        "category": "Workshop"
+      },
+      {
+        "name": "Pitchbox",
+        "time": "12:30 PM - 3:30 PM",
+        "location": "ASAP Room",
+        "category": "Pitch Competition"
+      }
+    ]
   },
   {
-    "id": "zenith",
-    "name": "Zenith",
-    "location": "Main Block Center - near notice boards",
+    "id": "cosma",
+    "name": "Cosma",
+    "location": "CS B101",
+    "floor": "First Floor",
     "block": "Main Block",
-    "floor": "Ground Floor",
-    "description": "The central point of convergence",
+    "description": "Dedicated academic spaces hosting university and school quizzing championships and technical challenges.",
     "images": [
-      "/map-assets/zenith.webp"
+      "/map-assets/quasar.webp",
+      "/map-assets/image.webp"
     ],
     "coordinates": {
-      "lat": 11.563836,
-      "lng": 75.650708
-    }
+      "lat": 11.56375,
+      "lng": 75.6508
+    },
+    "events": [
+      {
+        "name": "Quizzard College",
+        "time": "10:30 AM - 12:30 PM",
+        "location": "CS B101",
+        "category": "Quiz"
+      },
+      {
+        "name": "Quizzard School",
+        "time": "1:30 PM - 3:00 PM",
+        "location": "CS B-101",
+        "category": "Quiz"
+      }
+    ]
+  },
+  {
+    "id": "orion",
+    "name": "Orion",
+    "location": "MCA Block (Halls 1 & 2, D104, D102, D-111, B-311)",
+    "floor": "Ground & First Floor",
+    "block": "Celestara (MCA Block)",
+    "description": "Grand multipurpose complex housing robotics battlegrounds, gaming chambers, maker stations, and student expos.",
+    "images": [
+      "/map-assets/orion.webp",
+      "/map-assets/nova.webp"
+    ],
+    "coordinates": {
+      "lat": 11.564431,
+      "lng": 75.650396
+    },
+    "events": [
+      {
+        "name": "GAMES",
+        "time": "10:30 AM - 3:30 PM",
+        "location": "MCA Hall",
+        "category": "Gaming Arena"
+      },
+      {
+        "name": "STARSHIP STATION",
+        "time": "11:00 AM - 4:00 PM",
+        "location": "MCA D104",
+        "category": "Expo / Stall"
+      },
+      {
+        "name": "Dark Room",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA Under Stair",
+        "category": "Experience"
+      },
+      {
+        "name": "INNOVERSE (School Student Expo)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "Front of MCA B-311",
+        "category": "Expo"
+      },
+      {
+        "name": "MAKERSTATION (TinkerHub)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA D102",
+        "category": "Makerspace"
+      },
+      {
+        "name": "ROBO SOCCER (Finite Expo)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA Hall 1",
+        "category": "Robotics"
+      },
+      {
+        "name": "ROBO TENNIS",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA Hall 2",
+        "category": "Robotics"
+      },
+      {
+        "name": "PAPER FORGE",
+        "time": "11:00 AM - 3:00 PM",
+        "location": "MCA B-311, MCA D-111",
+        "category": "Craft & Design"
+      }
+    ]
+  },
+  {
+    "id": "pegasus",
+    "name": "Pegasus",
+    "location": "EC Block (EC Hall 2, EC C101, EC C-211, C-202, C-111)",
+    "floor": "Ground & First Floor",
+    "block": "EC Block",
+    "description": "Electronics department halls dedicated to autonomous line followers, gaming arenas, and precision craft design.",
+    "images": [
+      "/map-assets/pegasus.webp"
+    ],
+    "coordinates": {
+      "lat": 11.564456,
+      "lng": 75.65043
+    },
+    "events": [
+      {
+        "name": "GAMES",
+        "time": "10:30 AM - 3:30 PM",
+        "location": "EC Hall",
+        "category": "Gaming Arena"
+      },
+      {
+        "name": "LINE FOLLOWER FINITE",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "EC Hall 2",
+        "category": "Robotics"
+      },
+      {
+        "name": "INFINITE",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "EC C101",
+        "category": "Challenge"
+      },
+      {
+        "name": "PAPER FORGE",
+        "time": "11:00 AM - 3:00 PM",
+        "location": "EC C-211, EC C-202, EC C-111",
+        "category": "Craft & Design"
+      }
+    ]
   },
   {
     "id": "starlight",
     "name": "Starlight Trail",
-    "location": "MCA to Main Block Path",
-    "block": "Pathway",
+    "location": "Library Front & MCA Front Pathway",
     "floor": "Ground Floor",
-    "description": "Journey through the stellar path",
+    "block": "Pathway",
+    "description": "Central campus pathway connecting the main library and MCA block with bustling startup stalls and wellness kiosks.",
     "images": [
       "/map-assets/starlight-trail-1.webp",
       "/map-assets/starlight-trail-2.webp"
@@ -74,111 +251,103 @@
     "coordinates": {
       "lat": 11.564003,
       "lng": 75.650593
-    }
+    },
+    "events": [
+      {
+        "name": "GAMES",
+        "time": "10:30 AM - 3:30 PM",
+        "location": "Library Front",
+        "category": "Gaming Arena"
+      },
+      {
+        "name": "STARTUP STREET (Startup Stall)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "Library Front",
+        "category": "Startup Stall"
+      },
+      {
+        "name": "WEvolve (Mental Health Club)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA Front",
+        "category": "Initiative"
+      }
+    ]
   },
   {
-    "id": "orion",
-    "name": "Orion",
-    "location": "MCA Seminar Hall",
-    "floor": "Ground Floor",
-    "block": "Celestara (MCA Block)",
-    "description": "Grand hall for major presentations",
+    "id": "celesta",
+    "name": "Celesta",
+    "location": "EC Front, MCA Back & Junction Arena",
+    "floor": "Ground / Open Arena",
+    "block": "Open Arena",
+    "description": "Open-air festival arena for live open mics, EV vehicle unveilings, social outreach showcases, and robot drag races.",
     "images": [
-      "/map-assets/orion.webp"
+      "/map-assets/nova.webp",
+      "/map-assets/starlight-trail-2.webp"
     ],
     "coordinates": {
-      "lat": 11.564431,
-      "lng": 75.650396
-    }
+      "lat": 11.56435,
+      "lng": 75.6505
+    },
+    "events": [
+      {
+        "name": "GAMES",
+        "time": "10:30 AM - 3:30 PM",
+        "location": "EC Front",
+        "category": "Gaming Arena"
+      },
+      {
+        "name": "EUPHONIA (Open Mic)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA Back",
+        "category": "Cultural"
+      },
+      {
+        "name": "BETHLEHEM (NSS)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "MCA Back",
+        "category": "Social Outreach"
+      },
+      {
+        "name": "ROBO RACE (Finite Expo)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "EC Front",
+        "category": "Robotics"
+      },
+      {
+        "name": "Cafee (EV Revealing)",
+        "time": "11:00 AM - 3:30 PM",
+        "location": "EC and MCA Junction",
+        "category": "Launch"
+      }
+    ]
   },
   {
     "id": "lyra",
     "name": "Lyra",
-    "location": "MCA Room D-111",
-    "block": "Celestara (MCA Block)",
+    "location": "Chemistry Lab",
     "floor": "Ground Floor",
-    "description": "Intimate space for focused sessions",
+    "block": "Main Block",
+    "description": "Focused activity centre hosting rapid-fire cold calling negotiations and the launch point for the cosmic treasure hunt.",
     "images": [
       "/map-assets/lyra.webp"
     ],
     "coordinates": {
       "lat": 11.564164,
       "lng": 75.650515
-    }
-  },
-  {
-    "id": "pegasus",
-    "name": "Pegasus",
-    "location": "MCA Counselling Center D-103",
-    "floor": "Ground Floor",
-    "block": "Celestara (MCA Block)",
-    "description": "Guidance and mentorship zone",
-    "images": [
-      "/map-assets/pegasus.webp"
-    ],
-    "coordinates": {
-      "lat": 11.564456,
-      "lng": 75.65043
-    }
-  },
-  {
-    "id": "cassiopeia",
-    "name": "Cassiopeia",
-    "location": "MCA Girls Common Room D-311",
-    "block": "Celestara (MCA Block)",
-    "floor": "Ground Floor",
-    "description": "Collaborative community space",
-    "images": [
-      "/map-assets/cassiopeia.webp"
-    ],
-    "coordinates": {
-      "lat": 11.564343,
-      "lng": 75.650606
-    }
-  },
-  {
-    "id": "nova",
-    "name": "Nova",
-    "location": "IEDC-Games (MCA Hall)",
-    "block": "Celestara (MCA Block)",
-    "floor": "Second Floor",
-    "description": "Entertainment and gaming arena",
-    "images": [
-      "/map-assets/nova.webp"
-    ],
-    "coordinates": {
-      "lat": 11.564427,
-      "lng": 75.650387
-    }
-  },
-  {
-    "id": "cygnus",
-    "name": "Cygnus",
-    "location": "Mu-Corner MCA Room D-102",
-    "block": "Celestara (MCA Block)",
-    "floor": "Ground Floor",
-    "description": "Creative corner for innovation",
-    "images": [
-      "/map-assets/cygnus.webp"
-    ],
-    "coordinates": {
-      "lat": 11.564203,
-      "lng": 75.650308
-    }
-  },
-  {
-    "id": "iedc-town",
-    "name": "IEDC Town",
-    "location": "Special Event Space",
-    "block": "Special Zone",
-    "floor": "Ground Floor",
-    "description": "The heart of entrepreneurship",
-    "images": [
-      "/map-assets/test.png"
-    ],
-    "coordinates": {
-      "lat": 11.564354,
-      "lng": 75.650182
-    }
+    },
+    "events": [
+      {
+        "name": "Deal or No Deal (Cold Call)",
+        "time": "12:30 PM - 1:30 PM",
+        "location": "Chemistry Lab",
+        "category": "Competition"
+      },
+      {
+        "name": "COSMIC QUEST (Treasure Hunt)",
+        "time": "1:30 PM - 3:30 PM",
+        "location": "Chemistry Lab",
+        "category": "Treasure Hunt"
+      }
+    ]
   }
 ]

@@ -21,3 +21,5 @@ Evolvia features a dark, cinematic, cyberpunk-futuristic aesthetic centered on h
 - **3D Interactive Card Tilt**: Dynamic perspective rotate (`rotateX`, `rotateY`) reacting to local mouse coordinates on event cards.
 - **Character Split Scrub Reveal**: GSAP character/word splitting on typography heading sequences.
 - **Pre-Events Micro-Interactions**: Hover zoom on image wrappers, interactive state badges, and dynamic CTA buttons.
+- **Venue Map & Schedule Interface**: Responsive card matrix with dynamic hero banner imagery, pulsing emerald event counters, featured activity tags, real-time live search filter, and full timeline modal with sub-location pills and category badges.
+

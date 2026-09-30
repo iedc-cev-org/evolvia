@@ -1,8 +1,28 @@
 # changelogs.md
 
-## Release 2026-09-28: Fix Next.js Image Optimizer TimeoutError (code 23)
+## Release 2026-09-30: Cosmic Venues & Complete Event Schedules Integration
+
+### Added
+- **Cosmic Venues Data Model (`src/data/venues.json`)**: Configured the 9 festival venues matching festival programs:
+  - `Zenith` (Mini Auditorium): Inauguration, SELL YOUR IDEA, Mind2Make, Startup Stories, Closing Ceremony.
+  - `Eclipse` (CCF Lab): MUE-CTF.
+  - `Astra` (ASAP Room): Cyberpulse (FOSS Workshop), Pitchbox.
+  - `Cosma` (CS B101): Quizzard College, Quizzard School.
+  - `Orion` (MCA Block): GAMES, STARSHIP STATION, Dark Room, INNOVERSE, MAKERSTATION, ROBO SOCCER, ROBO TENNIS, PAPER FORGE.
+  - `Pegasus` (EC Block): GAMES, LINE FOLLOWER FINITE, INFINITE, PAPER FORGE.
+  - `Starlight Trail` (Library Front & MCA Front Pathway): GAMES, STARTUP STREET, WEvolve.
+  - `Celesta` (Open Arena / EC Front, MCA Back & Junction): GAMES, EUPHONIA, BETHLEHEM, ROBO RACE, Cafee.
+  - `Lyra` (Chemistry Lab): Deal or No Deal, COSMIC QUEST.
+- **Interactive Venue Map Enhancements (`src/app/map/page.tsx`)**:
+  - Added real-time search input for filtering venues by activity, event title, category, or hall name.
+  - Added live pulsing emerald event counters and featured activity tag pills to venue cards.
+  - Fixed card banner to dynamically load venue images rather than placeholder fallbacks.
+  - Enhanced venue details modal with a full "Events & Timeline" schedule breakdown displaying event timings, sub-locations, and category badges.
+- **Supabase Events Venue Sync**: Synchronized main event records in Supabase to reference their exact cosmic venue names.
+
 
 ### Fixed
+- **Removed Stretched IEDC Logo**: Removed fixed top-left IEDC emblem from the venue map header (`/map`) to eliminate distorted image rendering and provide an uncluttered viewport.
 - Added `unoptimized` prop to both `<Image>` components in `PinnedEventsSection.tsx` that render Supabase-hosted `.webp` posters. Next.js was proxy-downloading and re-encoding them server-side, causing repeated `TimeoutError` (code 23, ~10-12s). With `unoptimized`, the browser fetches the already-compressed files directly from Supabase CDN.
 - Added `minimumCacheTTL: 3600` to `next.config.ts` to cache any remaining optimized remote images for 1 hour and prevent repeated fetches.
 
