@@ -176,35 +176,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     }
   }, []);
 
-  useEffect(() => {
-    const handleHashChange = () => {
-      const rawHash = window.location.hash.replace(/^#/, "");
-      if (!rawHash) return;
 
-      const numMatch = rawHash.match(/^e(\d+)$/);
-      const targetIdx = events.findIndex(
-        (ev) =>
-          ev.slug === rawHash ||
-          String(ev.id) === rawHash ||
-          (numMatch && String(ev.id) === numMatch[1])
-      );
-
-      if (targetIdx >= 0 && containerRef.current) {
-        const container = containerRef.current;
-        const rect = container.getBoundingClientRect();
-        const sectionTop = window.scrollY + rect.top;
-        const targetScrollTop = sectionTop + targetIdx * window.innerHeight;
-
-        window.scrollTo({
-          top: targetScrollTop,
-          behavior: "smooth",
-        });
-      }
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, [events]);
 
   useEffect(() => {
     if (!digitMeasureRef.current) return;
@@ -232,6 +204,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
     const eventsContainer = eventsContainerRef.current;
 
     const st = ScrollTrigger.create({
+      id: "pinned-events-trigger",
       trigger: container,
       start: "top top",
       end: () => `+=${Math.max(0, (events.length - 1) * window.innerHeight)}`,
@@ -391,6 +364,9 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
           {events.map((event, index) => (
             <div
               key={event.slug || event.id || index}
+              id={event.slug || `event-${event.id || index}`}
+              data-slug={event.slug}
+              data-id={event.id}
               className="h-screen w-full flex items-center justify-center px-2 sm:px-4 md:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 md:py-12 lg:py-14 xl:py-16"
             >
               <motion.div

@@ -22,6 +22,7 @@
 
 
 ### Fixed
+- **Fixed Event Link Redirection**: Resolved slide offset miscalculation where `window.scrollY + rect.top` on pinned elements was causing slide drift or failure to reach the target event. Event targeting now reads the exact absolute start coordinate (`st.start + targetIndex * window.innerHeight`) from `ScrollTrigger.getById("pinned-events-trigger")`. Added flexible alphanumeric matching (`isEventMatch`) supporting hyphenated/unhyphenated slugs, acronyms, and names (e.g. `#sell-your-idea`, `#sellyouridea`, `#ctf`, `#capture-the-flag`), eliminated duplicate conflicting hashchange listeners in `PinnedEventsSection`, and added an automatic retry loop for asynchronous Supabase hydration.
 - **Removed Stretched IEDC Logo**: Removed fixed top-left IEDC emblem from the venue map header (`/map`) to eliminate distorted image rendering and provide an uncluttered viewport.
 - Added `unoptimized` prop to both `<Image>` components in `PinnedEventsSection.tsx` that render Supabase-hosted `.webp` posters. Next.js was proxy-downloading and re-encoding them server-side, causing repeated `TimeoutError` (code 23, ~10-12s). With `unoptimized`, the browser fetches the already-compressed files directly from Supabase CDN.
 - Added `minimumCacheTTL: 3600` to `next.config.ts` to cache any remaining optimized remote images for 1 hour and prevent repeated fetches.

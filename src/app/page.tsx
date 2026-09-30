@@ -64,57 +64,87 @@ export default function Home() {
     };
   }, []);
 
-  const scrollToTargetSlug = useCallback((rawHash?: string) => {
-    const hash = (rawHash ?? window.location.hash).replace(/^#/, "");
-    if (!hash) return false;
+  const isEventMatch = (
+    ev: { id?: string | number; slug?: string; name?: string },
+    rawTarget: string
+  ) => {
+    const cleanTarget = rawTarget.toLowerCase().replace(/^#/, "").trim();
+    if (!cleanTarget) return false;
 
-    const targetPre = preEventsData.find((pe) => {
-      if (pe.slug && pe.slug.toLowerCase() === hash.toLowerCase()) return true;
-      if (String(pe.id).toLowerCase() === hash.toLowerCase()) return true;
-      const normalizedName = pe.name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-      if (normalizedName === hash.toLowerCase()) return true;
-      return false;
-    });
+    const alphaTarget = cleanTarget.replace(/[^a-z0-9]/g, "");
+    if (!alphaTarget) return false;
 
-    if (targetPre) {
-      const preEl = document.getElementById(targetPre.slug || `preevent-${targetPre.id}`);
-      if (preEl) {
-        const smoother = ScrollSmoother.get();
-        if (smoother) {
-          smoother.scrollTo(preEl, true, "center center");
-        } else {
-          preEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-        return true;
-      }
+    if (ev.slug && ev.slug.toLowerCase() === cleanTarget) return true;
+    if (ev.id && String(ev.id).toLowerCase() === cleanTarget) return true;
+    if (`e${ev.id}`.toLowerCase() === cleanTarget) return true;
+
+    const alphaSlug = (ev.slug || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const alphaName = (ev.name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const alphaId = String(ev.id || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+    if (alphaSlug && alphaSlug === alphaTarget) return true;
+    if (alphaName && alphaName === alphaTarget) return true;
+    if (alphaId && alphaId === alphaTarget) return true;
+
+    const numMatch = cleanTarget.match(/^e?(\d+)$/i);
+    if (numMatch && (String(ev.id) === numMatch[1] || alphaSlug === `e${numMatch[1]}`)) {
+      return true;
     }
 
-    const numMatch = hash.match(/^e(\d+)$/);
-    const targetIndex = eventsData.findIndex((ev) => {
-      if (ev.slug && ev.slug.toLowerCase() === hash.toLowerCase()) return true;
-      if (String(ev.id).toLowerCase() === hash.toLowerCase()) return true;
-      if (`e${ev.id}`.toLowerCase() === hash.toLowerCase()) return true;
-      if (numMatch && String(ev.id) === numMatch[1]) return true;
-      const normalizedName = ev.name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-      if (normalizedName === hash.toLowerCase()) return true;
-      return false;
-    });
+    if (alphaName.length >= 3 && alphaTarget.length >= 3) {
+      if (alphaName.includes(alphaTarget) || alphaTarget.includes(alphaName)) return true;
+    }
+    if (alphaSlug.length >= 3 && alphaTarget.length >= 3) {
+      if (alphaSlug.includes(alphaTarget) || alphaTarget.includes(alphaSlug)) return true;
+    }
 
-    if (targetIndex >= 0) {
-      const eventsSection = document.querySelector("#events-section") as HTMLElement | null;
-      if (eventsSection) {
-        const rect = eventsSection.getBoundingClientRect();
-        const sectionTop = window.scrollY + rect.top;
-        const targetScrollTop = sectionTop + targetIndex * window.innerHeight;
+    return false;
+  };
+
+  const scrollToTargetSlug = useCallback(
+    (rawHash?: string) => {
+      const hash = (rawHash ?? window.location.hash).replace(/^#/, "").trim();
+      if (!hash) return false;
+
+      const targetPre = preEventsData.find((pe) => isEventMatch(pe, hash));
+      if (targetPre) {
+        const preEl =
+          (targetPre.slug ? document.getElementById(targetPre.slug) : null) ||
+          document.getElementById(`preevent-${targetPre.id}`) ||
+          (targetPre.slug ? document.querySelector(`[data-slug="${targetPre.slug}"]`) : null) ||
+          document.querySelector(`[data-id="${targetPre.id}"]`);
+
+        if (preEl) {
+          const smoother = ScrollSmoother.get();
+          if (smoother) {
+            smoother.scrollTo(preEl, true, "center center");
+          } else {
+            preEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+          return true;
+        }
+      }
+
+      const targetIndex = eventsData.findIndex((ev) => isEventMatch(ev, hash));
+      if (targetIndex >= 0) {
+        ScrollTrigger.refresh();
+        const st = ScrollTrigger.getById("pinned-events-trigger");
         const smoother = ScrollSmoother.get();
+        const eventsSection = document.querySelector("#events-section") as HTMLElement | null;
+
+        let targetScrollTop: number;
+
+        if (st && typeof st.start === "number") {
+          targetScrollTop = st.start + targetIndex * window.innerHeight;
+        } else if (smoother && eventsSection) {
+          targetScrollTop = smoother.offset(eventsSection, "top top") + targetIndex * window.innerHeight;
+        } else if (eventsSection) {
+          const rect = eventsSection.getBoundingClientRect();
+          targetScrollTop = window.scrollY + rect.top + targetIndex * window.innerHeight;
+        } else {
+          targetScrollTop = targetIndex * window.innerHeight;
+        }
+
         if (smoother) {
           smoother.scrollTo(targetScrollTop, true);
         } else {
@@ -123,34 +153,42 @@ export default function Home() {
             behavior: "smooth",
           });
         }
+        return true;
       }
-      return true;
-    }
 
-    const directEl = document.getElementById(hash);
-    if (directEl) {
-      const smoother = ScrollSmoother.get();
-      if (smoother) {
-        smoother.scrollTo(directEl, true);
-      } else {
-        directEl.scrollIntoView({ behavior: "smooth" });
+      const directEl = document.getElementById(hash);
+      if (directEl) {
+        const smoother = ScrollSmoother.get();
+        if (smoother) {
+          smoother.scrollTo(directEl, true);
+        } else {
+          directEl.scrollIntoView({ behavior: "smooth" });
+        }
+        return true;
       }
-      return true;
-    }
 
-    return false;
-  }, [eventsData, preEventsData]);
+      return false;
+    },
+    [eventsData, preEventsData]
+  );
 
   useEffect(() => {
-    const rawHash = window.location.hash.replace(/^#/, "");
+    const rawHash = window.location.hash.replace(/^#/, "").trim();
     if (!rawHash) return;
 
-    if (videoReady && (preEventsData.length > 0 || eventsData.length > 0)) {
-      const timer = setTimeout(() => {
-        scrollToTargetSlug();
-      }, 400);
-      return () => clearTimeout(timer);
-    }
+    if (!videoReady) return;
+
+    let retries = 0;
+    const attemptScroll = () => {
+      const ok = scrollToTargetSlug();
+      if (!ok && retries < 5) {
+        retries += 1;
+        setTimeout(attemptScroll, 200);
+      }
+    };
+
+    const timer = setTimeout(attemptScroll, 250);
+    return () => clearTimeout(timer);
   }, [videoReady, preEventsData, eventsData, scrollToTargetSlug]);
 
   useEffect(() => {
@@ -324,28 +362,11 @@ export default function Home() {
       window.open(link, "_blank");
       return;
     }
-    if (slug) {
-      window.location.hash = `#${slug}`;
-      scrollToTargetSlug(slug);
-      return;
-    }
-    if (link) {
-      if (link.startsWith("#")) {
-        const cleanSlug = link.replace(/^#/, "");
-        window.location.hash = link;
-        scrollToTargetSlug(cleanSlug);
-        return;
-      }
-      const targetEv = eventsData.find(
-        (e) =>
-          e.slug === link ||
-          String(e.id) === link ||
-          (e.name && e.name.toLowerCase().includes(link.toLowerCase()))
-      );
-      if (targetEv) {
-        window.location.hash = `#${targetEv.slug || `e${targetEv.id}`}`;
-        scrollToTargetSlug(targetEv.slug || `e${targetEv.id}`);
-      }
+    const targetIdentifier = slug || link;
+    if (targetIdentifier) {
+      const clean = targetIdentifier.replace(/^#/, "");
+      window.location.hash = `#${clean}`;
+      scrollToTargetSlug(clean);
     }
   };
 
