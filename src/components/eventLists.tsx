@@ -57,7 +57,8 @@ export interface Sponsor {
   image: string;
   order_index?: number;
 }
-
+//if u need to add raw data then use this otherwise make this [] empty or dont use this, instead connect postgress...(me who reworked dont remember wtf i did)
+//im using raw data cause we got db limit and optimisation limit in web so....(and doing this after event)
 export const preEvents: PreEvent[] = [];
 export const StallsAndExpos: StallAndExpo[] = [
   { id: 1, name: "Bethleham", image: "/stalls/bethleham.webp", order_index: 1 },
@@ -75,7 +76,9 @@ export const Sponsors: Sponsor[] = [
   { id: 3, name: "Techdealer", image: "/sponsors/techdealer.webp", order_index: 3 },
 ];
 export const Events: Event[] = [];
-export const Speakers: Speaker[] = [];
+export const Speakers: Speaker[] = [
+  { id: 1, name: "Akash Akhilesh", designation: "Founder and director morfuel India Pvt Ltd", expertise: "", image: "https://lh3.googleusercontent.com/d/1DfKyGXhBvqSt_QHuaNgKRfclDO2DIjc7", order_index: 1 },
+];
 
 interface RawDatabaseRow {
   id?: number | string;
@@ -157,9 +160,31 @@ const mapSpeakerFromDb = (row: RawDatabaseRow, index: number): Speaker => ({
 const mapSponsorFromDb = (row: RawDatabaseRow, index: number): Sponsor => ({
   id: row.id ?? index + 1,
   name: row.name || row.title || `Sponsor ${index + 1}`,
-  image: row.poster_url || row.image_url || row.image || "/sponsors/made_cover.webp",
+  image: row.poster_url || row.image_url || row.image || "/sponsors/madestore.webp",
   order_index: row.order_index ?? index,
 });
+
+//used for raw and db fetching work at same time
+function mergeAndSort<T extends { id?: number | string; name?: string; order_index?: number }>(
+  rawList: T[],
+  dbList: T[]
+): T[] {
+  const map = new Map<string | number, T>();
+
+  for (const item of rawList) {
+    const key = item.id ?? item.name ?? JSON.stringify(item);
+    map.set(key, item);
+  }
+
+  for (const item of dbList) {
+    const key = item.id ?? item.name ?? JSON.stringify(item);
+    map.set(key, item);
+  }
+
+  return Array.from(map.values()).sort(
+    (a, b) => (a.order_index ?? 0) - (b.order_index ?? 0)
+  );
+}
 
 export async function fetchPreEvents(): Promise<PreEvent[]> {
   if (!isSupabaseConfigured) return preEvents;
@@ -173,7 +198,8 @@ export async function fetchPreEvents(): Promise<PreEvent[]> {
     if (error || !data || data.length === 0) {
       return preEvents;
     }
-    return (data as RawDatabaseRow[]).map((row, index) => mapEventFromDb(row, index, "pre_event"));
+    const dbItems = (data as RawDatabaseRow[]).map((row, index) => mapEventFromDb(row, index, "pre_event"));
+    return mergeAndSort(preEvents, dbItems);
   } catch {
     return preEvents;
   }
@@ -191,7 +217,8 @@ export async function fetchMainEvents(): Promise<Event[]> {
     if (error || !data || data.length === 0) {
       return Events;
     }
-    return (data as RawDatabaseRow[]).map((row, index) => mapEventFromDb(row, index, "main_event"));
+    const dbItems = (data as RawDatabaseRow[]).map((row, index) => mapEventFromDb(row, index, "main_event"));
+    return mergeAndSort(Events, dbItems);
   } catch {
     return Events;
   }
@@ -208,7 +235,8 @@ export async function fetchStallsAndExpos(): Promise<StallAndExpo[]> {
     if (error || !data || data.length === 0) {
       return StallsAndExpos;
     }
-    return (data as RawDatabaseRow[]).map(mapStallFromDb);
+    const dbItems = (data as RawDatabaseRow[]).map(mapStallFromDb);
+    return mergeAndSort(StallsAndExpos, dbItems);
   } catch {
     return StallsAndExpos;
   }
@@ -225,7 +253,8 @@ export async function fetchSpeakers(): Promise<Speaker[]> {
     if (error || !data || data.length === 0) {
       return Speakers;
     }
-    return (data as RawDatabaseRow[]).map(mapSpeakerFromDb);
+    const dbItems = (data as RawDatabaseRow[]).map(mapSpeakerFromDb);
+    return mergeAndSort(Speakers, dbItems);
   } catch {
     return Speakers;
   }
@@ -242,7 +271,8 @@ export async function fetchSponsors(): Promise<Sponsor[]> {
     if (error || !data || data.length === 0) {
       return Sponsors;
     }
-    return (data as RawDatabaseRow[]).map(mapSponsorFromDb);
+    const dbItems = (data as RawDatabaseRow[]).map(mapSponsorFromDb);
+    return mergeAndSort(Sponsors, dbItems);
   } catch {
     return Sponsors;
   }
