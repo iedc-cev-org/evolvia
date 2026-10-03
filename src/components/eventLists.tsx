@@ -86,6 +86,13 @@ export const Events: Event[] = [
   { id: 2, name: "QUIZZARD COLLEGE", slug: "quizzardcollege", dateTime: "1 OCT 2026", venue: "COSMA (CS B101)", link: "https://discover.snaptiqz.com/event/_rYIyVD1FhyR5pfxEb3hb", image: "/events/q_c.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 2 },
   { id: 3, name: "DEAL OR NO DEAL", slug: "deal-or-no-deal", dateTime: "1 Oct 2026", venue: "LYRA (Chemistry Lab)", link: "https://discover.snaptiqz.com/event/U5oeXAneRgYELdtQ1qnvn", image: "/events/dond.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 3 },
   { id: 4, name: "COSMIC QUEST", slug: "cosmicquest", dateTime: "1 OCT 2026", venue: "LYRA (Chemistry Lab)", link: "https://discover.snaptiqz.com/event/sWXCcocQSzNojodJ3yGf0", image: "/events/cosmic.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 4 },
+  { id: 5, name: "LINE FOLLOWER", slug: "linefollower", dateTime: "1 OCT 2026", venue: "PEGASUS (EC Hall 2)", link: "https://discover.snaptiqz.com/event/2fZFecW-ye8nxizUrlrBk", image: "/events/lf.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 5 },
+  { id: 6, name: "Capture the Flag", slug: "ctf", dateTime: "1 Oct 2026", venue: "ECLIPSE (CCF Lab)", link: "https://discover.snaptiqz.com/event/tivsE18Y2i2CJn-v6B1HJ", image: "/events/ctf.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 6 },
+  { id: 7, name: "Cyberpulse", slug: "cyberpulse", dateTime: "1 Oct 2026", venue: "ASTRA (ASAP Room)", link: "https://fossunited.org/c/college-of-engineering-vadakara/cyberpulse/rsvp", image: "/events/cp.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 7 },
+  { id: 8, name: "SELL YOUR IDEA", slug: "sellyouridea", dateTime: "1 OCT 2026 | 10:00 AM - 11:00 AM", venue: "ZENITH (Mini Auditorium)", link: "https://discover.snaptiqz.com/event/Aep6g8b4Qu7SlCIl0pVzp", image: "/events/syi.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 8 },
+  { id: 9, name: "MIND2MAKE", slug: "mind2make", dateTime: "1 Oct 2026", venue: "ZENITH (Mini Auditorium)", link: "https://discover.snaptiqz.com/event/kW06FYzG3dMMLKMXwH_gv", image: "/events/m2m.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 9 },
+  { id: 10, name: "STARTUP STORIES", slug: "startupstories", dateTime: "1 OCT 2026 | 1:30 pm - 3:30 pm", venue: "ZENITH (Mini Auditorium)", link: "https://discover.snaptiqz.com/event/bolPN32QvapChjahe_i4S", image: "/events/sst_w.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 10 },
+
 
 ];
 export const Speakers: Speaker[] = [
