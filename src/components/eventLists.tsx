@@ -59,7 +59,9 @@ export interface Sponsor {
 }
 //if u need to add raw data then use this otherwise make this [] empty or dont use this, instead connect postgress...(me who reworked dont remember wtf i did)
 //im using raw data cause we got db limit and optimisation limit in web so....(and doing this after event)
-export const preEvents: PreEvent[] = [];
+export const preEvents: PreEvent[] = [
+  { id: 1, name: "Confluence", slug: "confluence", image: "/events/alumini.webp", order_index: 1 },
+];
 export const StallsAndExpos: StallAndExpo[] = [
   { id: 1, name: "Bethleham", image: "/stalls/bethleham.webp", order_index: 1 },
   { id: 2, name: "Beyond the Games", image: "/stalls/btg.webp", order_index: 2 },
@@ -77,7 +79,14 @@ export const Sponsors: Sponsor[] = [
 ];
 export const Events: Event[] = [];
 export const Speakers: Speaker[] = [
-  { id: 1, name: "Akash Akhilesh", designation: "Founder and director morfuel India Pvt Ltd", expertise: "", image: "https://lh3.googleusercontent.com/d/1DfKyGXhBvqSt_QHuaNgKRfclDO2DIjc7", order_index: 1 },
+  { id: 1, name: "Akash Akhilesh", designation: "Founder and director morfuel India Pvt Ltd", expertise: "", image: "/speakers/akash_1.webp", order_index: 1 },
+  { id: 2, name: "Misla U", designation: "Co - founder of Latech Academy", image: "/speakers/misla.webp", order_index: 2 },
+  { id: 3, name: "Afsal Salim", designation: "Founder German Cafe Academy", expertise: "", image: "/speakers/afsal.webp", order_index: 3 },
+  { id: 4, name: "Abrar Salim", designation: "CEO A brar Future Tech LLP", expertise: "", image: "/speakers/abrar.webp", order_index: 4 },
+  { id: 5, name: "Jasim Nasar", designation: "Founder and CEO Conspace group", expertise: "", image: "/speakers/jasim.webp", order_index: 5 },
+  { id: 6, name: "Danish shabeeb", designation: "Founder-D School of Sales", expertise: "", image: "/speakers/danish.webp", order_index: 6 },
+  { id: 7, name: "KIRAN K S", designation: "Both ceo and director at Lofritex IT Solutions LLP & txtudio coretech pvt ltd", expertise: "", image: "/speakers/kiran.webp", order_index: 6 },
+
 ];
 
 interface RawDatabaseRow {
