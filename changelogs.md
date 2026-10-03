@@ -1,5 +1,19 @@
 # changelogs.md
 
+## Release 2026-10-03: Comprehensive Pages Analysis & Resilient Decoupled Database Architecture
+
+### Added
+- **Complete Pages Architecture Documentation (`project_memory.md`, `design.md`, `README.md`)**:
+  - Analyzed and documented the full structure of the Home page (`/` — `src/app/page.tsx`), including the Hero video gate, kinetic character/word scrub typography, 238-frame scroll video sequence (`ScrollVideo.tsx`), GSAP pinned event carousel with rolling digit counters (`PinnedEventsSection.tsx`), floor showcase for Stalls & Expos, Pre-Events grid with live status handling, Keynote Speakers, Sponsors showcase, and exclusion custom cursor tracker.
+  - Analyzed and documented the Cosmic Venues & Campus Map page (`/map` — `src/app/map/page.tsx`), detailing the looping ambient backdrop, 9 festival cosmic venues (`src/data/venues.json`), real-time search filtering, block category tabs, venue schedule timeline modal, and Google Maps GPS redirection.
+- **Resilient Decoupled Database Architecture**:
+  - Documented the dual-layer data pipeline: Supabase functions strictly as an optional enhancement layer.
+  - Specified zero-dependency offline fallback: if DB credentials are missing, invalid, or if the database is unreachable, paused, or throws errors, the web application runs 100% autonomously using comprehensive local static datasets (`preEvents`, `Events`, `StallsAndExpos`, `Speakers`, `Sponsors`) bundled in `src/components/eventLists.tsx`.
+  - Guaranteed zero rendering blockers, zero blank screens, and zero unhandled rejections during complete database downtime.
+- **Updated Project Directory Map & Tech Stack (`README.md`)**:
+  - Removed outdated component references (`EventsPage.tsx`, `preEventpage.tsx`) and mapped active components (`PinnedEventsSection.tsx`, `AnimatedReveal.tsx`, `DisableImageInteractions.tsx`, `venues.json`, `supabase.ts`).
+  - Documented setup instructions, scripts, and environment variable requirements clarifying that `.env.local` is optional.
+
 ## Release 2026-09-30: Cosmic Venues & Complete Event Schedules Integration
 
 ### Added
