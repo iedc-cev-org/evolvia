@@ -132,7 +132,3 @@ This project is licensed under the terms specified in the [LICENSE](LICENSE) fil
 The Innovation and Entrepreneurship Development Cell (IEDC) fosters innovation and entrepreneurship among students, providing a platform for creative minds to transform ideas into reality.
 
 ---
-
-<p align="center">
-  <strong>Built with ❤️ by the IEDC team</strong>
-</p>
