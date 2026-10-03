@@ -65,8 +65,9 @@ export default function Home() {
   }, []);
 
   const isEventMatch = (
-    ev: { id?: string | number; slug?: string; name?: string },
-    rawTarget: string
+    ev: { id?: string | number; slug?: string; name?: string; order_index?: number },
+    rawTarget: string,
+    index?: number
   ) => {
     const cleanTarget = rawTarget.toLowerCase().replace(/^#/, "").trim();
     if (!cleanTarget) return false;
@@ -86,9 +87,16 @@ export default function Home() {
     if (alphaName && alphaName === alphaTarget) return true;
     if (alphaId && alphaId === alphaTarget) return true;
 
-    const numMatch = cleanTarget.match(/^e?(\d+)$/i);
-    if (numMatch && (String(ev.id) === numMatch[1] || alphaSlug === `e${numMatch[1]}`)) {
-      return true;
+    const numMatch = cleanTarget.match(/^(?:event-?|e)?(\d+)$/i);
+    if (numMatch) {
+      const targetNum = parseInt(numMatch[1], 10);
+      if (typeof index === "number") {
+        if (targetNum === index || targetNum === index + 1) return true;
+      }
+      if (typeof ev.order_index === "number" && targetNum === ev.order_index) return true;
+      if (String(ev.id) === numMatch[1] || alphaSlug === `e${numMatch[1]}`) {
+        return true;
+      }
     }
 
     if (alphaName.length >= 3 && alphaTarget.length >= 3) {
@@ -106,7 +114,7 @@ export default function Home() {
       const hash = (rawHash ?? window.location.hash).replace(/^#/, "").trim();
       if (!hash) return false;
 
-      const targetPre = preEventsData.find((pe) => isEventMatch(pe, hash));
+      const targetPre = preEventsData.find((pe, idx) => isEventMatch(pe, hash, idx));
       if (targetPre) {
         const preEl =
           (targetPre.slug ? document.getElementById(targetPre.slug) : null) ||
@@ -125,7 +133,7 @@ export default function Home() {
         }
       }
 
-      const targetIndex = eventsData.findIndex((ev) => isEventMatch(ev, hash));
+      const targetIndex = eventsData.findIndex((ev, idx) => isEventMatch(ev, hash, idx));
       if (targetIndex >= 0) {
         ScrollTrigger.refresh();
         const st = ScrollTrigger.getById("pinned-events-trigger");
@@ -134,13 +142,23 @@ export default function Home() {
 
         let targetScrollTop: number;
 
-        if (st && typeof st.start === "number") {
-          targetScrollTop = st.start + targetIndex * window.innerHeight;
+        if (st && typeof st.start === "number" && typeof st.end === "number") {
+          const totalDistance = st.end - st.start;
+          const totalSteps = Math.max(1, eventsData.length - 1);
+          const targetProgress = targetIndex / totalSteps;
+          targetScrollTop = st.start + targetProgress * totalDistance;
+          if (targetIndex === eventsData.length - 1) {
+            targetScrollTop = Math.min(targetScrollTop, st.end - 5);
+          }
         } else if (smoother && eventsSection) {
-          targetScrollTop = smoother.offset(eventsSection, "top top") + targetIndex * window.innerHeight;
+          const slideH = eventsSection.clientHeight || window.innerHeight;
+          const totalSteps = Math.max(1, eventsData.length - 1);
+          targetScrollTop = smoother.offset(eventsSection, "top top") + (targetIndex / totalSteps) * (totalSteps * slideH);
         } else if (eventsSection) {
           const rect = eventsSection.getBoundingClientRect();
-          targetScrollTop = window.scrollY + rect.top + targetIndex * window.innerHeight;
+          const slideH = eventsSection.clientHeight || window.innerHeight;
+          const totalSteps = Math.max(1, eventsData.length - 1);
+          targetScrollTop = window.scrollY + rect.top + (targetIndex / totalSteps) * (totalSteps * slideH);
         } else {
           targetScrollTop = targetIndex * window.innerHeight;
         }
@@ -181,13 +199,13 @@ export default function Home() {
     let retries = 0;
     const attemptScroll = () => {
       const ok = scrollToTargetSlug();
-      if (!ok && retries < 5) {
+      if ((!ok || retries < 2) && retries < 6) {
         retries += 1;
-        setTimeout(attemptScroll, 200);
+        setTimeout(attemptScroll, 250);
       }
     };
 
-    const timer = setTimeout(attemptScroll, 250);
+    const timer = setTimeout(attemptScroll, 200);
     return () => clearTimeout(timer);
   }, [videoReady, preEventsData, eventsData, scrollToTargetSlug]);
 

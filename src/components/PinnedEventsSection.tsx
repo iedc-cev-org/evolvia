@@ -178,6 +178,18 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
 
 
+  const [slideHeight, setSlideHeight] = useState<number>(0);
+
+  useEffect(() => {
+    const updateSize = () => {
+      const h = containerRef.current?.clientHeight || window.innerHeight;
+      setSlideHeight(h);
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   useEffect(() => {
     if (!digitMeasureRef.current) return;
     const updateHeight = () => {
@@ -202,35 +214,30 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
 
     const container = containerRef.current;
     const eventsContainer = eventsContainerRef.current;
+    const currentSlideH = container.clientHeight || window.innerHeight;
 
     const st = ScrollTrigger.create({
       id: "pinned-events-trigger",
       trigger: container,
       start: "top top",
-      end: () => `+=${Math.max(0, (events.length - 1) * window.innerHeight)}`,
+      end: () => `+=${Math.max(0, (events.length - 1) * (containerRef.current?.clientHeight || window.innerHeight))}`,
       pin: true,
       pinSpacing: true,
       anticipatePin: 1,
       onUpdate: (self) => {
         const totalSlides = events.length;
-        const progress = totalSlides > 1 ? self.progress : 0;
+        if (totalSlides <= 1) return;
 
-        const maxShiftPx = (totalSlides - 1) * window.innerHeight;
-        const translatePx = Math.max(-maxShiftPx, Math.min(0, -progress * maxShiftPx));
+        const effectiveHeight = containerRef.current?.clientHeight || currentSlideH;
+        const maxShiftPx = (totalSlides - 1) * effectiveHeight;
+        const translatePx = Math.max(-maxShiftPx, Math.min(0, -self.progress * maxShiftPx));
         gsap.set(eventsContainer, { y: translatePx });
 
-        const segment = progress * (totalSlides - 1);
-        const base = Math.floor(segment);
-        const frac = segment - base;
-        const down = (self as unknown as ScrollTriggerType).direction >= 0;
-
-        const isNearEnd = base >= totalSlides - 2;
-        const threshold = isNearEnd ? (down ? 0.6 : 0.4) : down ? 0.75 : 0.25;
-
-        let currentIndex = base + (frac >= threshold ? 1 : 0);
+        const segment = self.progress * (totalSlides - 1);
+        let currentIndex = Math.round(segment);
         currentIndex = Math.min(Math.max(currentIndex, 0), totalSlides - 1);
 
-        if (progress >= 0.98 && totalSlides > 0) {
+        if (self.progress >= 0.985 && totalSlides > 0) {
           currentIndex = totalSlides - 1;
         }
 
@@ -305,7 +312,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
   return (
     <div
       ref={containerRef}
-      className="h-screen w-screen bg-black relative overflow-hidden"
+      className="h-screen h-[100dvh] w-screen bg-black relative overflow-hidden"
     >
       <div
         className="absolute left-0 top-0 w-1/4 sm:w-1/3 md:w-2/5 lg:w-1/3 h-full flex flex-col justify-center items-center z-20 pointer-events-none"
@@ -359,7 +366,7 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
         <div
           ref={eventsContainerRef}
           className="w-full"
-          style={{ height: `${events.length * 100}vh` }}
+          style={{ height: slideHeight ? `${events.length * slideHeight}px` : `${events.length * 100}vh` }}
         >
           {events.map((event, index) => (
             <div
@@ -367,11 +374,12 @@ export default function PinnedEventsSection({ events }: PinnedEventsSectionProps
               id={event.slug || `event-${event.id || index}`}
               data-slug={event.slug}
               data-id={event.id}
-              className="h-screen w-full flex items-center justify-center px-2 sm:px-4 md:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 md:py-12 lg:py-14 xl:py-16"
+              style={slideHeight ? { height: `${slideHeight}px` } : undefined}
+              className="h-screen h-[100dvh] w-full flex items-center justify-center px-2 sm:px-4 md:px-8 lg:px-10 xl:px-12 py-2 sm:py-4 md:py-6 overflow-hidden flex-shrink-0"
             >
               <motion.div
                 ref={(el) => { cardRefs.current[index] = el; }}
-                className="max-w-4xl w-full max-h-[86vh] md:max-h-none overflow-y-auto md:overflow-visible bg-white/10 backdrop-blur-md border border-white/20 rounded-md shadow-xl p-3 sm:p-5 md:p-6 lg:p-8 xl:p-10 opacity-0 translate-y-10 scale-95 will-change-transform"
+                className="max-w-4xl w-full max-h-[82dvh] md:max-h-[86dvh] overflow-y-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-md shadow-xl p-3 sm:p-5 md:p-6 lg:p-7 xl:p-8 opacity-0 translate-y-10 scale-95 will-change-transform"
                 whileHover={{ y: -4, scale: 1.01 }}
                 transition={{ type: "spring", stiffness: 250, damping: 20 }}
                 onMouseMove={(e) => {

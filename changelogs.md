@@ -70,3 +70,4 @@
 - **Mobile Viewport Optimization in Pinned Events**: Adjusted left indicator column (`w-1/4`), scaled typography, and paddings so that all card details and buttons render cleanly on mobile viewports.
 - **Mobile Touch Inertia on Stalls Timeline**: Adjusted scrub timeline end distance on mobile screens to prevent scroll resistance on touch devices.
 - **Speakers & Sponsors Layout**: Refined card heights and multi-column grid gaps across mobile viewports, applying `overflow-x-hidden` across section wrappers to eliminate horizontal micro-shifts.
+

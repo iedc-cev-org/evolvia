@@ -69,7 +69,11 @@ export const StallsAndExpos: StallAndExpo[] = [
   { id: 7, name: "StartupStreet", image: "/stalls/strp street.webp", order_index: 7 },
   { id: 8, name: "Wevolve", image: "/stalls/wevolve.webp", order_index: 8 },
 ];
-export const Sponsors: Sponsor[] = [];
+export const Sponsors: Sponsor[] = [
+  { id: 1, name: "Snaptiqz", image: "/sponsors/snaptiqz.webp", order_index: 1 },
+  { id: 2, name: "MadeStore", image: "/sponsors/madestore.webp", order_index: 2 },
+  { id: 3, name: "Techdealer", image: "/sponsors/techdealer.webp", order_index: 3 },
+];
 export const Events: Event[] = [];
 export const Speakers: Speaker[] = [];
 
