@@ -60,7 +60,11 @@ export interface Sponsor {
 //if u need to add raw data then use this otherwise make this [] empty or dont use this, instead connect postgress...(me who reworked dont remember wtf i did)
 //im using raw data cause we got db limit and optimisation limit in web so....(and doing this after event)
 export const preEvents: PreEvent[] = [
-  { id: 1, name: "Confluence", slug: "confluence", image: "/events/alumini.webp", order_index: 1 },
+  { id: 1, name: "Confluence", slug: "confluence", link: "https://discover.snaptiqz.com/event/WSUdSJJnzwS5fcYRSRvWz", dateTime: "17 September 2026", image: "/pre-events/confluence.webp", order_index: 1, isClosed: true, isCompleted: true, type: "pre_event" },
+  { id: 2, name: "Idea To Impact", slug: "ideatoimpact", link: "https://discover.snaptiqz.com/event/HM9MC1crHmUKj5Iox4Ttn", dateTime: "Sep 21 2026 | 7PM - 8PM", image: "/pre-events/ITM.webp", order_index: 2, isClosed: true, isCompleted: true, type: "pre_event" },
+  { id: 3, name: "Out Of Syllabus", slug: "outofsyllabus", link: "https://discover.snaptiqz.com/event/cigTcdf50p-ZWtYBQqeul", dateTime: "Sep 20 2026 | 7PM - 8PM", image: "/pre-events/OOS2.webp", order_index: 3, isClosed: true, isCompleted: true, type: "pre_event" },
+  { id: 4, name: "BIT BURST 3.0", slug: "bitburst", link: "https://discover.snaptiqz.com/event/c77eoclUVT29vKEsjaAqo", dateTime: "29 SEP 2026", image: "/pre-events/bitburst.webp", order_index: 4, isClosed: true, isCompleted: true, type: "pre_event" },
+  { id: 5, name: "Thrive", slug: "thrive", link: "https://discover.snaptiqz.com/event/_FXsXF5_VWpPHvmhhGoWT", dateTime: "30 SEP 2026", venue: "College of Engineering Vadakara", image: "/pre-events/thrive.webp", order_index: 5, isClosed: true, isCompleted: true, type: "pre_event" }
 ];
 export const StallsAndExpos: StallAndExpo[] = [
   { id: 1, name: "Bethleham", image: "/stalls/bethleham.webp", order_index: 1 },
@@ -77,7 +81,13 @@ export const Sponsors: Sponsor[] = [
   { id: 2, name: "MadeStore", image: "/sponsors/madestore.webp", order_index: 2 },
   { id: 3, name: "Techdealer", image: "/sponsors/techdealer.webp", order_index: 3 },
 ];
-export const Events: Event[] = [];
+export const Events: Event[] = [
+  { id: 1, name: "PITCH BOX", slug: "pitchbox", dateTime: "1 OCT 2026 | 12:30 PM - 3:30 PM", venue: "ASTRA (ASAP Room)", link: "https://discover.snaptiqz.com/event/zAoBIh5grmMMBbt6PshN9", image: "/events/pitchbox.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 1 },
+  { id: 2, name: "QUIZZARD COLLEGE", slug: "quizzardcollege", dateTime: "1 OCT 2026", venue: "COSMA (CS B101)", link: "https://discover.snaptiqz.com/event/_rYIyVD1FhyR5pfxEb3hb", image: "/events/q_c.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 2 },
+  { id: 3, name: "DEAL OR NO DEAL", slug: "deal-or-no-deal", dateTime: "1 Oct 2026", venue: "LYRA (Chemistry Lab)", link: "https://discover.snaptiqz.com/event/U5oeXAneRgYELdtQ1qnvn", image: "/events/dond.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 3 },
+  { id: 4, name: "COSMIC QUEST", slug: "cosmicquest", dateTime: "1 OCT 2026", venue: "LYRA (Chemistry Lab)", link: "https://discover.snaptiqz.com/event/sWXCcocQSzNojodJ3yGf0", image: "/events/cosmic.webp", isClosed: true, isCompleted: true, type: "main_event", order_index: 4 },
+
+];
 export const Speakers: Speaker[] = [
   { id: 1, name: "Akash Akhilesh", designation: "Founder and director morfuel India Pvt Ltd", expertise: "", image: "/speakers/akash_1.webp", order_index: 1 },
   { id: 2, name: "Misla U", designation: "Co - founder of Latech Academy", image: "/speakers/misla.webp", order_index: 2 },
